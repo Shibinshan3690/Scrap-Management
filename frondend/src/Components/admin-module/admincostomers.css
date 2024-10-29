@@ -1,0 +1,74 @@
+#adminCostomerContainer{
+  
+    height: 100vh;
+    width: 1705px;
+ }
+ #admibCustomerinputBox{
+     margin-left: 600px;
+     margin-top: -10px;
+ }
+ #ic{
+    margin-top: -317px;
+ }
+.butonSearch{
+   width: 100px;
+   height: 40px;
+ border-radius: 20px;
+
+color: #fff;
+background-color:  #fbbf24; 
+
+ }
+.coustomer{
+     color: black; 
+ }
+ #spanCoustomer{
+     margin-left: -300px;
+     margin-top: 20px;
+     font-size: 17px;
+     font-weight: 700;
+ }
+ .coustomerlist{
+     
+    
+     background-color: #fff;
+   margin-top: 50px;
+   margin-left: -1100px;
+ }
+
+ #listSecondContainer {
+   margin-top: 50px;
+   margin-left: -1120px;
+   width: 1300px;
+   max-height: 700px;  /* Set a maximum height for the container */
+   height: auto;
+   overflow-y: auto;   /* Add vertical scrollbar when content overflows */
+   background-color: #fff;
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+ }
+ 
+ /* Optional: Make the scrollbar more visually appealing (for modern browsers) */
+ #listSecondContainer::-webkit-scrollbar {
+   width: 15px; /* Width of the scrollbar */
+ }
+ 
+ #listSecondContainer::-webkit-scrollbar-thumb {
+   background-color: #fbbf24; /* Scrollbar color */
+   border-radius: 4px; /* Rounded scrollbar corners */
+ }
+ 
+ #listSecondContainer::-webkit-scrollbar-track {
+   background-color: #f1f1f1; /* Background of the scrollbar track */
+ }
+ #log{
+  margin-top: 150px;
+  margin-left: 50px;
+
+}
+
+
+
+
+

@@ -1,0 +1,31 @@
+#orderchart{
+    height: 500px;
+    width: 800px;
+    margin-top: 250px;
+    margin-left: -600px;
+}
+.orderStatu{
+    margin-top: 50px;
+    display: flex;
+    margin-left: -100px;
+  
+}
+
+#calender{
+   width: 300px;
+   margin-top: 50px;
+   margin-left: 100px;
+}
+#log{
+  margin-top: 150px;
+  margin-left: 50px;
+
+}
+#rightContent{
+  margin-left: 450px;
+}
+#maain{
+  height: 650px;
+  
+ 
+}
