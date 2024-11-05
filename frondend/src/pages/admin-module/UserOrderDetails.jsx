@@ -1,34 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import Adminsidebar from './Adminsidebar';
+import React, { useEffect, useState } from 'react'
+import Adminsidebar from './Adminsidebar'
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
-const UserGetById = () => {
-  const { id } = useParams();
-  const [userOrder, setUserOrder] = useState(null);
-  const [error, setError] = useState(null);
+const UserOrderDetails = () => {
+const {id}=useParams();
 
-  useEffect(() => {
-    const getOrderById = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5000/admin/getOrderById/${id}`);
-        console.log("response:", response);
-        setUserOrder(response.data.data);
-      } catch (error) {
-        console.error("Failed to fetch order details", error);
-        setError("Failed to fetch order details");
-      }
-    };
-    getOrderById();
-  }, [id]);
 
-  if (error) {
-    return <p className="text-red-600 text-center">{error}</p>;
-  }
+   const [userOrder,setUserOrder]=useState([]);
+   const [error,setError]=useState(null)
 
+   useEffect(()=>{
+         const    getOrderById=async()=>{
+                    try {
+                          const response= await axios.get(`http://localhost:5000/admin/getOrderById/${id}`);
+                            // console.log(response)
+                          
+                           setUserOrder(response.data.data)
+                    } catch (error) {
+                        console.error("Failed to fetch today's orders", error);
+        setError("Failed to fetch today's orders");
+                        
+                    }
+         }
+         getOrderById();
+   },[])
+    
   return (
-    <>
-      <div>
+     <>
+     
+     <div>
         <Adminsidebar />
         <h1 style={{ marginLeft: "200px", marginTop: "-60px", fontWeight: "600" }}>User Order Details</h1>
         <div
@@ -78,8 +79,8 @@ const UserGetById = () => {
           )}
         </div>
       </div>
-    </>
-  );
-};
+     </>
+  ) 
+}
 
-export default UserGetById;
+export default UserOrderDetails

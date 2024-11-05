@@ -40,7 +40,7 @@ const AdminCostomers = () => {
       <div>
         <Adminsidebar />
       </div>
-      <div className="space-y-5" style={{ marginLeft:"200px",marginTop: "-20px" }}>
+      <div className="space-y-5" style={{ marginLeft: "200px",marginTop:"-100px" }}>
         <span className="transform -translate-y-1/2 text-gray-600 font-serif" style={{ fontWeight: "600", fontSize: "20px" }}>Customer</span>
         
         {/* Search Input */}
@@ -59,33 +59,39 @@ const AdminCostomers = () => {
         </div>
 
         {/* Customers List */}
-        <div className=" bg-white p-8 rounded-lg shadow-lg scroll-m-5 " style={{width:"1200px"}}>
+        <div className="bg-white p-8 rounded-lg shadow-lg" style={{ width: "1300px", height:"500px"}}>
           {error && <p className="text-red-500">{error}</p>}
-          <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
-            <thead>
-              <tr>
-                <th className="px-6 py-3 border-b text-gray-700 font-semibold text-left">Name</th>
-                <th className="px-6 py-3 border-b text-gray-700 font-semibold text-left">Email</th>
-                <th className="px-6 py-3 border-b text-gray-700 font-semibold text-left">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredCustomers.map((customer) => (
-                <tr key={customer._id} className="hover:bg-gray-100 cursor-pointer" onClick={() => navigate(`/userDeatilsGetById/${customer._id}`)}>
-                  <td className="px-6 py-3 border-b text-gray-600">{customer.name}</td>
-                  <td className="px-6 py-3 border-b text-gray-600">{customer.email}</td>
-                  <td className="px-6 py-3 border-b text-gray-600 flex space-x-4">
-                    <button className="bg-yellow-400 text-white rounded-lg px-4 py-2 hover:bg-yellow-500 transition duration-300">
-                       Block
-                    </button>
-                    <button className="bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-600 transition duration-300">
-                      Message
-                    </button>
-                  </td>
+          <div className="overflow-y-auto max-h-96"> {/* Scrollable Table Container */}
+            <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
+              <thead>
+                <tr>
+                  <th className="px-6 py-3 border-b text-gray-700 font-semibold text-left">Name</th>
+                  <th className="px-6 py-3 border-b text-gray-700 font-semibold text-left">Email</th>
+                  <th className="px-6 py-3 border-b text-gray-700 font-semibold text-left">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {filteredCustomers.map((customer) => (
+                  <tr
+                    key={customer._id}
+                    className="hover:bg-gray-100 cursor-pointer"
+                    onClick={() => navigate(`/userDeatilsGetById/${customer._id}`)}
+                  >
+                    <td className="px-6 py-3 border-b text-gray-600">{customer.name}</td>
+                    <td className="px-6 py-3 border-b text-gray-600">{customer.email}</td>
+                    <td className="px-6 py-3 border-b text-gray-600 flex space-x-4">
+                      <button className="bg-yellow-400 text-white rounded-lg px-4 py-2 hover:bg-yellow-500 transition duration-300">
+                        Block
+                      </button>
+                      <button className="bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-600 transition duration-300">
+                        Message
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </>

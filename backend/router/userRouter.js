@@ -9,7 +9,7 @@ userRouter.post("/logout",userController.logout);
 
 
 
-//   sell product routes
+//   sell product routes 
 
 userRouter.post("/sellproduct",verifyToken,userController.sellProduct);
 userRouter.post("/activestatususer",verifyToken,userController.loginActiveStatus);

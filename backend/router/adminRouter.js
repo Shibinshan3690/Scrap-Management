@@ -11,7 +11,8 @@ adminRouter.get("/getAdminUserSellDeatils",adminController.getAdminUserOrderDeat
 adminRouter.get("/getAdminuserDeatils",adminController.getAdminUserDeatils);
 adminRouter.put('/getAdminUserDetailsUpdate/:id',adminController.getAdminUserDetailsUpdate)
 adminRouter.get("/getUserOrderCurrentDate",adminController.getUserOrderCurrentDate);
-adminRouter.get("/getOrderById/:id",adminController.getOrderById)
+adminRouter.get("/getOrderById/:id",adminController.getOrderById);
+adminRouter.get("/getIdUserDeatilAndUserOrder/:id",adminController.getIdUserDetailAndUserOrder)
 
 
 module.exports = adminRouter;

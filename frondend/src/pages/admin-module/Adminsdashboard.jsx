@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MdDashboard, MdOutlinePeopleOutline, MdOutlineShoppingBag, MdSearch } from 'react-icons/md';
 import { FaPeopleCarry } from 'react-icons/fa';
 import AdminSidebar from './Adminsidebar';
@@ -9,33 +9,34 @@ import axios from 'axios';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
+  const [customers, setCustomers] = useState([]);
+  const [error, setError] = useState(null);
+  const [orders, setOrders] = useState([]);
 
-
-  const [customers,setCustomers]=useState([]);
-  const [error,setError]=useState(null)
-  
-  useEffect(()=>{
-    
-    const fetchCustomer=async()=>{
-        try {
-          const response=await axios.get(`http://localhost:5000/admin/getAdminuserDeatils`);
-          setCustomers(response.data.data)
-        } catch (error) {
-         console.error(error);
-         setError("Failed to fetch customers");
-         
-        }
+  useEffect(() => {
+    const fetchCustomer = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/admin/getAdminuserDeatils`);
+        setCustomers(response.data.data);
+      } catch (error) {
+        console.error(error);
+        setError("Failed to fetch customers");
+      }
     };
     fetchCustomer();
-},[])
+  }, []);
 
-
-
-
-
-
-
-
+  useEffect(() => {
+    const fetchTotalOrders = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/admin/getAdminUserSellDeatils`);
+        setOrders(response.data.data); // Assuming `data` contains the orders array
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchTotalOrders();
+  }, []);
 
   // Sample data for the Bar chart
   const data = {
@@ -70,29 +71,27 @@ const AdminDashboard = () => {
       <AdminSidebar />
 
       {/* Main Content Area */}
-      <div className="flex-1 lg:ml-80 p-6 bg-gray-100" style={{ marginTop: "10px", marginLeft: "-00px" }}>
+      <div className="flex-1 lg:ml-80 p-6 bg-gray-100" style={{ marginTop: "10px", marginLeft: "-90px" }}>
         {/* Search Bar */}
-        <div className="relative w-1/2 " id='admibCustomerinputBox' style={{marginLeft:"-0px"}}>
-        
+        <div className="relative w-1/2 " id="admibCustomerinputBox" style={{ marginLeft: "-0px" }}>
           <input
             type="text"
             placeholder="Search..."
             className="w-7/12 h-10 pl-10 pr-4 bg-white rounded-[20px] border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400"
           />
-          <div className="absolute left-3 top-1/2 transform -translate-y-1/2" id='ic'>
-          <MdSearch className="h-5 w-5 text-gray-400" />
+          <div className="absolute left-3 top-1/2 transform -translate-y-1/2" id="ic">
+            <MdSearch className="h-5 w-5 text-gray-400" />
           </div>
-          <button className='butonSearch bg-yellow-400 text-white rounded-md px-3 py-1 ml-2 hover:bg-yellow-500 transition duration-300'>
+          <button className="butonSearch bg-yellow-400 text-white rounded-md px-3 py-1 ml-2 hover:bg-yellow-500 transition duration-300">
             Search
           </button>
-          </div>
+        </div>
 
         {/* Dashboard Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6 " style={{marginTop:"30px"}}>
-          <div className="bg-white p-10 rounded-lg shadow-md flex items-center" onClick={()=>navigate("/adminCostomers")} >
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6 " style={{ marginTop: "30px" }}>
+          <div className="bg-white p-10 rounded-lg shadow-md flex items-center" onClick={() => navigate("/adminCostomers")}>
             <MdDashboard className="h-6 w-6 text-blue-500" />
             <div className="ml-4">
-      
               <h2 className="text-lg font-semibold">Total Users</h2>
               <p className="text-gray-600">{customers.length}</p>
             </div>
@@ -107,8 +106,8 @@ const AdminDashboard = () => {
           <div className="bg-white p-4 rounded-lg shadow-md flex items-center">
             <MdOutlineShoppingBag className="h-6 w-6 text-red-500" />
             <div className="ml-4">
-              <h2 className="text-lg font-semibold">Total orders</h2>
-              <p className="text-gray-600">300</p>
+              <h2 className="text-lg font-semibold">Total Orders</h2>
+              <p className="text-gray-600">{orders.length}</p>
             </div>
           </div>
           <div className="bg-white p-4 rounded-lg shadow-md flex items-center">
@@ -127,6 +126,6 @@ const AdminDashboard = () => {
       </div>
     </div>
   );
-}
+};
 
 export default AdminDashboard;

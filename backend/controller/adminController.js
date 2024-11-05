@@ -140,7 +140,7 @@ const getAdminUserDetailsUpdate = async (req, res) => {
     const { id } = req.params;
     const { name, email } = req.body;
 
-    const updatedUser = await userSchema.findByIdAndUpdate(
+    const updatedUser = await userShema.findByIdAndUpdate(
       id,
       { name, email },
       { new: true, runValidators: true }
@@ -235,8 +235,11 @@ const getUserOrderCurrentDate = async (req, res) => {
 const getOrderById = async (req, res) => {
   try {
     const id  = req.params.id;
+   
     const ID =new  mongoose.Types.ObjectId(id); 
+  
 const order = await userSellProductSchema.findById(ID).populate('user', 'name email');
+   
 
     // Check if order was found
     if (!order) {
@@ -267,4 +270,43 @@ const order = await userSellProductSchema.findById(ID).populate('user', 'name em
 
 
 
-module.exports = { signUpAdmin, signInAdmin, getAdminUserOrderDeatils,getAdminUserDeatils,getAdminUserDetailsUpdate,getUserOrderCurrentDate,getOrderById};
+const getIdUserDetailAndUserOrder = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    console.log("Received User ID:", userId);
+
+    // Check if provided ID is valid
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Invalid user ID format",
+      });
+    }
+
+    
+    // Find all orders associated with this user
+    const userOrders = await userSellProductSchema.find({user:userId }).populate('user','-password');
+    console.log("User Orders:", userOrders);
+
+    return res.status(200).json({
+      status: "success",
+      message: "User details and orders fetched successfully",
+      data: {
+  userOrders
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching user details and orders:", error);
+    return res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching user details and orders",
+      error: error.message,
+    });
+  }
+};
+
+
+
+module.exports = { signUpAdmin, signInAdmin, getAdminUserOrderDeatils,getAdminUserDeatils,getAdminUserDetailsUpdate,getUserOrderCurrentDate,getOrderById,
+  getIdUserDetailAndUserOrder
+};
