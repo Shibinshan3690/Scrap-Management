@@ -37,16 +37,7 @@ background-color:  #fbbf24;
  }
 
  #listSecondContainer {
-   margin-top: 50px;
-   margin-left: -1120px;
-   width: 1300px;
-   max-height: 700px;  /* Set a maximum height for the container */
-   height: auto;
-   overflow-y: auto;   /* Add vertical scrollbar when content overflows */
-   background-color: #fff;
-   padding: 20px;
-   border-radius: 10px;
-   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  
  }
  
  /* Optional: Make the scrollbar more visually appealing (for modern browsers) */

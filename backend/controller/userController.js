@@ -117,14 +117,17 @@ try {
 
   const sellProduct = async (req, res) => {
     try {
+      const user=req.user.userId
+      console.log(user,"zzzzzz")
       const { productName, vehical, description, adress, phoneNumber, pincode, date } = req.body;
-  
+     
     
       if (!productName || !vehical || !description || !adress || !phoneNumber || !pincode || !date) {
         return res.status(400).json({ message: "All fields are required", status: "error" });
       }
   
       const newCreateList = await userSellProducts.create({
+        user,
         productName,
         vehical,
         description,
@@ -133,6 +136,7 @@ try {
         pincode,
         date
       });
+         console.log(newCreateList,"newCreateList")
   
       return res.status(200).json({ message: "Success", status: "success", sellProductList: newCreateList });
     } catch (error) {
@@ -143,6 +147,52 @@ try {
   
 
 
+    // active status 
+
+
+      const loginActiveStatus=async(req,res)=>{
+              try {
+                const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
+                if(!token){
+                      return res.status(401).json({
+                          status:"fail",
+                          message:"No token provided, user not authenticated."
+                      });
+
+                }     
+                
+                
+                  const decoded=jwt.verify(token,process.env.JWT_SECRET_USER);
+
+                   const user=await userSchema.findById(decoded.userId)
+
+                     if(!user){
+                        return res.status(404).json({
+                           status:"fail",
+                           message:"User not found."
+                        });
+
+                     }
+
+                     return res.status(200).json({
+                      status:"succes",
+                      message:"user  in Logged",
+                      activeStatus:"active",
+                      user:{
+                        id: user._id,
+                name: user.name,
+                email: user.email
+                      }
+                     });
+
+              } catch (error) {
+                console.error(error)
+                return res.status(500).json({
+                    status: "error",
+                    message: "Internal server error",
+                });
+              }
+      }
 
 
 
@@ -150,4 +200,5 @@ try {
 
 
 
-module.exports={userSignUp,userSignIn,sellProduct,logout}
+
+module.exports={userSignUp,userSignIn,sellProduct,logout,loginActiveStatus}

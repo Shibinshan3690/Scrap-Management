@@ -18,7 +18,8 @@ const Sellscrap = () => {
   const [adress,setAdress]=useState("");
   const  [phoneNumber,setPhoneNumber]=useState("");
   const [pincode,setPincode]=useState("");
-  const   [date,setDate]=useState();
+  const  [date,setDate]=useState();
+const token=localStorage.getItem('userToken');
 
 
     const handleSubmit =async(e)=>{
@@ -28,8 +29,16 @@ const Sellscrap = () => {
 
       }
       try {
-        const response=await axios.post("http://localhost:5000/user/sellproduct",sellProductList);
-        console.log(response,"responseeeee")
+        const response = await axios.post(
+          "http://localhost:5000/user/sellproduct",
+          sellProductList,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, // Send token in the header
+            },
+          }
+        );
+        
         
         toast.success(response.data.message);
        

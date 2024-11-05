@@ -50,7 +50,7 @@ const UserSignUp = () => {
       try {
        const response=await axios.post("http://localhost:5000/user/signInUser",userData)
        toast.success(response.data.message);
-       localStorage.setItem('token', response.data.token);
+       localStorage.setItem('userToken', response.data.token);
        navigate("/home")
 
       } catch (error) {

@@ -121,6 +121,7 @@ const Adminsupplire = () => {
         <button className="bg-yellow-400 text-white font-bold py-2 px-4 rounded-lg hover:bg-yellow-500 transition mt-20" id='log'>
           Logout
         </button>
+     
       </div>
 
       {/* Right content */}

@@ -6,4 +6,12 @@ const adminRouter = express.Router();
 adminRouter.post("/signUpAdmin", adminController.signUpAdmin);
 adminRouter.post("/signInAdmin",adminController.signInAdmin);
 
+
+adminRouter.get("/getAdminUserSellDeatils",adminController.getAdminUserOrderDeatils)
+adminRouter.get("/getAdminuserDeatils",adminController.getAdminUserDeatils);
+adminRouter.put('/getAdminUserDetailsUpdate/:id',adminController.getAdminUserDetailsUpdate)
+adminRouter.get("/getUserOrderCurrentDate",adminController.getUserOrderCurrentDate);
+adminRouter.get("/getOrderById/:id",adminController.getOrderById)
+
+
 module.exports = adminRouter;

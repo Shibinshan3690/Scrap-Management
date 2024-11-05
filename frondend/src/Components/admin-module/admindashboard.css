@@ -1,25 +1,31 @@
-#maain{
-    height: 650px;
-}
-#log{
-    margin-top: 150px;
-    margin-left: 50px;
+
+
+
+
+
   
+  
+
+  
+  .shadow-md {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   }
-  #dashboard {
-    height: 100vh;
-    width: 1380px; /* You may want to adjust this for responsiveness */
-}
-
-.listname {
-    font-size: 18px;
-    font-weight: 600;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: black;
-}
-
-#input {
-    margin-left: 180px; /* Keep this if you want to retain your custom margin */
-    display: flex;
-    margin-top: -45px; /* You may want to adjust this for layout */
-}
+  
+  h1, h2 {
+    margin: 0; /* Remove default margin */
+  }
+  
+  .input {
+    padding: 0.5rem; /* Input padding */
+    border-radius: 0.5rem; /* Rounded input */
+  }
+  
+  .button {
+    padding: 0.5rem 1rem; /* Button padding */
+    border-radius: 0.5rem; /* Rounded button */
+    background-color: #4A90E2; /* Button color */
+    color: #fff; /* Button text color */
+    border: none; /* Remove border */
+    cursor: pointer; /* Pointer cursor */
+  }
+  

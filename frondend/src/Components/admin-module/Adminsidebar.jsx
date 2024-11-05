@@ -30,7 +30,7 @@ const Adminsidebar = () => {
 
               <div
                 className="flex flex-col items-center lg:flex-row p-2 hover:bg-yellow-400 rounded-lg cursor-pointer transition duration-300"
-                onClick={() => navigate('/adminCoustomers')}
+                onClick={() => navigate('/adminCostomers')}
               >
                 <MdOutlinePeopleOutline className="h-6 w-6 lg:mr-3" />
                 <span className="hidden lg:inline">Customers</span>

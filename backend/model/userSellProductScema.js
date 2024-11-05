@@ -3,6 +3,11 @@ const mongoose=require("mongoose");
 
 
  const userSellProduct=new mongoose.Schema({
+   user:{
+     type:mongoose.Schema.Types.ObjectId,
+     ref: 'User',
+     required:true
+   },
         
      productName:{
           type:String,
@@ -10,7 +15,7 @@ const mongoose=require("mongoose");
      },
      vehical:{
         type:String,
-        
+         
      },
      description:{
         type:String,
@@ -39,6 +44,6 @@ const mongoose=require("mongoose");
      }
 
 
- })
+ },{ timestamps: true })
   const userSellProductSchema=mongoose.model("userSellProducts",userSellProduct);
   module.exports=userSellProductSchema;

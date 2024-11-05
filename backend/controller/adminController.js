@@ -1,6 +1,10 @@
 const bcrypt = require("bcryptjs");
 const adminuser = require("../model/admin-schema");
 const jwt = require('jsonwebtoken'); 
+const userSellProductSchema=require("../model/userSellProductScema");
+const userShema=require("../model/userSchema");
+const { default: mongoose } = require("mongoose");
+
 
 const signUpAdmin = async (req, res) => {
   try {
@@ -100,17 +104,167 @@ const signInAdmin = async (req, res) => {
   }
 };
 
-// Placeholder for fetching admin details (you can implement this further)
-const getAdminDeatils = async (req, res) => {
+
+
+
+
+const getAdminUserDeatils = async (req, res) => {
   try {
-    // Your code here to fetch admin details
+    // Fetch all users from userSchema
+    const users = await userShema.find();
+
+    if (!users.length) {
+      return res.status(404).json({
+        status: "fail",
+        message: "No users found",
+      });
+    }
+
+    // Send response with user details
+    return res.status(200).json({
+      status: "success",
+      message: "Fetched user details successfully",
+      data: users,
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
+    return res.status(500).json({
       status: "error",
       message: "Internal server error",
     });
   }
 };
 
-module.exports = { signUpAdmin, signInAdmin, getAdminDeatils };
+const getAdminUserDetailsUpdate = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, email } = req.body;
+
+    const updatedUser = await userSchema.findByIdAndUpdate(
+      id,
+      { name, email },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({
+        status: "fail",
+        message: "User not found",
+      });
+    }
+
+    return res.status(200).json({
+      status: "success",
+      message: "User details updated successfully",
+      data: updatedUser,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      status: "error",
+      message: "Internal server error",
+    });
+  }
+};
+
+
+
+
+
+
+
+// Placeholder for fetching admin details (you can implement this further)
+const getAdminUserOrderDeatils = async (req, res) => {
+  try {
+    // Fetch all documents in the userSellProductSchema collection
+    const userSellProducts = await userSellProductSchema.find().populate('user');
+    if (!userSellProducts.length) {
+      return res.status(404).json({
+        status: "fail",
+        message: "No products found",
+      });
+    }
+
+    // Respond with the list of products
+    return res.status(200).json({
+      status: "success",
+      message: "Fetched user product details successfully",
+      data: userSellProducts,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      status: "error",
+      message: "Internal server error",
+    });
+  }
+};
+
+
+const getUserOrderCurrentDate = async (req, res) => {
+  try {
+    const today = new Date();
+    const startOfDay = new Date(today.setHours(0, 0, 0, 0)); // Start of today
+    const endOfDay = new Date(today.setHours(23, 59, 59, 999)); // End of today
+
+   
+    const todayOrders = await userSellProductSchema.find({
+      createdAt: {
+        $gte: startOfDay, 
+        $lte: endOfDay, 
+      },
+    }).populate('user','name');
+
+   
+    res.status(200).json({
+      success: true,
+      message: "Today's orders fetched successfully",
+      data: todayOrders,
+    });
+  } catch (error) {
+    console.error("Error fetching today's orders:", error);
+    res.status(500).json({
+      success: false,
+      message: "An error occurred while fetching today's orders",
+      error: error.message,
+    });
+  }
+};
+
+
+const getOrderById = async (req, res) => {
+  try {
+    const id  = req.params.id;
+    const ID =new  mongoose.Types.ObjectId(id); 
+const order = await userSellProductSchema.findById(ID).populate('user', 'name email');
+
+    // Check if order was found
+    if (!order) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Order not found",
+      });
+    }
+
+    // Respond with order details
+    return res.status(200).json({
+      status: "success",
+      message: "Order details fetched successfully",
+      data: order,
+    });
+  } catch (error) {
+    console.error("Error fetching order by ID:", error);
+    return res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching the order",
+      error: error.message,
+    });
+  }
+};
+
+
+
+
+
+
+module.exports = { signUpAdmin, signInAdmin, getAdminUserOrderDeatils,getAdminUserDeatils,getAdminUserDetailsUpdate,getUserOrderCurrentDate,getOrderById};

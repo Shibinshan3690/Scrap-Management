@@ -15,6 +15,10 @@ import About from './Components/user-module/About';
 import Contact from './Components/user-module/Contact';
 import Notification from './Components/admin-module/Notification';
 import TodayOrders from './Components/user-module/TodayOrders';
+import UserOrderDetails from './Components/admin-module/UserOrderDetails';
+import TottalOrders from './Components/admin-module/TottalOrders';
+import UserGetById from './Components/admin-module/UserGetById';
+import UserDeatilsGetById from './Components/admin-module/UserDeatilsGetById';
 
 
 
@@ -37,6 +41,10 @@ const App = () => {
   <Route path="/adminAccount" element={<AdminAcount/>}></Route>
   <Route path='/notification' element={<Notification/>}></Route>
   <Route path='/todayOrders' element={<TodayOrders/>}></Route>
+  <Route path="/tottalOrders" element={<TottalOrders/>}></Route>
+  <Route path='/userOrderDetails/:id' element={<UserOrderDetails/>}></Route>
+  <Route path='/userOrderDetail/:id'  element={<UserGetById/>}></Route>
+  <Route path="/userDeatilsGetById/:id" element={<UserDeatilsGetById/>}></Route>
 
       {/* userRoute */}
 
@@ -46,6 +54,7 @@ const App = () => {
         <Route path="/ratelist" element={<Ratelist/>}></Route>
         <Route path="/about" element={<About/>}></Route>
         <Route path='/contact' element={<Contact/>}></Route>
+        
 
  
  
