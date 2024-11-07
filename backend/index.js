@@ -3,6 +3,7 @@ const express=require("express");
    const bodyparser=require("body-parser")
     const cors=require("cors");
       const adminRouter=require("../backend/router/adminRouter")
+      const noticationRouter=require("../backend/router/notificationRoutes")
       
       const userRouter=require("./router/userRouter");
       require('dotenv').config({'path':'./.env'});
@@ -15,6 +16,7 @@ app.use(bodyparser.json())
 app.use(cors());
 app.use("/admin",adminRouter)
 app.use("/user",userRouter)
+app.use("/notification",noticationRouter)
 
 // mongoDb  connection 
 

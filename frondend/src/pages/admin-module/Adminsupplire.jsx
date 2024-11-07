@@ -2,8 +2,7 @@ import React, { useState } from 'react'
 
 
 
-import { MdAccountCircle, MdDashboard, MdOutlinePeopleOutline, MdOutlineShoppingBag } from 'react-icons/md';
-import { FaPeopleCarry } from 'react-icons/fa';
+
 import { useNavigate } from 'react-router-dom';
 import { Line } from 'react-chartjs-2';
 // import logo from '../../pics/scrap-logo.webp';
@@ -70,12 +69,13 @@ const Adminsupplire = () => {
 
 
 
-<div className="main-container-supply flex flex-col lg:flex-row p-10" id='mainn'>
+<div className="main-container-supply flex flex-col lg:flex-row p-10" style={{marginLeft:"-54px",marginTop:"-70px"}}>
       {/* Sidebar */}
        <Adminsidebar/>
 
       {/* Right content */}
-      <div className="content flex flex-col lg:flex-row gap-10 lg:ml-80 w-full">
+      <div className="content flex flex-col lg:flex-row gap-10 lg:ml-80 w-full" >
+      
         {/* Supplier Stats & Chart */}
         <div className="w-full lg:w-1/2 bg-white p-5 rounded-lg shadow-lg">
           <h2 className="text-2xl font-bold mb-5">Suppliers</h2>

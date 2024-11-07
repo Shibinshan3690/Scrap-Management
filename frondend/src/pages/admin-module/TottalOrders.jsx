@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Adminsidebar from './Adminsidebar';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import adminApi from '../../api/adminInterceptor';
 
 const TottalOrders = () => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const TottalOrders = () => {
   useEffect(() => {
     const fetchTotalOrders = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/admin/getAdminUserSellDeatils`);
+        const response = await adminApi.get(`/getAdminUserSellDeatils`);
         setTottalOrders(response.data.data);
       } catch (error) {
         console.error(error);

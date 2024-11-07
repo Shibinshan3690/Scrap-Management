@@ -5,8 +5,16 @@ import { FaPeopleCarry } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { IoIosNotifications } from 'react-icons/io';
 
-const Adminsidebar = () => {
+const Adminsidebar = ({ unreadCount }) => {
       const navigate=useNavigate();
+      const handleLogout = () => {
+        // Remove admin ID and token from localStorage
+        localStorage.removeItem('admin');
+        localStorage.removeItem('adminToken');
+
+        // Navigate to the adminSignUp page
+        navigate('/adminSignUp');
+    };
   return (
   <>
   
@@ -58,14 +66,19 @@ const Adminsidebar = () => {
               </div>
 
               <div className="flex flex-col items-center lg:flex-row p-2 hover:bg-yellow-400 rounded-lg cursor-pointer transition duration-300" onClick={()=>navigate("/notification")}>
-                <IoIosNotifications className="h-6 w-6 lg:mr-3" />
+              {unreadCount > 0 && (
+            <span className="bg-red-500 text-white text-xs font-semibold rounded-full h-4 w-4 flex items-center justify-center" style={{marginTop:"-27px"}}>
+              {unreadCount}
+            </span>
+          )}
+                <IoIosNotifications className="h-6 w-6 lg:mr-3" style={{marginLeft:"-16px"}} />
                 <span className="hidden lg:inline">Notification</span>
               </div>
                   
             </div>
           </div>
 
-          <button className="bg-yellow-400 text-white font-bold py-2 px-4 rounded-lg hover:bg-yellow-500 transition mt-20 ml-9">
+          <button className="bg-yellow-400 text-white font-bold py-2 px-4 rounded-lg hover:bg-yellow-500 transition ml-9" onClick={handleLogout}  style={{marginTop:"100px"}}>
             Logout
           </button>
         </div>

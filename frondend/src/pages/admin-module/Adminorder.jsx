@@ -10,6 +10,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css'; 
 import axios from 'axios';
 import Adminsidebar from './Adminsidebar';
+import adminApi from '../../api/adminInterceptor';
 
 // Registering chart components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
@@ -31,7 +32,7 @@ const Adminorder = () => {
 
         const fetchOrderList =async()=>{
             try {
-                const response=await axios.get(`http://localhost:5000/admin/getAdminUserSellDeatils`);
+                const response=await adminApi.get(`/getAdminUserSellDeatils`);
                 setAllOrderList(response.data.data)
                 
             } catch (error) {
@@ -42,7 +43,7 @@ const Adminorder = () => {
         };
         const fetchTodayOrders = async () => {
           try {
-            const response = await axios.get(`http://localhost:5000/admin/getUserOrderCurrentDate`); // Adjust the endpoint as necessary
+            const response = await adminApi.get(`/getUserOrderCurrentDate`); // Adjust the endpoint as necessary
             setTodayOrders(response.data.data);
           } catch (error) {
             console.error("Failed to fetch today's orders", error);
@@ -109,7 +110,7 @@ const Adminorder = () => {
 
 
       {/* Right content */}
-      <div className="content flex flex-col lg:flex-row gap-10 lg: w-full"  id="rightContent" >
+      <div className="content flex flex-col lg:flex-row gap-10 lg: w-full" id="rightContent"   >
       {/* Order Stats (Three Boxes) */}
       <div className="orderStatu" >
         <div className="bg-gradient-to-r from-orange-500 to-orange-400 p-6 rounded-xl shadow-lg text-white text-center  h-40 w-40" onClick={()=>navigate("/tottalOrders")}>

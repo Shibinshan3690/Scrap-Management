@@ -5,7 +5,7 @@ const adminRouter = express.Router();
 
 adminRouter.post("/signUpAdmin", adminController.signUpAdmin);
 adminRouter.post("/signInAdmin",adminController.signInAdmin);
-
+adminRouter.put('/admin/:id',adminController.adminDeatilsUpdate)
 
 adminRouter.get("/getAdminUserSellDeatils",adminController.getAdminUserOrderDeatils)
 adminRouter.get("/getAdminuserDeatils",adminController.getAdminUserDeatils);

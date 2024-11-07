@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import adminApi from '../../api/adminInterceptor';
+
 
 const AdminSignUp = () => {
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
@@ -14,14 +16,14 @@ const AdminSignUp = () => {
   const [signInPassword, setSignInPassword] = useState("");
 
   const handleSignUpClick = () => setIsRightPanelActive(true);
-  const handleSignInClick = () => setIsRightPanelActive(false);
+  const handleSignInClick = () => setIsRightPanelActive(false)
 
   // Handle Sign-Up Submission
   const handleSignUpSubmit = async (e) => {
     e.preventDefault();
      const adminData={name,email,password};
           try {
-              const response=await axios.post("http://localhost:5000/admin/signUpAdmin",adminData);
+              const response=await adminApi.post(`/signUpAdmin`,adminData);
               toast.success(response.data.message);
               handleSignInClick();
                  
@@ -36,10 +38,11 @@ const AdminSignUp = () => {
     e.preventDefault();
     const adminData = { email: signInEmail, password: signInPassword };
       try {
-           const response= await axios.post(`http://localhost:5000/admin/signInAdmin`,adminData);
+           const response= await adminApi.post(`/signInAdmin`,adminData);
                console.log("response",response)
            toast.success(response.data.message);
            localStorage.setItem('adminToken', response.data.token);
+           localStorage.setItem('admin', JSON.stringify(response.data.adminUser));
            navigate("/adminDashboard")
 
       } catch (error) {

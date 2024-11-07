@@ -3,6 +3,7 @@ const adminuser = require("../model/admin-schema");
 const jwt = require('jsonwebtoken'); 
 const userSellProductSchema=require("../model/userSellProductScema");
 const userShema=require("../model/userSchema");
+const adminScheam=require("../model/admin-schema")
 const { default: mongoose } = require("mongoose");
 
 
@@ -54,6 +55,7 @@ const signInAdmin = async (req, res) => {
 
     // Find user by email
     const adminUser = await adminuser.findOne({ email });
+    console.log(adminUser,'thisadd')
     if (!adminUser) {
       return res.status(404).json({
         status: "fail",
@@ -104,6 +106,39 @@ const signInAdmin = async (req, res) => {
   }
 };
 
+
+
+
+
+
+
+
+const adminDeatilsUpdate = async (req, res) => {
+  try {
+      const { id } = req.params;
+      const { name, email } = req.body;
+      console.log(name,'naem')
+      const admin = await adminScheam.findByIdAndUpdate(id, { name, email }, { new: true });
+      if (!admin) {
+          return res.status(404).json({
+              status: 'fail',
+              message: 'Admin not found',
+          });
+      }
+
+      return res.status(200).json({
+          status: 'success',
+          message: 'Admin updated successfully',
+          admin,
+      });
+  } catch (error) {
+      console.error("Error updating admin:", error);
+      return res.status(500).json({
+          status: 'error',
+          message: 'Internal server error',
+      });
+  }
+};
 
 
 
@@ -308,5 +343,5 @@ const getIdUserDetailAndUserOrder = async (req, res) => {
 
 
 module.exports = { signUpAdmin, signInAdmin, getAdminUserOrderDeatils,getAdminUserDeatils,getAdminUserDetailsUpdate,getUserOrderCurrentDate,getOrderById,
-  getIdUserDetailAndUserOrder
+  getIdUserDetailAndUserOrder,adminDeatilsUpdate,adminDeatilsUpdate
 };

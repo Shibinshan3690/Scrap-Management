@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Adminsidebar from './Adminsidebar';
 import axios from 'axios';
+import adminApi from '../../api/adminInterceptor';
 
 const UserGetById = () => {
   const { id } = useParams();
@@ -11,7 +12,7 @@ const UserGetById = () => {
   useEffect(() => {
     const getOrderById = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/admin/getOrderById/${id}`);
+        const response = await adminApi.get(`/getOrderById/${id}`);
         // console.log("response1:", response);
         setUserOrder(response.data.data);
       } catch (error) {

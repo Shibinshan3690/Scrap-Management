@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require("bcryptjs");
 const userSchema=require("../model/userSchema");
 const userSellProducts=require("../model/userSellProductScema");
+const Notification=require("../model/notificationSchema")
 
 
 const userSignUp= async(req,res)=>{
@@ -118,7 +119,7 @@ try {
   const sellProduct = async (req, res) => {
     try {
       const user=req.user.userId
-      console.log(user,"zzzzzz")
+   
       const { productName, vehical, description, adress, phoneNumber, pincode, date } = req.body;
      
     
@@ -136,8 +137,19 @@ try {
         pincode,
         date
       });
-         console.log(newCreateList,"newCreateList")
-  
+      console.log(newCreateList);
+
+          // notification creatte
+      const notificationMessage=`${productName}has been sold by  ${user
+
+      }`;
+      await Notification.create({
+        user,
+        message:notificationMessage,
+      });
+
+   
+
       return res.status(200).json({ message: "Success", status: "success", sellProductList: newCreateList });
     } catch (error) {
       console.error(error);

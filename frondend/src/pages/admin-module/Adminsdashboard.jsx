@@ -3,9 +3,10 @@ import { MdDashboard, MdOutlinePeopleOutline, MdOutlineShoppingBag, MdSearch } f
 import { FaPeopleCarry } from 'react-icons/fa';
 import AdminSidebar from './Adminsidebar';
 import { Bar } from 'react-chartjs-2'; // Import Bar chart component
-import Chart from 'chart.js/auto'; // Automatically register necessary components
+import Chart from 'chart.js/auto'; 
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import adminApi from '../../api/adminInterceptor';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -13,10 +14,12 @@ const AdminDashboard = () => {
   const [error, setError] = useState(null);
   const [orders, setOrders] = useState([]);
 
+  const [todayOrder,setTodayOrders]=useState();
+
   useEffect(() => {
     const fetchCustomer = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/admin/getAdminuserDeatils`);
+        const response = await adminApi.get(`/getAdminuserDeatils`);
         setCustomers(response.data.data);
       } catch (error) {
         console.error(error);
@@ -29,14 +32,31 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchTotalOrders = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/admin/getAdminUserSellDeatils`);
-        setOrders(response.data.data); // Assuming `data` contains the orders array
+        const response = await adminApi.get(`/getAdminUserSellDeatils`);
+        setOrders(response.data.data);
       } catch (error) {
         console.error(error);
       }
     };
     fetchTotalOrders();
   }, []);
+
+
+
+
+     useEffect(()=>{
+            const todayOrders=async()=>{
+                   try {
+                     const response=await adminApi.get(`/getUserOrderCurrentDate`);
+                       setTodayOrders(response.data.data);
+                   } catch (error) {
+                    console.error("Failed to fetch today's orders", error);
+            setError("Failed to fetch today's orders");
+                    
+                   }
+            }
+            todayOrders();
+     })
 
   // Sample data for the Bar chart
   const data = {
@@ -71,7 +91,7 @@ const AdminDashboard = () => {
       <AdminSidebar />
 
       {/* Main Content Area */}
-      <div className="flex-1 lg:ml-80 p-6 bg-gray-100" style={{ marginTop: "10px", marginLeft: "-90px" }}>
+      <div className="flex-1 lg:ml-80 p-6 bg-gray-100" style={{ marginTop: "10px", marginLeft: "-100px" }}>
         {/* Search Bar */}
         <div className="relative w-1/2 " id="admibCustomerinputBox" style={{ marginLeft: "-0px" }}>
           <input
@@ -103,7 +123,7 @@ const AdminDashboard = () => {
               <p className="text-gray-600">12</p>
             </div>
           </div>
-          <div className="bg-white p-4 rounded-lg shadow-md flex items-center">
+          <div className="bg-white p-4 rounded-lg shadow-md flex items-center" onClick={()=>navigate("/tottalOrders")}>
             <MdOutlineShoppingBag className="h-6 w-6 text-red-500" />
             <div className="ml-4">
               <h2 className="text-lg font-semibold">Total Orders</h2>
@@ -112,9 +132,9 @@ const AdminDashboard = () => {
           </div>
           <div className="bg-white p-4 rounded-lg shadow-md flex items-center">
             <FaPeopleCarry className="h-6 w-6 text-purple-500" />
-            <div className="ml-4">
+            <div className="ml-4"  onClick={()=>navigate("/todayOrders")}>
               <h2 className="text-lg font-semibold">Today Orders</h2>
-              <p className="text-gray-600">5</p>
+              <p className="text-gray-600">{todayOrder?.length}</p>
             </div>
           </div>
         </div>

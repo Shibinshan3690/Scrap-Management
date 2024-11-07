@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Adminsidebar from '../admin-module/Adminsidebar';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import adminApi from '../../api/adminInterceptor';
 
 const TodayOrders = () => {
      const navigate=useNavigate();
@@ -11,7 +12,7 @@ const TodayOrders = () => {
   useEffect(() => {
     const fetchTodayOrders = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/admin/getUserOrderCurrentDate');
+        const response = await adminApi.get('/getUserOrderCurrentDate');
         setTodayOrders(response.data.data);
       } catch (error) {
         console.error("Failed to fetch today's orders", error);

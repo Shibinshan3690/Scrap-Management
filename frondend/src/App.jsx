@@ -21,12 +21,6 @@ import UserGetById from './pages/admin-module/UserGetById';
 import UserDeatilsGetById from './pages/admin-module/UserDeatilsGetById';
 
 
-
-
-
-
-
-
 const App = () => {
   return (
     <BrowserRouter>
@@ -45,6 +39,7 @@ const App = () => {
   <Route path='/userOrderDetails/:id' element={<UserOrderDetails/>}></Route>
   <Route path='/userOrderDetail/:id'  element={<UserGetById/>}></Route>
   <Route path="/userDeatilsGetById/:id" element={<UserDeatilsGetById/>}></Route>
+  
 
       {/* userRoute */}
 

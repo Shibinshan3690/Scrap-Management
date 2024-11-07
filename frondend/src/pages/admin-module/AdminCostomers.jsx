@@ -3,6 +3,7 @@ import { MdSearch } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Adminsidebar from './Adminsidebar';
+import adminApi from '../../api/adminInterceptor';
 
 const AdminCostomers = () => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const AdminCostomers = () => {
   useEffect(() => {
     const fetchCustomer = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/admin/getAdminuserDeatils`);
+        const response = await adminApi.get(`/getAdminuserDeatils`);
         setCustomers(response.data.data);
         setFilteredCustomers(response.data.data);
       } catch (error) {
