@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "./userSignUp.css";
 import axios from 'axios';
+import userApi from '../../api/userInterceptor';
 
 const UserSignUp = () => {
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
@@ -30,7 +31,7 @@ const UserSignUp = () => {
     };
    
       try {
-           const response=await axios.post("http://localhost:5000/user/signUpUser",userData);
+           const response=await userApi.post("/signUpUser",userData);
            toast.success(response.data.message);
            handleSignInClick();
 
@@ -48,7 +49,7 @@ const UserSignUp = () => {
     e.preventDefault();
     const userData = { email: signInEmail, password: signInPassword };
       try {
-       const response=await axios.post("http://localhost:5000/user/signInUser",userData)
+       const response=await userApi.post("/signInUser",userData)
        toast.success(response.data.message);
        localStorage.setItem('userToken', response.data.token);
        navigate("/home")

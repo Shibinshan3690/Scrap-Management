@@ -56,6 +56,12 @@ try {
 
            })
            }
+           if (user.isBlocked) {
+            return res.status(403).json({
+                message: "User is blocked",
+                status: "fail"
+            });
+        }
            const passwordHashed=await bcrypt.compare(password,newUsers.password);
                if(!passwordHashed){
                 return res.status(400).json({
@@ -140,7 +146,7 @@ try {
       console.log(newCreateList);
 
           // notification creatte
-      const notificationMessage=`${productName}has been sold by  ${user
+      const notificationMessage=`${productName} has been sold by  ${user
 
       }`;
       await Notification.create({

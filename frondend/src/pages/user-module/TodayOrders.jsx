@@ -11,6 +11,7 @@ const TodayOrders = () => {
 
   useEffect(() => {
     const fetchTodayOrders = async () => {
+
       try {
         const response = await adminApi.get('/getUserOrderCurrentDate');
         setTodayOrders(response.data.data);
@@ -46,9 +47,9 @@ const TodayOrders = () => {
               todayOrders.map((order) => (
                 <tr key={order._id} className="hover:bg-gray-50" onClick={()=>navigate(`/userOrderDetails/${order._id}`)}> {/* Use order._id if it's available */}
                   <td className="py-3 px-4 text-gray-700">{order._id}</td> {/* Display Order ID */}
-                  <td className="py-3 px-4 text-gray-700">{order.user.name}</td> 
-                  <td className="py-3 px-4 text-gray-700">{order.productName}</td> 
-                  <td className="py-3 px-4 text-gray-700">{order.phoneNumber}</td>
+                  <td className="py-3 px-4 text-gray-700">{order?.user?.name}</td> 
+                  <td className="py-3 px-4 text-gray-700">{order?.productName}</td> 
+                  <td className="py-3 px-4 text-gray-700">{order?.phoneNumber}</td>
                   <td className="py-3 px-4">
                     <span
                       className={`px-2 py-1 rounded-full text-white text-sm ${

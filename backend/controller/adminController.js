@@ -170,6 +170,28 @@ const getAdminUserDeatils = async (req, res) => {
   }
 };
 
+
+const blockUser=async(req,res)=>{
+    try {
+       const {userId}=req.params;
+       const user= await userShema.findById(userId);
+       if(!user){
+          return res.status(404).json({message:"User not founded",status:"fail"})
+       }
+       user.isBlocked=true;
+       await user.save();
+
+       return res.status(200).json({status:"succes",message:"User blocked succesfully"})
+
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({stauts:"error",message:"Internal server error"})
+    }
+
+}
+
+
+
 const getAdminUserDetailsUpdate = async (req, res) => {
   try {
     const { id } = req.params;
@@ -237,20 +259,22 @@ const getAdminUserOrderDeatils = async (req, res) => {
 
 
 const getUserOrderCurrentDate = async (req, res) => {
+  console.log('triggered')
   try {
+    
     const today = new Date();
     const startOfDay = new Date(today.setHours(0, 0, 0, 0)); // Start of today
     const endOfDay = new Date(today.setHours(23, 59, 59, 999)); // End of today
 
-   
     const todayOrders = await userSellProductSchema.find({
       createdAt: {
         $gte: startOfDay, 
-        $lte: endOfDay, 
+        $lte: endOfDay,   
       },
-    }).populate('user','name');
+    }).populate('user'); // Populate user name
 
-   
+    console.log("todayOrders:", todayOrders); // Check if user data is populated
+
     res.status(200).json({
       success: true,
       message: "Today's orders fetched successfully",
@@ -265,6 +289,7 @@ const getUserOrderCurrentDate = async (req, res) => {
     });
   }
 };
+
 
 
 const getOrderById = async (req, res) => {
@@ -342,6 +367,6 @@ const getIdUserDetailAndUserOrder = async (req, res) => {
 
 
 
-module.exports = { signUpAdmin, signInAdmin, getAdminUserOrderDeatils,getAdminUserDeatils,getAdminUserDetailsUpdate,getUserOrderCurrentDate,getOrderById,
+module.exports = { signUpAdmin, signInAdmin,blockUser, getAdminUserOrderDeatils,getAdminUserDeatils,getAdminUserDetailsUpdate,getUserOrderCurrentDate,getOrderById,
   getIdUserDetailAndUserOrder,adminDeatilsUpdate,adminDeatilsUpdate
 };

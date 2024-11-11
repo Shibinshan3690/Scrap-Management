@@ -4,6 +4,8 @@ const express=require("express");
     const cors=require("cors");
       const adminRouter=require("../backend/router/adminRouter")
       const noticationRouter=require("../backend/router/notificationRoutes")
+      // replay route
+      const notificationRoutes = require('../backend/router/adminMsgRouter');
       
       const userRouter=require("./router/userRouter");
       require('dotenv').config({'path':'./.env'});
@@ -18,6 +20,9 @@ app.use("/admin",adminRouter)
 app.use("/user",userRouter)
 app.use("/notification",noticationRouter)
 
+//  Admin replay route
+app.use('/notification', notificationRoutes);
+ 
 // mongoDb  connection 
 
 

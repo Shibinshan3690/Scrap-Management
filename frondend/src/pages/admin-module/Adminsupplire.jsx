@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 
 
@@ -8,6 +8,7 @@ import { Line } from 'react-chartjs-2';
 // import logo from '../../pics/scrap-logo.webp';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import Adminsidebar from './Adminsidebar';
+import axios from 'axios';
 
 // Registering chart components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
@@ -60,6 +61,29 @@ const Adminsupplire = () => {
       // Handle sending a message or navigating to a messaging system
       console.log(`Message Supplier ID: ${id}`);
     };
+
+
+    const [notifications, setNotifications] = useState([]);
+
+    useEffect(() => {
+      const fetchNotifications = async () => {
+        try {
+          const response = await axios.get('http://localhost:5000/notification/notifications');
+          setNotifications(response.data);
+          console.log("response", response.data);
+        } catch (error) {
+          console.error('Error fetching notifications:', error);
+        }
+      };
+  
+      fetchNotifications();
+    }, []);
+  
+    // total unread notification count
+    const unreadCount = notifications.filter(notification => !notification.isRead).length;
+  
+
+
   
   return (
 <>
@@ -71,7 +95,7 @@ const Adminsupplire = () => {
 
 <div className="main-container-supply flex flex-col lg:flex-row p-10" style={{marginLeft:"-54px",marginTop:"-70px"}}>
       {/* Sidebar */}
-       <Adminsidebar/>
+       <Adminsidebar unreadCount={unreadCount}/>
 
       {/* Right content */}
       <div className="content flex flex-col lg:flex-row gap-10 lg:ml-80 w-full" >

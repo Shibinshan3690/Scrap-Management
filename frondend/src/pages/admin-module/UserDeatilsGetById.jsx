@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import Adminsidebar from './Adminsidebar';
+import AdminSidebar from './AdminSidebar';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import adminApi from '../../api/adminInterceptor';
+import { FaUser, FaEnvelope, FaPhone, FaHome, FaClipboardList, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
 const UserDetailsGetById = () => {
   const { id } = useParams();
@@ -29,60 +29,80 @@ const UserDetailsGetById = () => {
 
   return (
     <>
-      <Adminsidebar />
-      <div className="p-8 bg-gray-100 h-screen flex flex-col items-center overflow-hidden">
+      <AdminSidebar />
+      <div className="p-10 bg-gray-100  h-[744px]" >
         {/* User Information Card */}
-        <div className="bg-white p-10 rounded-lg shadow-lg w-full mb-6" style={{ width: "1000px" ,marginTop:"20px" }}>
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">User Details</h2>
+        <div className="bg-white p-6 rounded-lg shadow-lg  max-w-8xl mb-4 ml-[240px] mt-[-18px] transform transition duration-300 hover:scale-105   ">
+          <h2 className="text-3xl font-semibold text-gray-800 mb-6 flex items-center">
+            <FaUser className="mr-2 text-blue-500" /> User Details
+          </h2>
           {userDetails ? (
-            <>
-              <p className="text-gray-700"><strong>Name:</strong> {userDetails?.user?.name}</p>
-              <p className="text-gray-700"><strong>Email:</strong> {userDetails?.user?.email}</p>
-            </>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
+              <p><strong>Name:</strong> {userDetails?.user?.name}</p>
+              <p><strong>Email:</strong> {userDetails?.user?.email}</p>
+              <p><strong>Account Created:</strong> {new Date(userDetails?.user?.createdAt).toLocaleDateString()}</p>
+            </div>
           ) : (
             <p className="text-gray-700">Loading user details...</p>
           )}
-          <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300">Edit</button>
+          <button className="mt-4 px-5 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300 transform hover:scale-105">
+            Edit User
+          </button>
         </div>
 
         {/* Order Details Section */}
-        <div className="bg-white rounded-lg shadow-lg w-full md:w-2/3 lg:w-1/2 p-8"  style={{width:"1000px"}}>
-          <h3 className="text-xl font-semibold text-gray-800 mb-4">Order Details</h3>
+        <div className="bg-white p-8 rounded-lg shadow-lg   overflow-y-auto ml-[240px] w-[1400px]"  style={{ maxHeight: '460px'}}>
+          <h3 className="text-2xl font-semibold text-gray-800 mb-6 flex items-center">
+            <FaClipboardList className="mr-2 text-green-500" /> Order Details
+          </h3>
           {loading ? (
             <p className="text-center text-gray-500">Loading order details...</p>
           ) : error ? (
             <p className="text-center text-red-500">{error}</p>
           ) : userOrders.length > 0 ? (
-            <div className="overflow-y-auto max-h-96">
+            <div>
               {userOrders.map((order, index) => (
-                <div key={index} className="mb-4 p-4 bg-gray-50 rounded border border-gray-200">
-                  <div className="flex justify-between items-center">
-                    <span className="font-semibold text-gray-700">Product Name:</span>
-                    <span className="text-gray-900">{order.productName}</span>
-                  </div>
-                  <div className="flex justify-between items-center mt-2">
-                    <span className="font-semibold text-gray-700">Vehicle:</span>
-                    <span className="text-gray-900">{order.vehical}</span>
-                  </div>
-                  <div className="flex justify-between items-center mt-2">
-                    <span className="font-semibold text-gray-700">Phone Number:</span>
-                    <span className="text-gray-900">{order.phoneNumber}</span>
-                  </div>
-                  <div className="flex justify-between items-center mt-2">
-                    <span className="font-semibold text-gray-700">Address:</span>
-                    <span className="text-gray-900">{order.adress}</span>
-                  </div>
-                  <div className="flex justify-between items-center mt-2">
-                    <span className="font-semibold text-gray-700">Description:</span>
-                    <span className="text-gray-900">{order.description}</span>
-                  </div>
-                  <div className="flex justify-between items-center mt-2">
-                    <span className="font-semibold text-gray-700">Pincode:</span>
-                    <span className="text-gray-900">{order.pincode}</span>
-                  </div>
-                  <div className="flex justify-between items-center mt-2">
-                    <span className="font-semibold text-gray-700">Date:</span>
-                    <span className="text-gray-900">{new Date(order.date).toLocaleDateString()}</span>
+                <div key={index} className="mb-6 p-5 bg-gray-50 rounded-lg border border-gray-200 shadow-md transition-transform duration-300 hover:shadow-lg hover:scale-105">
+                  <h4 className="text-lg font-semibold text-gray-700 mb-4">Order #{index + 1}</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <p className="flex items-center">
+                      <span className="font-semibold text-gray-700">Product:</span>
+                      <span className="ml-2 text-gray-900">{order.productName}</span>
+                    </p>
+                    <p className="flex items-center">
+                      <span className="font-semibold text-gray-700">Vehicle:</span>
+                      <span className="ml-2 text-gray-900">{order.vehical}</span>
+                    </p>
+                    <p className="flex items-center">
+                      <FaPhone className="mr-1 text-gray-600" />
+                      <span className="font-semibold text-gray-700">Phone:</span>
+                      <span className="ml-2 text-gray-900">{order.phoneNumber}</span>
+                    </p>
+                    <p className="flex items-center">
+                      <FaHome className="mr-1 text-gray-600" />
+                      <span className="font-semibold text-gray-700">Address:</span>
+                      <span className="ml-2 text-gray-900">{order.adress}</span>
+                    </p>
+                    <p className="flex items-center">
+                      <span className="font-semibold text-gray-700">Description:</span>
+                      <span className="ml-2 text-gray-900">{order.description}</span>
+                    </p>
+                    <p className="flex items-center">
+                      <span className="font-semibold text-gray-700">Pincode:</span>
+                      <span className="ml-2 text-gray-900">{order.pincode}</span>
+                    </p>
+                    <p className="flex items-center">
+                      <span className="font-semibold text-gray-700">Order Date:</span>
+                      <span className="ml-2 text-gray-900">{new Date(order.date).toLocaleDateString()}</span>
+                    </p>
+                    <p className="flex items-center">
+                      <span className="font-semibold text-gray-700">Status:</span>
+                      <span className={`ml-2 px-2 py-1 rounded-full text-white ${
+                        order.status === 'Delivered' ? 'bg-green-500' : 'bg-yellow-500'
+                      }`}>
+                        {order.status || 'Pending'}
+                      </span>
+                    </p>
                   </div>
                 </div>
               ))}

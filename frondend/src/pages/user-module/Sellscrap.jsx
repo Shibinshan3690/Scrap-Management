@@ -5,6 +5,7 @@ import shedulePickup from "../../pics/Schedule.mp4";
 import recieve from "../../pics/Give Payment.mp4";
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
+import userApi from '../../api/userInterceptor';
 // import arrow from "../../pics/WhatsApp Video 2024-10-26 at 15.24.31_534f09f8.mp4";
 
 
@@ -29,8 +30,8 @@ const token=localStorage.getItem('userToken');
 
       }
       try {
-        const response = await axios.post(
-          "http://localhost:5000/user/sellproduct",
+        const response = await userApi.post(
+          "/sellproduct",
           sellProductList,
           {
             headers: {

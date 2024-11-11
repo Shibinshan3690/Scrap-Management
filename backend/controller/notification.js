@@ -1,19 +1,19 @@
-const notification =require("../model/notificationSchema");
+// const notification =require("../model/notificationSchema");
 
 
 
-const createNotification=async(req,res)=>{
+// const createNotification=async(req,res)=>{
         
-  try {
-       const   Notification=await notification.create({
+//   try {
+//        const   Notification=await notification.create({
           
-       })
-  } catch (error) {
+//        })
+//   } catch (error) {
     
-  }
+//   }
 
-}
+// }
 
 
 
-module.exports={createNotification}
+// module.exports={createNotification}

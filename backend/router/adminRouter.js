@@ -12,7 +12,10 @@ adminRouter.get("/getAdminuserDeatils",adminController.getAdminUserDeatils);
 adminRouter.put('/getAdminUserDetailsUpdate/:id',adminController.getAdminUserDetailsUpdate)
 adminRouter.get("/getUserOrderCurrentDate",adminController.getUserOrderCurrentDate);
 adminRouter.get("/getOrderById/:id",adminController.getOrderById);
-adminRouter.get("/getIdUserDeatilAndUserOrder/:id",adminController.getIdUserDetailAndUserOrder)
+adminRouter.get("/getIdUserDeatilAndUserOrder/:id",adminController.getIdUserDetailAndUserOrder);
+adminRouter.put("/blockUser/:id",adminController.blockUser);
+
+
 
 
 module.exports = adminRouter;

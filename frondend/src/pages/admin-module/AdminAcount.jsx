@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdAccountCircle, MdEmail, MdPhone, MdEdit, MdSave } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import Adminsidebar from './Adminsidebar';
@@ -36,10 +36,29 @@ const AdminAccount = () => {
       }
   };
   
+  const [notifications, setNotifications] = useState([]);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/notification/notifications');
+        setNotifications(response.data);
+        console.log("response", response.data);
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+      }
+    };
+
+    fetchNotifications();
+  }, []);
+
+  // total unread notification count
+  const unreadCount = notifications.filter(notification => !notification.isRead).length;
+
 
     return (
         <div className="flex bg-gray-100 h-screen">
-            <Adminsidebar />
+            <Adminsidebar unreadCount={unreadCount}/>
 
             <div className="p-8 flex-1" style={{ marginLeft: "-560px", marginTop: "10px" }}>
                 <div className="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto h-auto">

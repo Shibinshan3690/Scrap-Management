@@ -20,14 +20,14 @@ const Adminsidebar = ({ unreadCount }) => {
   
   
   {/* Sidebar */}
-  <div className="sidebar bg-white w-64 p-5 rounded-2xl shadow-lg lg:fixed lg:top-10 lg:left-10" id='side'>
-          <div>
-            <div className="flex items-center mb-10">
+  <div className="sidebar bg-white w-64 p-10 rounded-3xl shadow-lg lg:fixed " id='side'>
+          <div >
+            <div className=" mb-10">
               <img src="" alt="logo" className="h-12 w-12 rounded-full lg:h-16 lg:w-16" />
               <span className="ml-4 text-xl font-bold text-gray-800 hidden lg:block">Scrap</span>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div
                 className="flex flex-col items-center lg:flex-row p-2 hover:bg-yellow-400 rounded-lg cursor-pointer transition duration-300"
                 onClick={() => navigate('/adminDashboard')}
