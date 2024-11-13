@@ -57,7 +57,7 @@ const token=localStorage.getItem('userToken');
 
    <div >
    <ToastContainer /> 
-<div   style={{marginTop:"248px"}}>
+<div   style={{marginTop:"380px"}}>
       <Nav colours='white'/>
      </div>
 

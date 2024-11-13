@@ -56,9 +56,9 @@ try {
 
            })
            }
-           if (user.isBlocked) {
+           if (newUsers.isBlocked) {
             return res.status(403).json({
-                message: "User is blocked",
+                message: "Your blocked",
                 status: "fail"
             });
         }

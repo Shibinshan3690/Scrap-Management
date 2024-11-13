@@ -20,6 +20,10 @@ import TottalOrders from './pages/admin-module/TottalOrders';
 import UserGetById from './pages/admin-module/UserGetById';
 import UserDeatilsGetById from './pages/admin-module/UserDeatilsGetById';
 import AdminOrders from './pages/admin-module/AdminOrders';
+import SignUp from './pages/supplire-module/SignUp';
+import Dasboard from './pages/supplire-module/Dasboard';
+import SupplireHome from './pages/supplire-module/SupplireHome';
+import SupplireProfail from './pages/supplire-module/SupplireProfail';
 // import AdminOrders from './pages/admin-module/AdminOrders';
 
 
@@ -58,7 +62,11 @@ const App = () => {
  
 
 
-
+       {/* Supplire route */}
+   <Route path='/signUpSupllire' element={<SignUp/>}></Route>
+   <Route path="/supplirehome" element={<SupplireHome/>}></Route>
+   <Route path="/dasboard" element={<Dasboard/>}></Route>
+   <Route path="/profile" element={<SupplireProfail/>}></Route>
 
 
 

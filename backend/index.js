@@ -6,6 +6,7 @@ const express=require("express");
       const noticationRouter=require("../backend/router/notificationRoutes")
       // replay route
       const notificationRoutes = require('../backend/router/adminMsgRouter');
+      const supplierRouter=require("../backend/router/supplireRouter");
       
       const userRouter=require("./router/userRouter");
       require('dotenv').config({'path':'./.env'});
@@ -19,6 +20,8 @@ app.use(cors());
 app.use("/admin",adminRouter)
 app.use("/user",userRouter)
 app.use("/notification",noticationRouter)
+app.use("/supplire",supplierRouter);
+
 
 //  Admin replay route
 app.use('/notification', notificationRoutes);

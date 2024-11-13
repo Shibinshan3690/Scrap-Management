@@ -3,6 +3,7 @@ import AdminSidebar from './AdminSidebar';
 import { useParams } from 'react-router-dom';
 import adminApi from '../../api/adminInterceptor';
 import { FaUser, FaEnvelope, FaPhone, FaHome, FaClipboardList, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import axios from 'axios';
 
 const UserDetailsGetById = () => {
   const { id } = useParams();
@@ -27,9 +28,27 @@ const UserDetailsGetById = () => {
     getOrderById();
   }, [id]);
 
+  const [notifications, setNotifications] = useState([]);
+   useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/notification/notifications');
+        setNotifications(response.data);
+        console.log("response", response.data);
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+      }
+    };
+
+    fetchNotifications();
+  }, []);
+
+  // total unread notification count
+  const unreadCount = notifications.filter(notification => !notification.isRead).length;
+
   return (
     <>
-      <AdminSidebar />
+      <AdminSidebar unreadCount={unreadCount}/>
       <div className="p-10 bg-gray-100  h-[744px]" >
         {/* User Information Card */}
         <div className="bg-white p-6 rounded-lg shadow-lg  max-w-8xl mb-4 ml-[240px] mt-[-18px] transform transition duration-300 hover:scale-105   ">

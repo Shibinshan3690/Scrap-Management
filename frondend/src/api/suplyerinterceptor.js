@@ -1,18 +1,20 @@
 import axios from 'axios';
 
 // Create an axios instance with the base URL from environment variables
-const userApi = axios.create({
-    baseURL: import.meta.env.VITE_USER_URL
+const susupplierApi = axios.create({
+    baseURL: import.meta.env.VITE_SUPPLIRE_URL
 });
-userApi.interceptors.request.use(
+
+// Request Interceptor: Adds authorization headers (if needed) and logs the request
+susupplierApi.interceptors.request.use(
     (config) => {
         // Add an authorization token if available (optional)
-        const token = localStorage.getItem('userToken');
+        const token = localStorage.getItem('supplierToken');
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
         // Log request details
-        console.log('Request:', config);
+
         return config;
     },
     (error) => {
@@ -22,10 +24,10 @@ userApi.interceptors.request.use(
 );
 
 // Response Interceptor: Handles success and errors for responses
-userApi.interceptors.response.use(
+susupplierApi.interceptors.response.use(
     (response) => {
         // Handle the response data
-        console.log('Response:', response);
+        
         return response;
     },
     (error) => {
@@ -41,4 +43,4 @@ userApi.interceptors.response.use(
     }
 );
 
-export default userApi;
+export default susupplierApi;

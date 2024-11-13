@@ -14,7 +14,7 @@ adminApi.interceptors.request.use(
             config.headers.Authorization = `Bearer ${token}`;
         }
         // Log request details
-        console.log('Request:', config);
+
         return config;
     },
     (error) => {
@@ -27,7 +27,7 @@ adminApi.interceptors.request.use(
 adminApi.interceptors.response.use(
     (response) => {
         // Handle the response data
-        console.log('Response:', response);
+        
         return response;
     },
     (error) => {

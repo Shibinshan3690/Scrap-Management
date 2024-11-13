@@ -55,7 +55,7 @@ const signInAdmin = async (req, res) => {
 
     // Find user by email
     const adminUser = await adminuser.findOne({ email });
-    console.log(adminUser,'thisadd')
+    // console.log(adminUser,'thisadd')
     if (!adminUser) {
       return res.status(404).json({
         status: "fail",
@@ -173,8 +173,8 @@ const getAdminUserDeatils = async (req, res) => {
 
 const blockUser=async(req,res)=>{
     try {
-       const {userId}=req.params;
-       const user= await userShema.findById(userId);
+       const {id}=req.params;
+       const user= await userShema.findById(id);
        if(!user){
           return res.status(404).json({message:"User not founded",status:"fail"})
        }
@@ -190,6 +190,42 @@ const blockUser=async(req,res)=>{
 
 }
 
+const unblockedUser = async (req, res) => {
+  try {
+      const { id } = req.params;
+      const user = await userShema.findById(id);
+
+      if (!user) {
+          return res.status(404).json({
+              status: "fail",
+              message: "User not found"
+          });
+      }
+
+      // Check if the user is already unblocked
+      if (!user.isBlocked) {
+          return res.status(400).json({
+              status: "fail",
+              message: "User is not blocked"
+          });
+      }
+
+      // Set isBlocked to false to unblock the user
+      user.isBlocked = false;
+      await user.save();
+
+      return res.status(200).json({
+          status: "success",
+          message: "User unblocked successfully"
+      });
+  } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+          status: "error",
+          message: "Internal server error"
+      });
+  }
+};
 
 
 const getAdminUserDetailsUpdate = async (req, res) => {
@@ -259,27 +295,28 @@ const getAdminUserOrderDeatils = async (req, res) => {
 
 
 const getUserOrderCurrentDate = async (req, res) => {
-  console.log('triggered')
   try {
-    
     const today = new Date();
-    const startOfDay = new Date(today.setHours(0, 0, 0, 0)); // Start of today
-    const endOfDay = new Date(today.setHours(23, 59, 59, 999)); // End of today
+    const startOfDay = new Date(today.setHours(0, 0, 0, 0));
+    const endOfDay = new Date(today.setHours(23, 59, 59, 999));
 
-    const todayOrders = await userSellProductSchema.find({
-      createdAt: {
-        $gte: startOfDay, 
-        $lte: endOfDay,   
-      },
-    }).populate('user'); // Populate user name
-
-    console.log("todayOrders:", todayOrders); // Check if user data is populated
+    const todayOrders = await userSellProductSchema
+      .find({
+        createdAt: {
+          $gte: startOfDay,
+          $lte: endOfDay,
+        },
+      })
+      .populate("user", "name email");
+       
 
     res.status(200).json({
       success: true,
       message: "Today's orders fetched successfully",
       data: todayOrders,
+
     });
+
   } catch (error) {
     console.error("Error fetching today's orders:", error);
     res.status(500).json({
@@ -367,6 +404,6 @@ const getIdUserDetailAndUserOrder = async (req, res) => {
 
 
 
-module.exports = { signUpAdmin, signInAdmin,blockUser, getAdminUserOrderDeatils,getAdminUserDeatils,getAdminUserDetailsUpdate,getUserOrderCurrentDate,getOrderById,
+module.exports = { signUpAdmin, signInAdmin,blockUser,unblockedUser,getAdminUserOrderDeatils,getAdminUserDeatils,getAdminUserDetailsUpdate,getUserOrderCurrentDate,getOrderById,
   getIdUserDetailAndUserOrder,adminDeatilsUpdate,adminDeatilsUpdate
 };

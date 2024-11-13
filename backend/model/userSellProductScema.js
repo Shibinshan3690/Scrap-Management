@@ -3,7 +3,7 @@ const mongoose=require("mongoose");
 
 
  const userSellProduct=new mongoose.Schema({
-   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
    createdAt: { type: Date, default: Date.now },
         
      productName:{

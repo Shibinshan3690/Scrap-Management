@@ -50,8 +50,11 @@ const UserSignUp = () => {
     const userData = { email: signInEmail, password: signInPassword };
       try {
        const response=await userApi.post("/signInUser",userData)
+       console.log(response,"response")
        toast.success(response.data.message);
+
        localStorage.setItem('userToken', response.data.token);
+       localStorage.setItem("user",JSON.stringify(response.data.newUsers));
        navigate("/home")
 
       } catch (error) {

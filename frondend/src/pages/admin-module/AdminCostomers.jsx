@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { MdSearch } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import adminApi from '../../api/adminInterceptor';
 import AdminSidebar from './AdminSidebar';
 import axios from 'axios';
@@ -11,6 +13,7 @@ const AdminCustomers = () => {
   const [filteredCustomers, setFilteredCustomers] = useState([]);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
     const fetchCustomers = async () => {
@@ -26,6 +29,50 @@ const AdminCustomers = () => {
     fetchCustomers();
   }, []);
 
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/notification/notifications');
+        setNotifications(response.data);
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+      }
+    };
+    fetchNotifications();
+  }, []);
+
+  const handleBlockUser = async (id) => {
+    try {
+      const response = await adminApi.put(`/blockUser/${id}`);
+      toast.success(response.data.message);
+
+      const updatedCustomers = customers.map((customer) =>
+        customer._id === id ? { ...customer, isBlocked: true } : customer
+      );
+      setCustomers(updatedCustomers);
+      setFilteredCustomers(updatedCustomers);
+    } catch (error) {
+      console.error("Error blocking user:", error);
+      toast.error("Failed to block user");
+    }
+  };
+
+  const handleUnblockUser = async (id) => {
+    try {
+      const response = await adminApi.put(`/unblockedUser/${id}`);
+      toast.success(response.data.message);
+
+      const updatedCustomers = customers.map((customer) =>
+        customer._id === id ? { ...customer, isBlocked: false } : customer
+      );
+      setCustomers(updatedCustomers);
+      setFilteredCustomers(updatedCustomers);
+    } catch (error) {
+      console.error("Error unblocking user:", error);
+      toast.error("Failed to unblock user");
+    }
+  };
+
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
@@ -36,42 +83,19 @@ const AdminCustomers = () => {
     );
     setFilteredCustomers(filtered);
   };
-  
-  const [notifications, setNotifications] = useState([]);
 
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/notification/notifications');
-        setNotifications(response.data);
-        console.log("response", response.data);
-      } catch (error) {
-        console.error('Error fetching notifications:', error);
-      }
-    };
-
-    fetchNotifications();
-  }, []);
-
-  // total unread notification count
   const unreadCount = notifications.filter(notification => !notification.isRead).length;
 
   return (
     <div className="flex bg-gray-100 min-h-screen">
-      {/* Sidebar */}
-      <AdminSidebar unreadCount={unreadCount}/>
-
-      {/* Main Content */}
+      <AdminSidebar unreadCount={unreadCount} />
+      <ToastContainer />
+      
       <div className="flex-1 p-8 space-y-6">
-        {/* Page Header */}
-        <h1
-          className="text-1xl font-bold "
-          style={{ float: "right", marginRight: "90px" }}
-        >
+        <h1 className="text-1xl font-bold" style={{ float: "right", marginRight: "90px" }}>
           Customer Details
         </h1>
 
-        {/* Search Input */}
         <div className="flex items-center space-x-4" style={{ marginLeft: "250px", marginTop: "-16px" }}>
           <div className="relative w-full md:w-1/3">
             <MdSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
@@ -91,11 +115,7 @@ const AdminCustomers = () => {
           </button>
         </div>
 
-        {/* Customers List */}
-        <div
-          className="bg-white rounded-lg shadow-lg p-4 "
-          style={{ width: "1400px", marginLeft: "240px", marginTop: "10px" }}
-        >
+        <div className="bg-white rounded-lg shadow-lg p-4" style={{ width: "1400px", marginLeft: "240px", marginTop: "10px" }}>
           {error && <p className="text-red-500 mb-4">{error}</p>}
 
           <table className="w-full text-left border-collapse">
@@ -109,17 +129,31 @@ const AdminCustomers = () => {
             <tbody>
               {filteredCustomers.length > 0 ? (
                 filteredCustomers.map((customer) => (
-                  <tr
-                    key={customer._id}
-                    className="hover:bg-gray-50 cursor-pointer transition duration-300 ease-in-out transform hover:scale-105"
-                    onClick={() => navigate(`/userDeatilsGetById/${customer._id}`)}
-                  >
-                    <td className="px-6 py-4 border-b text-gray-700">{customer.name}</td>
-                    <td className="px-6 py-4 border-b text-gray-700">{customer.email}</td>
+                  <tr key={customer._id} className="hover:bg-gray-50 cursor-pointer transition duration-300 ease-in-out transform hover:scale-105">
+                    <td className="px-6 py-4 border-b text-gray-700" onClick={() => navigate(`/userDeatilsGetById/${customer._id}`)}>{customer.name}</td>
+                    <td className="px-6 py-4 border-b text-gray-700" onClick={() => navigate(`/userDeatilsGetById/${customer._id}`)}>{customer.email}</td>
                     <td className="px-6 py-4 border-b text-gray-700 flex space-x-3">
-                      <button className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md transition duration-300 transform hover:scale-105">
-                        Block
-                      </button>
+                      {customer.isBlocked ? (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleUnblockUser(customer._id);
+                          }}
+                          className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md transition duration-300 transform hover:scale-105"
+                        >
+                          Unblock
+                        </button>
+                      ) : (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleBlockUser(customer._id);
+                          }}
+                          className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md transition duration-300 transform hover:scale-105"
+                        >
+                          Block
+                        </button>
+                      )}
                       <button className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md transition duration-300 transform hover:scale-105">
                         Message
                       </button>
