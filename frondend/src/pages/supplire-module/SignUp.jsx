@@ -2,28 +2,35 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import "./signUp.css"
 
 import supplireApi from '../../api/suplyerinterceptor';
-import "./signUp.css"
+
 
 const SignUp = () => {
     const [isRightPanelActive, setIsRightPanelActive] = useState(false);
     const navigate = useNavigate();
-    const [name, setName] = useState(""); 
-    const [email, setEmail] = useState("");
-    const [phoneNumber,setPhoneNumber]= useState("");
-    const [password, setPassword] = useState("");
+     const [form ,setForm]=useState({
+        name: '', email: '', phoneNumber: '', password: '',
+        state: '', district: '', streetAddress: '', zipCode: '',
+        gender: '', age: '', category: ''
+     })
     const [signInEmail, setSignInEmail] = useState("");
     const [signInPassword, setSignInPassword] = useState("");
 
   const handleSignUpClick = () => setIsRightPanelActive(true);
   const handleSignInClick = () => setIsRightPanelActive(false)
 
+
+  const handleChange=(e)=>{  
+    setForm({ ...form, [e.target.name]: e.target.value });
+  }
+
   const handleSignUpSubmit = async (e) => {
     e.preventDefault();
-     const adminData={name,email,password,phoneNumber};
+   
           try {
-              const response=await supplireApi.post(`/signUp`,adminData);
+              const response=await supplireApi.post(`/signUp`,form);
               toast.success(response.data.message);
               handleSignInClick();
                  
@@ -35,14 +42,14 @@ const SignUp = () => {
 
   const handleSignInSubmit = async (e) => {
     e.preventDefault();
-    const adminData = { email: signInEmail, password: signInPassword };
+    const suplireData = { email: signInEmail, password: signInPassword };
       try {
-           const response= await supplireApi.post(`/signIn`,adminData);
+           const response= await supplireApi.post(`/signIn`,suplireData);
                console.log("response",response)
            toast.success(response.data.message);
            localStorage.setItem('supplireToken', response.data.token);
            localStorage.setItem('supplire', JSON.stringify(response.data.supplier));
-          toast.success(navigate("/supplirehome"))  
+          toast.success(navigate("/dasboard"))  
 
       } catch (error) {
         toast.error(error.response?.data?.message || "Sign In failed");
@@ -55,56 +62,125 @@ const SignUp = () => {
   <ToastContainer/>
 
 
-  <div className={`containerr ${isRightPanelActive ? 'right-panel-active' : ''}`}>
-        <div className="form sign-up-container" >
-          <form className='form' onSubmit={handleSignUpSubmit}>
+  <div className={`containerr ${isRightPanelActive ? 'right-panel-active' : ''}`} style={{height:"700px",width:"1200px",marginTop:"20px",marginLeft:"300px"}}>
+        <div className="form sign-up-container " >
+          <form className='form' onSubmit={handleSignUpSubmit}  style={{width:"600px",overflow:"auto",display:"inline-block",padding:"20px"}}>
+         
+
             <h1 className='h1'>Create Account</h1>
             <span className='span'>or use your email for registration</span>
             <input 
               type="text" 
               placeholder="Name"  
               required 
-              className='input'
-              value={name}
-              onChange={(e) => setName(e.target.value)} 
+              className='inputt'
+              value={form.name}
+              onChange={handleChange} 
+              name='name'
             />
             <input 
               type="email"
               placeholder="Email" 
               required 
-              className='input'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+               className='inputt'
+              value={form.email}
+              onChange={handleChange}
+              name='email'
             />
             <input 
               type="number"
               placeholder="phone number" 
               required 
-              className='input'
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              className='inputt'
+              value={form.phoneNumber}
+              onChange={handleChange}
+              name="phoneNumber"
             />
             <input
               type="password"
               placeholder="Password"
               required 
-              className='input'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              className='inputt'
+              value={form.password}
+              onChange={handleChange}
+              name='password'
             />
-            <button type='submit' className='button' style={{backgroundColor:"InactiveCaptionText"}}>Sign Up</button>
+            <input
+              type="text"
+              placeholder="state"
+              required 
+              className='inputt'
+              value={form.state}
+              onChange={handleChange}
+              name='state'
+            />
+            <input
+              type="text"
+              placeholder="district"
+              required 
+              className='inputt'
+              value={form.district}
+              onChange={handleChange}
+              name='district'
+            />
+            <input
+              type="text"
+              placeholder="streetAddress"
+              required 
+              className='inputt'
+              value={form.streetAddress}
+              onChange={handleChange}
+              name='streetAddress'
+            />
+            <input
+              type="number"
+              placeholder="zipCode"
+              required 
+               className='inputt'
+              value={form.zipCode}
+              onChange={handleChange}
+              name='zipCode'
+            />
+            <input
+              type="text"
+              placeholder="gender"
+              required 
+               className='inputt'
+              value={form.gender}
+              onChange={handleChange}
+              name='gender'
+            />
+            <input
+              type="number"
+              placeholder="age"
+              required 
+               className='inputt'
+              value={form.age}
+              onChange={handleChange}
+              name='age'
+            />
+            <input
+              type="text"
+              placeholder="category"
+              required 
+               className='inputt'
+              value={form.category}
+              onChange={handleChange}
+              name='category'
+            />
+            <button type='submit' className='nnnn' >Sign Up</button>
           </form>
         </div>
         
         <div className="form sign-in-container" >
           <form className='form' onSubmit={handleSignInSubmit} >
-            <h1 className='h1'>Sign in</h1>
+            <h1 className='h11' style={{padding:"50px",marginTop:"-80px"}}>Sign in</h1>
             <span className='span'>or use your account</span>
             <input
               type="email" 
               placeholder="Email"
               required
-              className='input'
+              className='input1t'
               value={signInEmail}
               onChange={(e) => setSignInEmail(e.target.value)}
             />
@@ -112,25 +188,25 @@ const SignUp = () => {
               type="password"
               placeholder="Password" 
               required
-              className='input'
+              className='input1t'
               value={signInPassword}
               onChange={(e) => setSignInPassword(e.target.value)}
             />
-            <button type='submit' className='button' style={{backgroundColor:"black"}}>Sign In</button>
+            <button type='submit' className='nnnn' style={{backgroundColor:"black"}}>Sign In</button>
           </form>
         </div>
         
         <div className="overlay-container" style={{backgroundColor:"black"}} >
           <div className="overlay "style={{backgroundColor:"black"}} >
-            <div className="overlay-panel overlay-left"style={{backgroundColor:"gray"}}  >
-              <h1 className='h1'>Welcome Back!</h1>
-              <p className='p'>To keep connected with us please login with your personal info</p>
-              <button className="ghost" onClick={handleSignInClick} style={{backgroundColor:"black"}}>Sign In</button>
+            <div className="overlay-panel overlay-left"style={{backgroundColor:"gray"}} >
+              <h1 className='h11'>Welcome Back!</h1>
+              <p className='pp'>To keep connected with us please login with your personal info</p>
+              <button className="ghosts" onClick={handleSignInClick} style={{backgroundColor:"black"}}>Sign In</button>
             </div>
             <div className="overlay-panel overlay-right" style={{backgroundColor:"InactiveCaptionText"}}>
-              <h1 className='h1'>Hello, Friend!</h1>
-              <p className='p'>Enter your personal details and start your journey with us</p>
-              <button className="ghost" onClick={handleSignUpClick} style={{backgroundColor:"black"}}>Sign Up</button>
+              <h1 className='h11'>Hello, Friend!</h1>
+              <p className='pp'>Enter your personal details and start your journey with us</p>
+              <button className="nnnn" onClick={handleSignUpClick} style={{backgroundColor:"black"}}>Sign Up</button>
             </div>
           </div>
         </div>

@@ -1,16 +1,45 @@
-.overlay{
-	
-	background: -webkit-linear-gradient(to right, #030303, #141313);
-	background: linear-gradient(to right, #302e2e, #2b292a);
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: 0 0;
-	color: #FFFFFF;
-	position: relative;
-	left: -100%;
-	height: 100%;
-	width: 200%;
-  	transform: translateX(0);
-	transition: transform 0.6s ease-in-out;
+.inputt{
+    width:500px;
+    height: 50px;
+    border-radius: 15px;
+    margin: 5px;
+    
 }
+.h11{
+    font-size: 30px;
+    font-weight: 600;
+      text-shadow: white;
+      text-decoration: none;
+      transform: scale(1.3);
+}
+.pp{
+ padding: 30px;
+ font-size:  15px;
+ font-weight: 600;
+}
+.ghosts{
+    width: 150px;
+    height: 50px;
+    border: none;
+    font-weight: 600
+}
+.ghosts :hover  {
+     background-color: gray;
+}
+.nnnn{
+    margin-top: 20px;
+    width: 150px;
+    height: 50px;
+  color: white;
+  background-color: black;
+  font-weight: 600;
+  border: none;
+}
+.input1t{
+    width: 350px;
+    height: 50px;
+   padding: 10px;
+   margin: 10px;
+   border-radius: 10px;
 
+}

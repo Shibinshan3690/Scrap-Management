@@ -26,16 +26,16 @@ const supllireSchema = new mongoose.Schema({
     state: {
         type: String,
         required: true,
-        enum: ['Kerala'], // Only allows "Kerala" as a value
+        // enum: ['Kerala'], // Only allows "Kerala" as a value
     },
     district: {
         type: String,
         required: true,
-        enum: [
-            "Thiruvananthapuram", "Kollam", "Pathanamthitta", "Alappuzha", "Kottayam", 
-            "Idukki", "Ernakulam", "Thrissur", "Palakkad", "Malappuram", 
-            "Kozhikode", "Wayanad", "Kannur", "Kasargod"
-        ]
+        // enum: [
+        //     "Thiruvananthapuram", "Kollam", "Pathanamthitta", "Alappuzha", "Kottayam", 
+        //     "Idukki", "Ernakulam", "Thrissur", "Palakkad", "Malappuram", 
+        //     "Kozhikode", "Wayanad", "Kannur", "Kasargod"
+        // ]
     },
     streetAddress: {
         type: String,
@@ -47,23 +47,37 @@ const supllireSchema = new mongoose.Schema({
     },
     gender: {
         type: String,
-        enum: ['male', 'female'],
+        // enum: ['male', 'female'],
+        trim:true
     },
     age: {
         type: String,
-        enum: ['18-25', '26-30', '31-35', '36-40'],
+      trim:true
     },
     category: {
         type: String,
         required: true,
-        enum: ['raw_materials', 'finished_goods', 'services'],
     },
     createdAt: {
         type: Date,
         default: Date.now,
+    },
+    status: {
+        type: String,
+        enum: ['pending', 'accepted', 'inactive'], // Added 'pending' status for new suppliers
+        default: 'pending',
+    },
+    role: {
+        type: String,
+        enum: ['supplier'], // Currently only 'supplier' role
+        default: 'supplier',
+    },
+    isBlocked: {
+        type:Boolean,
+        default:false
     }
   
 });
 
-const supllireSchemaa = mongoose.model("supllireSchema", supllireSchema);
+const  supllireSchemaa = mongoose.model("supllireSchema", supllireSchema);
 module.exports = supllireSchemaa;

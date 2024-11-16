@@ -5,6 +5,9 @@ const userSellProductSchema=require("../model/userSellProductScema");
 const userShema=require("../model/userSchema");
 const adminScheam=require("../model/admin-schema")
 const { default: mongoose } = require("mongoose");
+const  supplireSchema=require("../model/supplireSchema");
+const supllireSchemaa = require("../model/supplireSchema");
+  
 
 
 const signUpAdmin = async (req, res) => {
@@ -402,8 +405,128 @@ const getIdUserDetailAndUserOrder = async (req, res) => {
   }
 };
 
+// acceptSupplier code 
+  
+
+const acceptSupplier = async (req, res) => {
+  const { supplierId } = req.params;
+  try {
+    const supplier = await supplireSchema.findById(supplierId);
+    if (!supplier) {
+      return res.status(404).json({ status: "fail", message: "Supplier not found" });
+    }
+
+ 
+    if (supplier.status === "accepted") {
+      return res.status(400).json({ status: "fail", message: "Supplier is already accepted" });
+    }
+
+    
+    supplier.status = 'accepted';
+    await supplier.save();
+
+    res.status(200).json({
+      status: "success",
+      message: "Supplier accepted successfully",
+      supplier: supplier,
+    });
+
+  } catch (error) {
+    console.error("Error accepting supplier:", error);
+    res.status(500).json({ status: "error", message: "Internal server error" });
+  }
+};
+
+const unacceptSupplier = async (req, res) => {
+  const { supplierId } = req.params;
+  try {
+    const supplier = await supplireSchema.findById(supplierId);
+    if (!supplier) {
+      return res.status(404).json({ status: "fail", message: "Supplier not found" });
+    }
+
+    // Check if the supplier is already inactive or unaccepted
+    if (supplier.status !== "accepted") {
+      return res.status(400).json({ status: "fail", message: "Supplier is not accepted" });
+    }
+
+    // Change status back to inactive or original status
+    supplier.status = 'inactive'; // Or any other status you want for "unaccept"
+    await supplier.save();
+
+    res.status(200).json({
+      status: "success",
+      message: "Supplier status reverted successfully",
+      supplier: supplier,
+    });
+
+  } catch (error) {
+    console.error("Error reverting supplier status:", error);
+    res.status(500).json({ status: "error", message: "Internal server error" });
+  }
+};
+
+
+
+
+
+// Block supplier
+const blockSupplier = async (req, res) => {
+  const supplierId = req.params.supplierId;
+   
+
+  // Check if the ID is valid
+  if (!mongoose.Types.ObjectId.isValid(supplierId)) {
+    return res.status(400).send("Invalid Supplier ID");
+  }
+
+  try {
+    const supplier = await supplireSchema.findById(supplierId);
+     console.log(supplier,"Unsupplier")
+    if (!supplier) {
+      return res.status(404).send("Supplier not found");
+    }
+
+    supplier.isBlocked = true;
+    await supplier.save();
+    res.status(200).send({ status: "success", message: "Supplier blocked successfully" });
+  } catch (error) {
+    console.error("Error blocking supplier:", error);
+    res.status(500).send({ status: "error", message: "Failed to block supplier" });
+  }
+};
+
+// Unblock supplier
+const unblockSupplier = async (req, res) => {
+  const supplierId = req.params.supplierId;
+
+  // Check if the ID is valid
+  if (!mongoose.Types.ObjectId.isValid(supplierId)) {
+    return res.status(400).send("Invalid Supplier ID");
+  }
+
+  try {
+    const supplier = await supplireSchema.findById(supplierId);
+     
+    if (!supplier) {
+      return res.status(404).send("Supplier not found");
+    }
+
+    supplier.isBlocked = false;
+    await supplier.save();
+    res.status(200).send({ status: "success", message: "Supplier unblocked successfully" });
+  } catch (error) {
+    console.error("Error unblocking supplier:", error);
+    res.status(500).send({ status: "error", message: "Failed to unblock supplier" });
+  }
+};
+
+
+
+
+   
 
 
 module.exports = { signUpAdmin, signInAdmin,blockUser,unblockedUser,getAdminUserOrderDeatils,getAdminUserDeatils,getAdminUserDetailsUpdate,getUserOrderCurrentDate,getOrderById,
-  getIdUserDetailAndUserOrder,adminDeatilsUpdate,adminDeatilsUpdate
+  getIdUserDetailAndUserOrder,adminDeatilsUpdate,adminDeatilsUpdate,acceptSupplier,unacceptSupplier,blockSupplier,unblockSupplier
 };

@@ -19,6 +19,12 @@ const mongoose=require("mongoose");
         require:true,
         trim:true
      },
+     
+   distric:{
+      type:String,
+      require:true,
+      trim:true
+   },
      adress:{
         type:String,
         require:true,
@@ -38,7 +44,13 @@ const mongoose=require("mongoose");
         type:String,
         require:true,
         trim:true
+     },
+     status:{
+      type: String,
+      enum: ['pending', 'picked', 'deliverd'],
+      default: 'pending',
      }
+     
 
 
  },{ timestamps: true })

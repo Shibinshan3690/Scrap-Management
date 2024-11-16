@@ -126,10 +126,10 @@ try {
     try {
       const user=req.user.userId
    
-      const { productName, vehical, description, adress, phoneNumber, pincode, date } = req.body;
+      const { productName, vehical, description, adress, phoneNumber, pincode, date,distric } = req.body;
      
     
-      if (!productName || !vehical || !description || !adress || !phoneNumber || !pincode || !date) {
+      if (!productName || !vehical || !description || !adress || !phoneNumber || !pincode || !date|| !distric) {
         return res.status(400).json({ message: "All fields are required", status: "error" });
       }
   
@@ -138,6 +138,7 @@ try {
         productName,
         vehical,
         description,
+        distric,
         adress,
         phoneNumber,
         pincode,

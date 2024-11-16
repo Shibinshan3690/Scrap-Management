@@ -44,6 +44,9 @@ const AdminCustomers = () => {
   const handleBlockUser = async (id) => {
     try {
       const response = await adminApi.put(`/blockUser/${id}`);
+      localStorage.removeItem('supplier');
+      localStorage.removeItem('supplierToken');
+
       toast.success(response.data.message);
 
       const updatedCustomers = customers.map((customer) =>

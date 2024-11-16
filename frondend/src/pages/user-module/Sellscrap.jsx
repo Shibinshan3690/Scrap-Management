@@ -19,14 +19,15 @@ const Sellscrap = () => {
   const [adress,setAdress]=useState("");
   const  [phoneNumber,setPhoneNumber]=useState("");
   const [pincode,setPincode]=useState("");
-  const  [date,setDate]=useState();
+  const  [date,setDate]=useState("");
+  const [distric,setDistric]=useState("");
 const token=localStorage.getItem('userToken');
 
 
     const handleSubmit =async(e)=>{
       e.preventDefault();
       const sellProductList={
-        productName,vehical,description,adress,phoneNumber,pincode,date
+        productName,vehical,description,adress,phoneNumber,pincode,date,distric
 
       }
       try {
@@ -121,6 +122,14 @@ const token=localStorage.getItem('userToken');
     className="mb-4 p-2 w-full border bg-white border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
      value={description}
     onChange={(e)=>setDescription(e.target.value)}
+/>
+
+<input 
+    type="text" 
+    placeholder="Distric" 
+    className="mb-4 p-2 w-full border bg-white border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+    value={distric}
+    onChange={(e)=>setDistric(e.target.value)}
 />
 
   <input 

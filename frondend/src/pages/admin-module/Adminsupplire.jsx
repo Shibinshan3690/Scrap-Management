@@ -1,114 +1,258 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
-import AdminSidebar from './AdminSidebar';
-import axios from 'axios';
-
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+import React, { useEffect, useState } from "react";
+import AdminSidebar from "./AdminSidebar";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import susupplierApi from "../../api/suplyerinterceptor";
+import adminApi from "../../api/adminInterceptor";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AdminSupplier = () => {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const navigate = useNavigate();
-    const [notifications, setNotifications] = useState([]);
+  const [suppliers, setSuppliers] = useState([]);
+  const [notifications, setNotifications] = useState([]);
+  const [loading, setLoading] = useState(false); 
+    const navigate=useNavigate()
 
-    
-
-   
-
-    const suppliers = [
-      { id: 1, name: 'Supplier 1', contact: 'supplier1@example.com', status: 'Active' },
-      { id: 2, name: 'Supplier 2', contact: 'supplier2@example.com', status: 'Inactive' },
-      { id: 3, name: 'Supplier 3', contact: 'supplier3@example.com', status: 'Active' },
-    ];
-
-    const totalSuppliers = suppliers.length;
-    const activeSuppliers = suppliers.filter(supplier => supplier.status === 'Active').length;
-    const inactiveSuppliers = totalSuppliers - activeSuppliers;
-
-    const handleEdit = (id) => {
-      console.log(`Edit Supplier ID: ${id}`);
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/notification/notifications');
+        setNotifications(response.data);
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+      }
     };
 
-    const handleMessage = (id) => {
-      console.log(`Message Supplier ID: ${id}`);
+    fetchNotifications();
+  }, []);
+
+  const unreadCount = notifications.filter(notification => !notification.isRead).length;
+
+  useEffect(() => {
+    const fetchSuppliers = async () => {
+      try {
+        const response = await susupplierApi.get("/allSupplires");
+        const allSuppliers = response.data.data;
+        setSuppliers(allSuppliers);
+      } catch (error) {
+        console.error("Error fetching suppliers:", error);
+        toast.error("Failed to fetch suppliers. Please try again.");
+      }
     };
 
-    useEffect(() => {
-      const fetchNotifications = async () => {
-        try {
-          const response = await axios.get('http://localhost:5000/notification/notifications');
-          setNotifications(response.data);
-        } catch (error) {
-          console.error('Error fetching notifications:', error);
-        }
-      };
-      fetchNotifications();
-    }, []);
+    fetchSuppliers();
+  }, []);
 
-    const unreadCount = notifications.filter(notification => !notification.isRead).length;
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
 
-    return (
-      <div className="flex min-h-screen bg-gray-100 text-gray-800">
-            <AdminSidebar unreadCount={unreadCount} />
+  const acceptSupplier = async (supplierId) => {
+    try {
+      const response = await adminApi.put(`/accept/${supplierId}`);
+      if (response.data.status === "success") {
+        setSuppliers((suppliers) =>
+          suppliers.map((supplier) =>
+            supplier._id === supplierId
+              ? { ...supplier, status: "accepted" }
+              : supplier
+          )
+        );
+        notifySuccess("Supplier accepted successfully!");
+      }
+    } catch (error) {
+      console.error("Error accepting supplier:", error);
+      notifyError("Failed to accept supplier.");
+    }
+  };
 
-            <div className="content flex flex-col lg:flex-row gap-10 ml-[280px] w-full mt-2">
-                <div className="w-full lg:w-1/2 bg-white p-6 rounded-lg shadow-lg">
-                    <h2 className="text-3xl font-semibold mb-4 text-gray-700">Suppliers Overview</h2>
+  const unacceptSupplier = async (supplierId) => {
+    try {
+      const response = await adminApi.put(`/unaccept/${supplierId}`);
+      if (response.data.status === "success") {
+        setSuppliers((suppliers) =>
+          suppliers.map((supplier) =>
+            supplier._id === supplierId
+              ? { ...supplier, status: "inactive" }
+              : supplier
+          )
+        );
+        notifySuccess("Supplier unaccepted successfully!");
 
-                    <div className="grid grid-cols-3 gap-6 mb-8">
-                        <StatBox title="Total Suppliers" count={totalSuppliers} />
-                        <StatBox title="Active Suppliers" count={activeSuppliers} color="text-green-600" />
-                        <StatBox title="Inactive Suppliers" count={inactiveSuppliers} color="text-red-600" />
-                    </div>
+      }
+    } catch (error) {
+      console.error("Error unaccepting supplier:", error);
+      notifyError("Failed to unaccept supplier.");
+    }
+  };
 
-                    <div className="bg-white p-4 rounded-lg shadow-md">
-                      
-                    </div>
-                </div>
-
-                <div className="w-full lg:w-1/2 bg-white p-6 rounded-lg shadow-lg">
-                    <h3 className="text-2xl font-semibold mb-5 text-gray-700">Supplier Details</h3>
-                    <table className="min-w-full border border-gray-200 rounded-lg">
-                        <thead className="bg-gray-100 text-gray-700">
-                            <tr>
-                                <th className="px-6 py-3 border-b text-left">ID</th>
-                                <th className="px-6 py-3 border-b text-left">Name</th>
-                                <th className="px-6 py-3 border-b text-left">Contact</th>
-                                <th className="px-6 py-3 border-b text-left">Status</th>
-                                <th className="px-6 py-3 border-b text-left">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {suppliers.map(supplier => (
-                                <tr key={supplier.id} className="hover:bg-gray-50 transition">
-                                    <td className="px-6 py-4 border-b">{supplier.id}</td>
-                                    <td className="px-6 py-4 border-b">{supplier.name}</td>
-                                    <td className="px-6 py-4 border-b">{supplier.contact}</td>
-                                    <td className="px-6 py-4 border-b">
-                                        <span className={`px-2 py-1 rounded text-xs font-semibold ${supplier.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                                            {supplier.status}
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4 border-b">
-                                        <button className="text-blue-500 hover:underline mr-4" onClick={() => handleEdit(supplier.id)}>Edit</button>
-                                        <button className="text-green-500 hover:underline" onClick={() => handleMessage(supplier.id)}>Message</button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+  const blockSupplier = async (supplierId) => {
+    setLoading(true); // Show loading spinner
+    setSuppliers((suppliers) =>
+      suppliers.map((supplier) =>
+        supplier._id === supplierId
+          ? { ...supplier, isBlocked: true }
+          : supplier
+      )
     );
-};
 
-const StatBox = ({ title, count, color = 'text-gray-800' }) => (
-    <div className="p-5 bg-gray-50 rounded-lg shadow-sm text-center transition transform hover:scale-105">
-        <h3 className="text-lg font-medium">{title}</h3>
-        <p className={`text-2xl font-semibold ${color}`}>{count}</p>
+    try {
+      const response = await adminApi.put(`/blockSuplire/${supplierId}`);
+
+        // console.log("response11",response)
+      if (response.data.status === "success") {
+        localStorage.removeItem('supplire');
+        localStorage.removeItem('supplireToken');
+
+         
+        notifySuccess("Supplier blocked successfully!");
+      } else {
+        throw new Error("Failed to block supplier.");
+      }
+    } catch (error) {
+      console.error("Error blocking supplier:", error);
+      notifyError("Failed to block supplier.");
+      setSuppliers((suppliers) =>
+        suppliers.map((supplier) =>
+          supplier._id === supplierId
+            ? { ...supplier, isBlocked: false }
+            : supplier
+        )
+      );
+    } finally {
+      setLoading(false); 
+    }
+  };
+
+  const unblockSupplier = async (supplierId) => {
+    setLoading(true); // Show loading spinner
+    setSuppliers((suppliers) =>
+      suppliers.map((supplier) =>
+        supplier._id === supplierId
+          ? { ...supplier, isBlocked: false }
+          : supplier
+      )
+    );
+
+    try {
+      const response = await adminApi.put(`/unBlockSuplire/${supplierId}`);
+       
+      if (response.data.status === "success") {
+        notifySuccess("Supplier unblocked successfully!");
+      } else {
+        throw new Error("Failed to unblock supplier.");
+      }
+    } catch (error) {
+      console.error("Error unblocking supplier:", error);
+      notifyError("Failed to unblock supplier.");
+      setSuppliers((suppliers) =>
+        suppliers.map((supplier) =>
+          supplier._id === supplierId
+            ? { ...supplier, isBlocked: true }
+            : supplier
+        )
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const activeSuppliers = suppliers.filter((s) => s.status === "accepted").length;
+  const inactiveSuppliers = suppliers.filter((s) => s.status !== "accepted").length;
+
+  const StatBox = ({ title, count, color = "text-gray-700" }) => (
+    <div className="bg-white rounded-lg shadow p-4">
+      <h3 className="text-lg font-semibold text-gray-600">{title}</h3>
+      <p className={`text-2xl font-bold ${color}`}>{count}</p>
     </div>
-);
+  );
+
+  return (
+    <div className="flex min-h-screen bg-gray-100">
+      <AdminSidebar unreadCount={unreadCount}/>
+      <ToastContainer position="top-right" autoClose={3000} />
+      <div className="flex flex-col p-4 w-[1300px] ml-[258px]">
+        <h1 className="text-3xl font-semibold text-gray-700 mb-6">Suppliers Management</h1>
+
+        {/* Statistics */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          <StatBox title="Total Suppliers" count={suppliers.length} />
+          <StatBox title="Active Suppliers" count={activeSuppliers} color="text-green-600" />
+          <StatBox title="Inactive Suppliers" count={inactiveSuppliers} color="text-red-600" />
+        </div>
+
+        {/* Supplier List */}
+        <div className="bg-white rounded-lg shadow p-6">
+          <h2 className="text-2xl font-semibold text-gray-700 mb-4">Supplier Details</h2>
+          <div className="overflow-x-auto">
+            <table className="table-auto w-full border-collapse border border-gray-200">
+              <thead>
+                <tr className="bg-gray-100">
+                  <th className="border border-gray-300 px-4 py-2 text-left">Name</th>
+                  <th className="border border-gray-300 px-4 py-2 text-left">Email</th>
+                  <th className="border border-gray-300 px-4 py-2 text-left">Phone</th>
+                  <th className="border border-gray-300 px-4 py-2 text-left">Status</th>
+                  <th className="border border-gray-300 px-4 py-2 text-left">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {suppliers.map((supplier) => (
+                  <tr key={supplier._id} className="hover:bg-gray-50">
+                    <td className="border border-gray-300 px-4 py-2">{supplier.name}</td>
+                    <td className="border border-gray-300 px-4 py-2">{supplier.email}</td>
+                    <td className="border border-gray-300 px-4 py-2">{supplier.phoneNumber}</td>
+                    <td className="border border-gray-300 px-4 py-2">
+                      <span
+                        className={`px-3 py-1 rounded-full text-white ${supplier.status === "accepted" ? "bg-green-500" : "bg-red-500"}`}
+                      >
+                        {supplier.status}
+                      </span>
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2">
+                      {supplier.isBlocked ? (
+                        <button
+                          className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                          onClick={() => unblockSupplier(supplier._id)}
+                          disabled={loading}
+                        >
+                          {loading ? "Unblocking..." : "Unblock"}
+                        </button>
+                      ) : (
+                        <>
+                          {supplier.status !== "accepted" && (
+                            <button
+                              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mr-2"
+                              onClick={() => acceptSupplier(supplier._id)}
+                            >
+                              Accept
+                            </button>
+                          )}
+                          {supplier.status === "accepted" && (
+                            <button
+                              className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 mr-2"
+                              onClick={() => unacceptSupplier(supplier._id)}
+                            >
+                              Unaccept
+                            </button>
+                          )}
+                          <button
+                            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                            onClick={() => blockSupplier(supplier._id)}
+                            disabled={loading}
+                          >
+                            {loading ? "Blocking..." : "Block"}
+                          </button>
+                        </>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default AdminSupplier;

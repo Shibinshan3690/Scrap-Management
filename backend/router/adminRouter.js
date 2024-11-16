@@ -16,6 +16,10 @@ adminRouter.get("/getOrderById/:id",adminController.getOrderById);
 adminRouter.get("/getIdUserDeatilAndUserOrder/:id",adminController.getIdUserDetailAndUserOrder);
 adminRouter.put("/blockUser/:id",adminController.blockUser);
 adminRouter.put("/unblockedUser/:id",adminController.unblockedUser);
+adminRouter.put("/accept/:supplierId",adminController.acceptSupplier)
+adminRouter.put("/unAccept/:supplierId",adminController.unacceptSupplier)
+adminRouter.put("/blockSuplire/:supplierId",adminController.blockSupplier)
+adminRouter.put("/unBlockSuplire/:supplierId",adminController.unblockSupplier)
 
 
 

@@ -7,6 +7,8 @@ import Chart from 'chart.js/auto';
 import { useNavigate } from 'react-router-dom';
 import adminApi from '../../api/adminInterceptor';
 import axios from 'axios';
+import susupplierApi from '../../api/suplyerinterceptor';
+import { toast, ToastContainer } from 'react-toastify';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -14,6 +16,9 @@ const AdminDashboard = () => {
   const [orders, setOrders] = useState([]);
   const [todayOrder, setTodayOrders] = useState([]);
   const [error, setError] = useState(null);
+
+   const [suppliers, setSuppliers] = useState([]);
+
 
   useEffect(() => {
     const fetchCustomer = async () => {
@@ -53,6 +58,22 @@ const AdminDashboard = () => {
     todayOrders();
   }, []);
 
+
+
+
+  useEffect(() => {
+    const fetchSuppliers = async () => {
+      try {
+        const response = await susupplierApi.get("/allSupplires");
+        setSuppliers(response.data.data);
+      } catch (error) {
+        console.error("Error fetching suppliers:", error);
+        toast.error("Failed to fetch suppliers. Please try again.");
+      }
+    };
+
+    fetchSuppliers();
+  }, []);
   // Data for charts
   const barData = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -121,6 +142,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-100 text-gray-800">
+      <ToastContainer/>
       <AdminSidebar unreadCount={unreadCount}  />
       <main className="flex-1 p-6 space-y-6" style={{marginLeft:"250px",marginTop:"-30px"}}>
       <h1 className="text-1xl font-bold text-gray-800 text-right mr-8 mt-6 tracking-tight" style={{float:"right",marginTop:"20px",marginRight:"90px"}}>Dashboard</h1>
@@ -156,7 +178,7 @@ const AdminDashboard = () => {
             <MdOutlinePeopleOutline className="text-green-500 h-8 w-8" />
             <div className="ml-4">
               <h2 className="text-xl font-semibold">Total Suppliers</h2>
-              <p className="text-gray-600">12</p>
+              <p className="text-gray-600">{suppliers.length}</p>
             </div>
           </div>
 

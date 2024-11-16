@@ -2,14 +2,19 @@ import React, { useEffect, useState } from 'react';
 import Adminsidebar from './Adminsidebar';
 import { useParams } from 'react-router-dom';
 import adminApi from '../../api/adminInterceptor';
-import axios from 'axios';
+import suplireApi from "../../api/suplyerinterceptor"
 
 const OrderTimeline = ({ status }) => {
   const stages = ["Placed", "Processed", "Shipped", "Delivered"];
   return (
     <div className="timeline flex justify-between items-center gap-4 mb-6">
       {stages.map((stage, index) => (
-        <div key={index} className={`flex-1 text-center ${status === stage ? 'font-semibold text-blue-600' : 'text-gray-400'}`}>
+        <div
+          key={index}
+          className={`flex-1 text-center ${
+            status === stage ? 'font-semibold text-blue-600' : 'text-gray-400'
+          }`}
+        >
           <span>{stage}</span>
         </div>
       ))}
@@ -17,44 +22,121 @@ const OrderTimeline = ({ status }) => {
   );
 };
 
-const OrderNotes = ({ notes }) => (
-  <div className="bg-gray-50 p-4 rounded-lg shadow-md mt-6 flex flex-col">
-    <h2 className="text-lg font-semibold text-gray-700 mb-2">Order Notes</h2>
-    <ul className="list-disc list-inside text-gray-700 space-y-2">
-      {notes.map((note, index) => (
-        <li key={index}>{note}</li>
-      ))}
-    </ul>
-  </div>
-);
+const SupplierAssignment = ({ suppliers, onAssign }) => {
+  const [selectedSupplier, setSelectedSupplier] = useState('');
+  const [filteredSuppliers, setFilteredSuppliers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  
 
-const ProductDetails = ({ productName, category, weight }) => (
-  <div className="p-4 border-t border-gray-200 flex flex-col">
-    <h2 className="text-lg font-semibold text-gray-700 mb-2">Product Details</h2>
-    <p className="text-gray-700">Name: {productName}</p>
-    <p className="text-gray-700">Category: {category || "N/A"}</p>
-    <p className="text-gray-700">Weight: {weight || "N/A"} kg</p>
-  </div>
-);
+  
+  useEffect(() => {
+    // Filter suppliers based on the search query
+    if (searchQuery) {
+      setFilteredSuppliers(
+        suppliers.filter((supplier) =>
+          supplier.name.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      );
+    } else {
+      setFilteredSuppliers(suppliers);
+    }
+  }, [searchQuery, suppliers]);
 
-const PaymentInfo = ({ paymentMethod, status, transactionId }) => (
-  <div className="p-4 bg-gray-50 rounded-lg shadow-md mt-6 flex flex-col">
-    <h2 className="text-lg font-semibold text-gray-700 mb-2">Payment Information</h2>
-    <p className="text-gray-700">Method: {paymentMethod}</p>
-    <p className={`text-gray-700 ${status === 'Completed' ? 'text-green-600' : 'text-red-600'}`}>Status: {status}</p>
-    <p className="text-gray-700">Transaction ID: {transactionId || "N/A"}</p>
-  </div>
-);
+
+
+
+   const handleAssign = () => {
+    if (selectedSupplier) {
+      onAssign(selectedSupplier);
+    } else {
+      alert('Please select a supplier');
+    }
+  };
+
+  return (
+    <div className="p-6 bg-white shadow-lg rounded-lg mt-6 ">
+      <h2 className="text-xl font-bold text-gray-800 mb-6 text-center">
+        Assign Supplier
+      </h2>
+
+      <div className="mb-4">
+        <label htmlFor="supplier-search" className="block text-gray-600 font-medium mb-2">
+          Search Suppliers
+        </label>
+        <input
+          id="supplier-search"
+          type="text"
+          className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
+          placeholder="Search by supplier name..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
+
+      <div className="mb-4">
+        <label htmlFor="supplier-select" className="block text-gray-600 font-medium mb-2">
+          Select a Supplier
+        </label>
+        <select
+          id="supplier-select"
+          className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
+          value={selectedSupplier}
+          onChange={(e) => setSelectedSupplier(e.target.value)}
+        >
+          <option value="" disabled>
+            Select Supplier
+          </option>
+          {filteredSuppliers.map((supplier) => (
+            <option key={supplier.id} value={supplier.id}>
+              {supplier.name} - {supplier.contact || 'No contact info'}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="flex justify-end">
+        <button
+          onClick={handleAssign}
+          className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-500 transition duration-200"
+        >
+          Assign Supplier
+        </button>
+      </div>
+
+      {/* Additional Details Section */}
+      <div className="mt-6">
+        <h3 className="text-lg font-semibold text-gray-700 mb-3">Supplier Details</h3>
+        {selectedSupplier ? (
+          <div className="p-4 border rounded-lg bg-gray-50">
+            <p className="text-gray-800">
+              <strong>Name:</strong>{' '}
+              {filteredSuppliers.find((supplier) => supplier.id === selectedSupplier)?.name}
+            </p>
+            <p className="text-gray-800">
+              <strong>Contact:</strong>{' '}
+              {filteredSuppliers.find((supplier) => supplier.id === selectedSupplier)?.contact || 'N/A'}
+            </p>
+            <p className="text-gray-800">
+              <strong>Location:</strong>{' '}
+              {filteredSuppliers.find((supplier) => supplier.id === selectedSupplier)?.location || 'N/A'}
+            </p>
+          </div>
+        ) : (
+          <p className="text-gray-500 italic">Select a supplier to view details.</p>
+        )}
+      </div>
+    </div>
+  );
+};
 
 const UserOrderDetails = () => {
   const { id } = useParams();
   const [userOrder, setUserOrder] = useState(null);
+  const [suppliers, setSuppliers] = useState([]);
   const [error, setError] = useState(null);
-  const [notes] = useState(["Delivered to gate", "Pending payment approval"]); // Example notes
-  const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    const getOrderById = async () => {
+    const fetchOrderDetails = async () => {
       try {
         const response = await adminApi.get(`/getOrderById/${id}`);
         setUserOrder(response.data.data);
@@ -63,26 +145,33 @@ const UserOrderDetails = () => {
         setError("Failed to fetch order details");
       }
     };
-    getOrderById();
-  }, [id]);
 
-  useEffect(() => {
-    const fetchNotifications = async () => {
+    const fetchSuppliers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/notification/notifications');
-        setNotifications(response.data);
+        const response = await suplireApi.get('/allSupplires');
+        setSuppliers(response.data.data);
       } catch (error) {
-        console.error('Error fetching notifications:', error);
+        console.error("Failed to fetch suppliers", error);
       }
     };
-    fetchNotifications();
+
+    fetchOrderDetails();
+    fetchSuppliers();
   }, []);
 
-  const unreadCount = notifications.filter(notification => !notification.isRead).length;
+  const assignSupplier = async (supplierId) => {
+    try {
+      await adminApi.post(`/assignSupplier/${id}`, { supplierId });
+      alert("Supplier assigned successfully");
+    } catch (error) {
+      console.error("Failed to assign supplier", error);
+      alert("Failed to assign supplier");
+    }
+  };
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      <Adminsidebar unreadCount={unreadCount} />
+      <Adminsidebar />
       <div className="flex flex-col bg-white ml-[275px] w-[1400px] h-[710px] mt-[15px] rounded-lg">
         <div className="  flex flex-col h-[710px]">
           <div className="bg-white shadow-lg rounded-lg p-8 w-full h-full flex flex-col space-y-6">
@@ -108,38 +197,15 @@ const UserOrderDetails = () => {
                     <span className="text-gray-600">Address</span>
                     <span className="text-gray-900 font-medium">{userOrder.adress}</span>
                   </div>
+                  
                   <div className="flex flex-col">
-                    <span className="text-gray-600">Pincode</span>
-                    <span className="text-gray-900 font-medium">{userOrder.pincode}</span>
+                    <span className="text-gray-600">Distric</span>
+                    <span className="text-gray-900 font-medium">{userOrder.distric}</span>
                   </div>
-                  <div className="flex flex-col">
-                    <span className="text-gray-600">Order Date</span>
-                    <span className="text-gray-900 font-medium">{new Date(userOrder.date).toLocaleDateString()}</span>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-gray-600">Order Status</span>
-                    <span className={`px-3 py-1 inline-flex rounded-full text-sm font-semibold ${
-                      userOrder.status === 'Delivered' ? 'bg-green-100 text-green-700' :
-                      userOrder.status === 'Pending' ? 'bg-yellow-100 text-yellow-700' : 'bg-blue-100 text-blue-700'
-                    }`}>
-                      {userOrder.status || "N/A"}
-                    </span>
-                  </div>
+
                 </div>
 
-                <ProductDetails 
-                  productName={userOrder.productName} 
-                  category={userOrder.category} 
-                  weight={userOrder.weight} 
-                />
-
-                <PaymentInfo 
-                  paymentMethod={userOrder.paymentMethod || "Credit Card"}
-                  status={userOrder.paymentStatus || "Completed"}
-                  transactionId={userOrder.transactionId}
-                />
-
-                <OrderNotes notes={notes} />
+                <SupplierAssignment suppliers={suppliers} onAssign={assignSupplier} />
               </>
             ) : (
               <p className="text-center text-gray-500">Loading order details...</p>
