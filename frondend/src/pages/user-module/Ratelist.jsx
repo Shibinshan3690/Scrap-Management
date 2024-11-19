@@ -39,7 +39,7 @@ const Ratelist = () => {
 
   return (
     <>
-      <div style={{ marginTop: "385px" }}>
+      <div style={{ marginTop: "365px" }}>
         <Nav colours='white' />
       </div>
 

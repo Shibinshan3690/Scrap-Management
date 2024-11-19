@@ -64,7 +64,7 @@ const TottalOrders = () => {
           <table className="min-w-full leading-normal">
             <thead>
               <tr className="bg-gray-100 text-gray-600 uppercase text-sm font-semibold">
-                <th className="px-6 py-3">Order ID</th>
+                
                 <th className="px-6 py-3">Customer Name</th>
                 <th className="px-6 py-3">Product Name</th>
                 <th className="px-6 py-3">Phone Number</th>
@@ -78,7 +78,7 @@ const TottalOrders = () => {
               {totalOrders.length > 0 ? (
                 totalOrders.map((order) => (
                   <tr key={order._id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 text-gray-700">{order?._id}</td>
+                  
                     <td className="px-6 py-4 text-gray-700">{order?.user?.name}</td>
                     <td className="px-6 py-4 text-gray-700">{order?.productName}</td>
                     <td className="px-6 py-4 text-gray-700">{order?.phoneNumber}</td>
@@ -99,7 +99,7 @@ const TottalOrders = () => {
                     </td>
                     <td className="px-6 py-4 text-right">
                       <button
-                        onClick={() => navigate(`/userOrderDetail/${order._id}`)}
+                        onClick={() => navigate(`/userOrderDetails/${order._id}`)}
                         className="text-indigo-600 hover:text-indigo-900"
                       >
                         View Details

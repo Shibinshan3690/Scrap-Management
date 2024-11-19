@@ -28,7 +28,7 @@ const SuppliyerSidebar = () => {
             <div className="space-y-6">
                 <div
                     className="flex items-center p-3 hover:bg-yellow-400 rounded-lg cursor-pointer transition duration-300"
-                    onClick={() => navigate("/dasboard")}
+                    onClick={() => navigate("/dashboard")}
                 >
                     <MdDashboard className="h-6 w-6 mr-3" />
                     <span>Dashboard</span>
@@ -43,13 +43,7 @@ const SuppliyerSidebar = () => {
                     <span>Orders</span>
                 </div>
 
-                <div
-                    className="flex items-center p-3 hover:bg-yellow-400 rounded-lg cursor-pointer transition duration-300"
-                    onClick={() => navigate("/analytics")}
-                >
-                    <MdOutlineAnalytics className="h-6 w-6 mr-3" />
-                    <span>Analytics</span>
-                </div>
+               
 
                 <div
                     className="flex items-center p-3 hover:bg-yellow-400 rounded-lg cursor-pointer transition duration-300"
@@ -68,7 +62,7 @@ const SuppliyerSidebar = () => {
                 </div>
 
                 <div
-                    className="flex items-center p-3 hover:bg-yellow-400 rounded-lg cursor-pointer transition duration-300"
+                    className="flex items-center p-3 hover:bg-yellow-400  rounded-lg cursor-pointer transition duration-300"
                     onClick={() => navigate("/notifications")}
                 >
                     <IoIosNotifications className="h-6 w-6 mr-3" />
@@ -77,7 +71,7 @@ const SuppliyerSidebar = () => {
             </div>
 
             <button 
-                className="bg-black text-white font-bold py-2 px-4 rounded-lg mt-20 w-full transition duration-300"
+                className="bg-black text-white font-bold py-2 px-4 rounded-lg mt-40 w-full transition duration-300"
                 onClick={handleLogout}
             >
                 Logout

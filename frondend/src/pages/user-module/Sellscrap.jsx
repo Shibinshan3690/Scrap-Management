@@ -58,7 +58,7 @@ const token=localStorage.getItem('userToken');
 
    <div >
    <ToastContainer /> 
-<div   style={{marginTop:"380px"}}>
+<div   style={{marginTop:"365px"}}>
       <Nav colours='white'/>
      </div>
 
@@ -159,6 +159,7 @@ const token=localStorage.getItem('userToken');
 
   <input 
     type="date" 
+    placeholder='picUp date'
     className="mb-4 p-2 w-full border bg-white border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
     value={date}
     onChange={(e)=>setDate(e.target.value)}

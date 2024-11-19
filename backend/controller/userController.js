@@ -147,9 +147,7 @@ try {
       console.log(newCreateList);
 
           // notification creatte
-      const notificationMessage=`${productName} has been sold by  ${user
-
-      }`;
+      const notificationMessage=`${productName} has been sold by  ${user}`;
       await Notification.create({
         user,
         message:notificationMessage,
@@ -164,6 +162,101 @@ try {
     }
   };
   
+
+
+
+  const getOrders = async (req, res) => {
+    try {
+      const user=req.user.userId   
+      
+    console.log("user",user)
+      const userOrders = await userSellProducts.find({ user }).sort({ date: -1 });
+      if (userOrders.length === 0) {
+        return res.status(404).json({
+          status: "error",
+          message: "No orders found",
+        });
+      }
+  
+      return res.status(200).json({
+        status: "success",
+        message: "Orders retrieved successfully",
+        orders: userOrders,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        status: "error",
+        message: "Internal server error",
+      });
+    }
+  };
+  
+
+  const orderUpdateById=async(req,res)=>{
+    const orderId = req.params.orderId;
+    const updateFields = req.body;
+    try {
+      const existingOrder = await userSellProducts.findById(orderId);
+      if (!existingOrder) {
+          return res.status(404).json({
+              status: "fail",
+              message: "Order not found",
+          });
+      }
+      const updatedOrder = await userSellProducts.findByIdAndUpdate(orderId, updateFields, {
+        new: true, 
+        runValidators: true, 
+    });
+
+    return res.status(200).json({
+        status: "success",
+        message: "Order updated successfully",
+        updatedOrder,
+    });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+          status: "error",
+          message: "Internal server error",
+      });
+    }
+  }
+
+
+const deleteOrderById = async(req,res)=>{
+  const orderId = req.params.orderId;
+   try {
+       
+    const existingOrder = await userSellProducts.findById(orderId);
+    if (!existingOrder) {
+        return res.status(404).json({
+            status: "fail",
+            message: "Order not found",
+        });
+        }
+
+    await userSellProducts.findByIdAndDelete(orderId);
+    return res.status(200).json({
+        status: "success",
+        message: "Order deleted successfully",
+  });
+   } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+        status: "error",
+        message: "Internal server error",
+    });
+   }
+}
+
+
+
+
+
+
+
+
 
 
     // active status 
@@ -220,4 +313,4 @@ try {
 
 
 
-module.exports={userSignUp,userSignIn,sellProduct,logout,loginActiveStatus}
+module.exports={userSignUp,userSignIn,sellProduct,logout,loginActiveStatus,getOrders,orderUpdateById,deleteOrderById}

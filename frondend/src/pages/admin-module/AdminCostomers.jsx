@@ -157,9 +157,9 @@ const AdminCustomers = () => {
                           Block
                         </button>
                       )}
-                      <button className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md transition duration-300 transform hover:scale-105">
+                      {/* <button className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md transition duration-300 transform hover:scale-105">
                         Message
-                      </button>
+                      </button> */}
                     </td>
                   </tr>
                 ))

@@ -22,6 +22,9 @@ adminRouter.put("/blockSuplire/:supplierId",adminController.blockSupplier)
 adminRouter.put("/unBlockSuplire/:supplierId",adminController.unblockSupplier)
 
 
+adminRouter.post("/assignSupplier/:orderId",adminController.assignSupplier)
+
+
 
 
 module.exports = adminRouter;

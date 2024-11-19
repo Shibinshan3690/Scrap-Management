@@ -2,8 +2,15 @@ import React from 'react'
 import SuppliyerSidebar from '../../Components/SuppliyerSidebar'
 import { FaCheckCircle, FaMapMarkerAlt, FaClipboardList } from 'react-icons/fa'
 import { MdPendingActions } from 'react-icons/md'
+import { useNavigate } from 'react-router-dom'
 
 const Dasboard = () => {
+const navigate=useNavigate();
+
+
+
+
+
   return (
     <>
       <div className="flex w-[1684px] rounded-lg ">
@@ -13,9 +20,9 @@ const Dasboard = () => {
 
           {/* Summary Section */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div className="bg-blue-600 text-white p-4 rounded-lg shadow-lg flex items-center">
+            <div className="bg-blue-600 text-white p-4 rounded-lg shadow-lg flex items-center" onClick={()=>navigate("/totaltask")}>
               <FaClipboardList className="text-4xl mr-3" />
-              <div>
+              <div    >
                 <h3 className="text-xl font-semibold">Total Tasks</h3>
                 <p>15 Tasks</p>
               </div>

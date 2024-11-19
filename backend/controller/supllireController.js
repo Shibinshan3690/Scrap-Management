@@ -1,7 +1,9 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Supplier = require("../../backend/model/supplireSchema");
-const suplireSchema=require("../model/supplireSchema")
+const suplireSchema=require("../model/supplireSchema");
+const userSellProductSchema = require("../model/userSellProductScema");
+const Notification=require("../model/notificationSchema")
 
 const signUp = async (req, res) => {
     try {
@@ -116,4 +118,92 @@ const getAllSupplires=async(req,res)=>{
 
 
 
-module.exports = { signUp, signIn ,getAllSupplires};
+ const getSupplierTasks= async(req,res)=>{
+  const { supplierId } = req.params;
+
+  try {
+    const supplier = await suplireSchema.findById(supplierId);
+    if (!supplier) {
+      return res.status(404).json({ message: 'Supplier not found' });
+    }
+
+
+    const tasks = await userSellProductSchema
+  .find({ assignedSupplier: supplierId })
+  .populate('user', 'name');
+    console.log(tasks,"taskss")
+    if (tasks.length === 0) {
+      return res.status(404).json({ message: 'No tasks found for this supplier' });
+    }
+
+    res.status(200).json({
+      message: 'Tasks fetched successfully',
+      tasks,
+    });
+
+  } catch (error) {
+     console.error('Error fetching supplier tasks:', error);
+    res.status(500).json({ message: 'Internal server error', error });
+  }
+
+ }
+
+ const confirmOrder = async (req, res) => {
+  try {
+    const orderId = req.params.orderId;
+    const supplierId = req.body.supplierId;
+
+    if (!supplierId) {
+      return res.status(400).json({ message: "Supplier ID is required" });
+    }
+
+
+    const order = await userSellProductSchema.findByIdAndUpdate(
+      orderId,
+      { 
+        status: 'confirm', 
+        assignedSupplier: supplierId 
+      },
+      { new: true }  
+    );
+
+ 
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    
+    if (!order.user) {
+      return res.status(400).json({ message: "Order does not have a valid user reference" });
+    }
+
+
+    const notificationMsgUser = ` Confirmed  order #${orderId}`;
+
+    const notification = new Notification({
+      user: order.user,       
+      supplier: supplierId,    
+      message: notificationMsgUser,
+      isRead: false,           
+    });
+
+ 
+    await notification.save();
+
+    // Send the response
+    res.status(200).json({ message: "Order confirmed and notification sent", order });
+
+  } catch (error) {
+    console.error("Error confirming order:", error);
+    // Handle errors and send the response only once
+    if (!res.headersSent) {
+      res.status(500).json({ message: "Error confirming order", error });
+    }
+  }
+};
+
+
+
+
+
+module.exports = { signUp, signIn ,getAllSupplires,getSupplierTasks,getSupplierTasks,confirmOrder};

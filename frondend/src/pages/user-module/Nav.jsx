@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import logo from "../../pics/logo.png";
-import { IoMdArrowDropdown } from "react-icons/io";
+import { IoIosNotifications, IoMdArrowDropdown } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
 import { useNavigate } from 'react-router-dom';
-import { IoIosNotifications } from "react-icons/io";
-import Modal from "./Modal";
+import Modal from "./Modal";  // You can remove this import if it's not needed anymore
 
 const ProfileModal = ({ isOpen, onClose }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -155,16 +154,13 @@ const Sidebar = ({ isOpen, onClose }) => {
 };
 
 const Nav = ({ colours }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleNotificationClick = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userData");
+    navigate("/");
   };
 
   const toggleSidebar = () => {
@@ -173,7 +169,7 @@ const Nav = ({ colours }) => {
 
   return (
     <>
-      <div className={`bg-${colours}`} style={{ width: 1707, marginTop: "-377px", height: "100px", display: "flex" }}>
+      <div className={`bg-${colours}`} style={{  marginTop: "-377px", height: "100px", display: "flex" }}>
         <img
           src={logo}
           alt=""
@@ -190,12 +186,15 @@ const Nav = ({ colours }) => {
           <span style={{ marginLeft: "150px", fontSize: "20px", fontWeight: "500", marginTop: "40px", display: "flex" }} onClick={() => navigate("/contact")}>
             Contact<IoMdArrowDropdown style={{ marginLeft: "10px", marginTop: "5px" }} />
           </span>
+          <span style={{ marginLeft: "100px", fontSize: "20px", fontWeight: "500", marginTop: "40px", display: "flex" }} onClick={() => navigate("/myOrders")}>
+            Orders<IoMdArrowDropdown style={{ marginLeft: "10px", marginTop: "5px" }} />
+          </span>
+          <span style={{ marginLeft: "130px", fontSize: "20px", fontWeight: "500", marginTop: "40px", display: "flex" }}  onClick={()=>navigate("/notifcation")}>
+            <IoIosNotifications style={{ marginTop: "5px", width: "50px", height: "30px" }} />
+          </span>
         </div>
 
         <div style={{ display: "flex" }}>
-          <span style={{ marginLeft: "300px", fontSize: "20px", fontWeight: "500", marginTop: "40px", display: "flex" }} onClick={handleNotificationClick}>
-            <IoIosNotifications style={{ marginTop: "5px", width: "50px", height: "30px" }} />
-          </span>
           <button style={{ width: "100px", height: "50px", border: "1px solid black", font: "inherit", fontSize: "17px", marginTop: "30px", padding: "5px", fontWeight: "400", marginLeft: "30px" }} onClick={() => navigate("/ratelist")}>
             Rate List
           </button>
@@ -209,7 +208,6 @@ const Nav = ({ colours }) => {
         </div>
       </div>
 
-      <Modal isOpen={isModalOpen} onClose={closeModal} />
       <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
     </>
   );

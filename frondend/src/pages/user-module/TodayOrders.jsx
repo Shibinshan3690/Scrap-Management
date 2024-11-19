@@ -63,7 +63,7 @@ const TodayOrders = () => {
           <table className="w-full table-auto text-gray-700">
             <thead>
               <tr className="bg-gray-200 text-left">
-                <th className="py-4 px-6 font-medium">ID</th>
+               
                 <th className="py-4 px-6 font-medium">Customer Name</th>
                 <th className="py-4 px-6 font-medium">Product Name</th>
                 <th className="py-4 px-6 font-medium">Phone Number</th>
@@ -74,7 +74,7 @@ const TodayOrders = () => {
               {todayOrders.length > 0 ? (
                 todayOrders.map((order) => (
                   <tr key={order._id} className="hover:bg-gray-100 cursor-pointer transition-colors" onClick={() => navigate(`/userOrderDetails/${order._id}`)}>
-                    <td className="py-4 px-6">{order._id}</td>
+                    
                     <td className="py-4 px-6">{order?.user?.name || "N/A"}</td>
                     <td className="py-4 px-6">{order?.productName || "N/A"}</td>
                     <td className="py-4 px-6">{order?.phoneNumber || "N/A"}</td>

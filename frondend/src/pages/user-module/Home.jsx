@@ -5,7 +5,7 @@ import Content from './Content'
 const Home = () => {
   return (
    <>
-     <div  style={{marginTop:"355px"}}>
+     <div  style={{marginTop:"365px"}}>
       <Nav colours='white'/>
      </div>
    

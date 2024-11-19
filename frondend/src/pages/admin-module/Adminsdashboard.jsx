@@ -174,7 +174,7 @@ const AdminDashboard = () => {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-lg flex items-center hover:bg-green-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg flex items-center hover:bg-green-50" onClick={()=>navigate("/adminSupplire")}>
             <MdOutlinePeopleOutline className="text-green-500 h-8 w-8" />
             <div className="ml-4">
               <h2 className="text-xl font-semibold">Total Suppliers</h2>

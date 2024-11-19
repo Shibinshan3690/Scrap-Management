@@ -47,9 +47,10 @@ const mongoose=require("mongoose");
      },
      status:{
       type: String,
-      enum: ['pending', 'picked', 'deliverd'],
+      enum: ['pending', 'confirm','compleated'],
       default: 'pending',
-     }
+     },
+     assignedSupplier: { type: mongoose.Schema.Types.ObjectId, ref: 'Supplier' },
      
 
 

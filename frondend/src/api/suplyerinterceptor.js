@@ -36,7 +36,7 @@ susupplierApi.interceptors.response.use(
         // Optional: Custom error handling
         if (error.response && error.response.status === 401) {
             // Redirect to login page if unauthorized
-            window.location.href = '/login';
+            window.location.href = '/dashboard';
         }
 
         return Promise.reject(error);

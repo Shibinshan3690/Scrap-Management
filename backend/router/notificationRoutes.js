@@ -43,5 +43,47 @@ notificationRoutes.get('/notifications', async (req, res) => {
       });
     }
   });
+
+      
+  //  confirm  order  notfacation get 
+
+  notificationRoutes.get('/notifications/:userId', async (req, res) => {
+    try {
+      const userId = req.params.userId;
+  
+      // Fetch unread notifications for the user
+      const notifications = await Notification.find({ userId, read: false })
+        .sort({ createdAt: -1 }) // Sort by most recent
+        .limit(10);
+  
+      res.status(200).json({ notifications });
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+      res.status(500).json({ message: 'Error fetching notifications', error });
+    }
+  });
+
+
+  notificationRoutes.get('/notificationss/:userId', async (req, res) => {
+    try {
+      const { userId } = req.params;
+
+  
+      
+      const notifications = await Notification.find({ user: userId, supplier: supplier, isRead: false })
+       console.log(notifications,"notifications")
+        .sort({ createdAt: -1 }) 
+        .limit(10);
+  
+      res.status(200).json({ notifications });
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+      res.status(500).json({ message: 'Error fetching notifications', error });
+    }
+  });
+  
+
+
+
   
   module.exports = notificationRoutes;

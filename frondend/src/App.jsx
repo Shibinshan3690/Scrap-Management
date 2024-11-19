@@ -17,13 +17,16 @@ import Notification from './pages/admin-module/Notification';
 import TodayOrders from './pages/user-module/TodayOrders';
 import UserOrderDetails from './pages/admin-module/UserOrderDetails';
 import TottalOrders from './pages/admin-module/TottalOrders';
-import UserGetById from './pages/admin-module/UserGetById';
+
 import UserDeatilsGetById from './pages/admin-module/UserDeatilsGetById';
 import AdminOrders from './pages/admin-module/AdminOrders';
 import SignUp from './pages/supplire-module/SignUp';
-import Dasboard from './pages/supplire-module/Dasboard';
+import Dasboard from "./pages/supplire-module/Dasboard";
 
 import SupplireProfail from './pages/supplire-module/SupplireProfail';
+import Totaltask from './pages/supplire-module/Totaltask';
+import Orders from './pages/user-module/Orders';
+import NotificationUser from './pages/user-module/NotificationUser';
 // import AdminOrders from './pages/admin-module/AdminOrders';
 
 
@@ -44,8 +47,9 @@ const App = () => {
   <Route path='/todayOrders' element={<TodayOrders/>}></Route>
   <Route path="/tottalOrders" element={<TottalOrders/>}></Route>
   <Route path='/userOrderDetails/:id' element={<UserOrderDetails/>}></Route>
-  <Route path='/userOrderDetail/:id'  element={<UserGetById/>}></Route>
+
   <Route path="/userDeatilsGetById/:id" element={<UserDeatilsGetById/>}></Route>
+  
   
 
       {/* userRoute */}
@@ -56,6 +60,9 @@ const App = () => {
         <Route path="/ratelist" element={<Ratelist/>}></Route>
         <Route path="/about" element={<About/>}></Route>
         <Route path='/contact' element={<Contact/>}></Route>
+
+        <Route path="/myOrders" element={<Orders/>}></Route>
+         <Route path="/notifcation"element={<NotificationUser/>}></Route>
         
 
  
@@ -64,9 +71,9 @@ const App = () => {
 
        {/* Supplire route */}
    <Route path='/signUpSupllire' element={<SignUp/>}></Route>
-  
-   <Route path="/dasboard" element={<Dasboard/>}></Route>
+     <Route path="/dashboard" element={<Dasboard/>}></Route>
    <Route path="/profile" element={<SupplireProfail/>}></Route>
+    <Route path="/totaltask" element={<Totaltask/>}></Route>
 
 
 

@@ -41,16 +41,18 @@ const SignUp = () => {
   };
 
   const handleSignInSubmit = async (e) => {
+    console.log("ffff")
     e.preventDefault();
     const suplireData = { email: signInEmail, password: signInPassword };
       try {
            const response= await supplireApi.post(`/signIn`,suplireData);
                console.log("response",response)
            toast.success(response.data.message);
+           navigate("/dashboard")  
+
            localStorage.setItem('supplireToken', response.data.token);
            localStorage.setItem('supplire', JSON.stringify(response.data.supplier));
-          toast.success(navigate("/dasboard"))  
-
+         
       } catch (error) {
         toast.error(error.response?.data?.message || "Sign In failed");
       }
@@ -206,7 +208,7 @@ const SignUp = () => {
             <div className="overlay-panel overlay-right" style={{backgroundColor:"InactiveCaptionText"}}>
               <h1 className='h11'>Hello, Friend!</h1>
               <p className='pp'>Enter your personal details and start your journey with us</p>
-              <button className="nnnn" onClick={handleSignUpClick} style={{backgroundColor:"black"}}>Sign Up</button>
+              <button className="nnnn" type='submit' onClick={handleSignUpClick} style={{backgroundColor:"black"}}>Sign Up</button>
             </div>
           </div>
         </div>

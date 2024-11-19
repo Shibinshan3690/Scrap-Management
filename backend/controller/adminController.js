@@ -523,10 +523,48 @@ const unblockSupplier = async (req, res) => {
 
 
 
+const assignSupplier  =async(req,res)=>{
+      const {orderId}=req.params;
+      const { supplierId } = req.body;
+        try {
+               const supplier= await supplireSchema.findById(supplierId);
+               if(!supplier){
+                return res.status(404).json({ message: 'Supplier not found' });
+               }
+
+
+               const order = await userSellProductSchema.findById(orderId);
+               if (!order) {
+                 return res.status(404).json({ message: 'Order not found' });
+               }
+
+
+                // Assign the supplier to the order  code 
+
+
+                order.assignedSupplier=supplierId;
+                order.save();
+
+                res.status(200).json({
+                  message: 'Supplier assigned successfully',
+                  order,
+                });
+        } catch (error) {
+          console.error('Error assigning supplier:', error);
+          res.status(500).json({ message: 'Internal server error', error });
+        }
+
+}  
+
+
+
+
+
+
 
    
 
 
 module.exports = { signUpAdmin, signInAdmin,blockUser,unblockedUser,getAdminUserOrderDeatils,getAdminUserDeatils,getAdminUserDetailsUpdate,getUserOrderCurrentDate,getOrderById,
-  getIdUserDetailAndUserOrder,adminDeatilsUpdate,adminDeatilsUpdate,acceptSupplier,unacceptSupplier,blockSupplier,unblockSupplier
+  getIdUserDetailAndUserOrder,adminDeatilsUpdate,adminDeatilsUpdate,acceptSupplier,unacceptSupplier,blockSupplier,unblockSupplier,assignSupplier
 };
