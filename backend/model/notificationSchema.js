@@ -6,11 +6,7 @@ const notificationSchema = new mongoose.Schema({
     ref: 'User',  // Reference to User collection
     required: true 
   },
-  supplier: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Supplier',  // Reference to Supplier collection
-    required: true 
-  },
+ 
   message: { 
     type: String, 
     required: true 

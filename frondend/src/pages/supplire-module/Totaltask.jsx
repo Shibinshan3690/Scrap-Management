@@ -3,85 +3,102 @@ import SuppliyerSidebar from '../../Components/SuppliyerSidebar';
 import supplierApi from '../../api/suplyerinterceptor';
 import { toast, ToastContainer } from 'react-toastify';
 
-// TaskModal Component
+
 const TaskModal = ({ task, onClose, onTaskUpdate }) => {
   if (!task) return null;
 
   const handleConfirmOrder = async () => {
     try {
-      const supplierData = JSON.parse(localStorage.getItem('supplire'));
+      const supplierData = JSON.parse(localStorage.getItem("supplire"));
       if (!supplierData || !supplierData.id) {
-        toast.error('Supplier data not found!');
+        toast.error("Supplier data not found!");
         return;
       }
 
       const response = await supplierApi.put(`/confirm/${task._id}`, {
         supplierId: supplierData.id,
       });
-        console.log(response,"responseeee")
-      toast.success('Order confirmed successfully!');
+
+      toast.success("Order confirmed successfully!");
       onTaskUpdate(task._id, response.data.order);
       onClose();
     } catch (error) {
-      console.error('Error confirming order:', error);
-      toast.error('Failed to confirm order. Please try again.');
+      console.error("Error confirming order:", error);
+      toast.error("Failed to confirm order. Please try again.");
     }
   };
 
   return (
-    
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white w-[90%] max-w-lg p-6 rounded-lg shadow-lg">
-        <div className="flex justify-between items-center">
-          <h2 className="text-xl font-bold">Order Details</h2>
-        </div>
-        <div className="mt-4">
-          <p>
-            <span className="font-semibold">Order from:</span> {task.user?.name || 'No name provided'}
-          </p>
-          <p className="mt-2">
-            <span className="font-semibold">District:</span> {task?.distric || 'Not specified'}
-          </p>
-          <p className="mt-2">
-            <span className="font-semibold">Pickup Date:</span> {task.date || 'No date provided'}
-          </p>
-          <p className="mt-2">
-            <span className="font-semibold">Vehicle:</span> {task.vehical || 'Not provided'}
-          </p>
-          <p className="mt-2">
-            <span className="font-semibold">Address:</span> {task.adress || 'Not provided'}
-          </p>
-          <p className="mt-2">
-            <span className="font-semibold">Pincode:</span> {task.pincode || 'Not provided'}
-          </p>
-        </div>
-        <div className="mt-6 flex justify-end gap-4">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50 transition-opacity duration-300 ease-in-out">
+      <div className="bg-white rounded-2xl shadow-xl w-[90%] max-w-2xl overflow-hidden animate-fade-in">
+        <header className="bg-gradient-to-r from-blue-700 to-blue-500 text-white p-6 flex justify-between items-center">
+          <h2 className="text-2xl font-bold">Order Details</h2>
+          <button
+            onClick={onClose}
+            className="text-white text-2xl  border-none hover:text-gray-300 transition"
+          >
+            ✖
+          </button>
+        </header>
+        <main className="p-6 space-y-6">
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <span className="block font-semibold text-gray-700">Order from:</span>
+              <span>{task.user?.name || "No name provided"}</span>
+            </div>
+            <div>
+              <span className="block font-semibold text-gray-700">District:</span>
+              <span>{task?.distric || "Not specified"}</span>
+            </div>
+            <div>
+              <span className="block font-semibold text-gray-700">Pickup Date:</span>
+              <span>{task.date || "No date provided"}</span>
+            </div>
+            <div>
+              <span className="block font-semibold text-gray-700">Vehicle:</span>
+              <span>{task.vehical || "Not provided"}</span>
+            </div>
+            <div>
+              <span className="block font-semibold text-gray-700">Address:</span>
+              <span>{task.adress || "Not provided"}</span>
+            </div>
+            <div>
+              <span className="block font-semibold text-gray-700">Pincode:</span>
+              <span>{task.pincode || "Not provided"}</span>
+            </div>
+          </div>
+        </main>
+        <footer className="p-6 bg-gray-100 flex flex-col sm:flex-row  w-[672px] mb-[150px] ml-[507px] justify-center items-center gap-4">
           <button
             onClick={handleConfirmOrder}
-            className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-500 transition"
+            className="flex items-center justify-center gap-2 bg-green-500 text-white px-8 py-3 rounded-full shadow-md hover:bg-green-600 transition-all"
           >
-            Confirm Order
+            ✅ Confirm Order
           </button>
           <button
             onClick={onClose}
-            className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-500 transition"
+            className="flex items-center justify-center gap-2 bg-red-500 text-white px-8 py-3 rounded-full shadow-md hover:bg-red-600 transition-all"
           >
-            Close
+            ❌ Close
           </button>
-        </div>
+        </footer>
       </div>
     </div>
   );
 };
 
+
+
+
+
 // TaskCard Component
 const TaskCard = ({ task, onViewDetails }) => {
   return (
-    <div className="p-6 bg-white shadow-lg rounded-lg hover:shadow-xl transition duration-200">
+    <div className="p-5 bg-gradient-to-br from-white to-gray-100 shadow-lg rounded-2xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300">
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold text-gray-800">Orders</h3>
+        <h3 className="text-xl font-bold text-gray-800">Task Details</h3>
         <span
-          className={`px-3 py-1 rounded-full text-sm ${
+          className={`px-3 py-1 text-xs font-semibold rounded-full uppercase tracking-wide ${
             task.status === 'Completed'
               ? 'bg-green-100 text-green-600'
               : task.status === 'confirm'
@@ -92,28 +109,38 @@ const TaskCard = ({ task, onViewDetails }) => {
           {task.status}
         </span>
       </div>
-      <div className="mt-4">
-        <p className="text-gray-600">
-          <span className="font-semibold">Order To:</span> {task.user?.name || 'No name provided'}
+      <div className="mt-4 space-y-2">
+        <p className="text-gray-700">
+          <span className="font-medium">Order From:</span> {task.user?.name || 'No name provided'}
         </p>
-        <p className="text-gray-600 mt-2">
-          <span className="font-semibold">District:</span> {task.distric || 'Not specified'}
+        <p className="text-gray-700">
+          <span className="font-medium">District:</span> {task.distric || 'Not specified'}
         </p>
-        <p className="text-gray-600 mt-2">
-          <span className="font-semibold">Pickup Date:</span> {task.date || 'No date provided'}
+        <p className="text-gray-700">
+          <span className="font-medium">Pickup Date:</span> {task.date || 'No date provided'}
         </p>
       </div>
-      <div className="mt-4 flex justify-between items-center">
+      <div className="mt-6 flex justify-between items-center">
         <button
           onClick={() => onViewDetails(task)}
-          className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-500 transition"
+          className="bg-blue-600 text-white px-5 py-2 rounded-lg font-medium hover:bg-blue-700 transition-all duration-300"
         >
           View Details
         </button>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6 text-blue-600 hover:scale-110 transition-transform"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
       </div>
     </div>
   );
 };
+
 
 // Totaltask Component
 const Totaltask = () => {
@@ -160,20 +187,20 @@ const Totaltask = () => {
       : tasks.filter((task) => task.status === statusFilter);
 
   return (
-    <div className="flex bg-gray-100 min-h-screen">
+    <div className="flex bg-white min-h-screen">
       <SuppliyerSidebar />
-      <ToastContainer/>
-      <div className="flex flex-col p-6 ml-[280px] w-full">
-        <header className="flex justify-between items-center bg-white shadow-sm p-4 rounded-md">
-          <h1 className="text-xl font-bold text-gray-800">Task Management</h1>
+      <ToastContainer />
+      <div className="flex flex-col p-4 ml-[300px] w-full">
+        <header className="flex justify-between items-center bg-gradient-to-r from-blue-100 to-white shadow-md p-5 rounded-lg">
+          <h1 className="text-2xl font-bold text-blue-700">Task Management</h1>
           <select
-            className="p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200"
+            className="p-3 border border-gray-300 rounded-md focus:ring focus:ring-blue-200"
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
           >
             <option value="All">All Tasks</option>
             <option value="Pending">Pending</option>
-            <option value="confirm" >Confirm</option>
+            <option value="confirm">Confirm</option>
             <option value="Completed">Completed</option>
           </select>
         </header>
@@ -183,7 +210,7 @@ const Totaltask = () => {
           ) : error ? (
             <p className="text-red-600 text-center">{error}</p>
           ) : filteredTasks.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredTasks.map((task) => (
                 <TaskCard key={task._id} task={task} onViewDetails={setSelectedTask} />
               ))}

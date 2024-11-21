@@ -70,7 +70,7 @@ notificationRoutes.get('/notifications', async (req, res) => {
 
   
       
-      const notifications = await Notification.find({ user: userId, supplier: supplier, isRead: false })
+      const notifications = await Notification.find({ user: userId, supplier: supplierId, isRead: false })
        console.log(notifications,"notifications")
         .sort({ createdAt: -1 }) 
         .limit(10);
@@ -82,8 +82,24 @@ notificationRoutes.get('/notifications', async (req, res) => {
     }
   });
   
+  notificationRoutes.delete('/notifications/:userId', async (req, res) => {
+    try {
+      const userId = req.params.userId;;
+      await Notification.findByIdAndDelete(userId);
+      res.status(200).send({ message: 'Notification deleted successfully' });
+    } catch (error) {
+      res.status(500).send({ error: 'Error deleting notification' });
+    }
+  });
 
-
+  notificationRoutes.delete('/notifications', async (req, res) => {
+    try {
+      await Notification.deleteMany({});
+      res.status(200).send({ message: 'All notifications deleted successfully' });
+    } catch (error) {
+      res.status(500).send({ error: 'Error deleting notifications' });
+    }
+  });
 
   
   module.exports = notificationRoutes;

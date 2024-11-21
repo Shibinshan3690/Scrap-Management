@@ -125,6 +125,7 @@ try {
   const sellProduct = async (req, res) => {
     try {
       const user=req.user.userId
+       console.log("userId",user)
    
       const { productName, vehical, description, adress, phoneNumber, pincode, date,distric } = req.body;
      
@@ -144,10 +145,13 @@ try {
         pincode,
         date
       });
-      console.log(newCreateList);
+      console.log('n',newCreateList);
 
+      const populatedList = await userSellProducts.findById(newCreateList._id).populate('user', 'name'); 
+
+      console.log('Populated List:', populatedList);
           // notification creatte
-      const notificationMessage=`${productName} has been sold by  ${user}`;
+      const notificationMessage=`${productName} has been sold by  ${populatedList.user.name}`;
       await Notification.create({
         user,
         message:notificationMessage,

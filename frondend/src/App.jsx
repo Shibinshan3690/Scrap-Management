@@ -27,6 +27,9 @@ import SupplireProfail from './pages/supplire-module/SupplireProfail';
 import Totaltask from './pages/supplire-module/Totaltask';
 import Orders from './pages/user-module/Orders';
 import NotificationUser from './pages/user-module/NotificationUser';
+import SuplireOrders from './pages/supplire-module/SuplireOrders';
+import Report from './pages/supplire-module/Report';
+import PendingOrders from './pages/supplire-module/PendingOrders';
 // import AdminOrders from './pages/admin-module/AdminOrders';
 
 
@@ -74,6 +77,9 @@ const App = () => {
      <Route path="/dashboard" element={<Dasboard/>}></Route>
    <Route path="/profile" element={<SupplireProfail/>}></Route>
     <Route path="/totaltask" element={<Totaltask/>}></Route>
+    <Route path="/suplireOrders" element={<SuplireOrders/>}></Route>
+    <Route path="/report" element={<Report/>}></Route>
+    <Route path='/pendingOrder'  element={<PendingOrders/>}></Route>
 
 
 

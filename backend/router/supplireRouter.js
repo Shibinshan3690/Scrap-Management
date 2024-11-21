@@ -8,6 +8,7 @@ const supllireSchemaa = require("../model/supplireSchema");
   supplierRouter.get("/allSupplires",supplierController.getAllSupplires);
   supplierRouter.get("/tasks/:supplierId",supplierController.getSupplierTasks)
   supplierRouter.put("/confirm/:orderId",supplierController.confirmOrder)
+  supplierRouter.get("/assigned-orders/:supplierId",supplierController.getAssignedOrders)
 
 
 

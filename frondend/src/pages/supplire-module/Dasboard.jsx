@@ -15,7 +15,7 @@ const navigate=useNavigate();
     <>
       <div className="flex w-[1684px] rounded-lg ">
         <SuppliyerSidebar />
-        <div className="flex-1 p-10 bg-gray-100 ml-[310px] mt-4 rounded-lg">
+        <div className="flex-1 p-10 bg-blue-50 ml-[310px] mt-4 rounded-lg">
           <h2 className="text-3xl font-bold mb-6 text-center">Welcome, Delivery Team</h2>
 
           {/* Summary Section */}
@@ -44,22 +44,11 @@ const navigate=useNavigate();
           </div>
 
           {/* Task Overview */}
-          <div className="bg-white p-6 shadow-lg rounded-lg mb-6">
-            <h3 className="text-2xl font-semibold mb-4">Today's Pickup Tasks</h3>
-            <div className="space-y-4">
-              {/* Example of a Task Card */}
-              <div className="bg-gray-100 p-4 rounded-lg flex justify-between items-center shadow-md">
-                <div>
-                  <h4 className="text-lg font-bold">Order ID: 12345</h4>
-                  <p>Pickup Location: 123 Street, City</p>
-                  <p className="text-sm text-gray-600">Time: 3:00 PM</p>
-                </div>
-                <button className="text-green-600 font-semibold flex items-center">
-                  <FaCheckCircle className="mr-2" /> Mark as Completed
-                </button>
-              </div>
-              {/* Add more task cards if needed */}
-            </div>
+          <div className="bg-white p-12 shadow-lg rounded-lg mb-6 items-center justify-center">
+          <button className="ml-[400px] h-14 w-80 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-lg shadow-md hover:from-blue-600 hover:to-blue-800 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition duration-300 ease-in-out">
+  Create Report
+</button>
+
           </div>
 
           {/* Map View Section */}

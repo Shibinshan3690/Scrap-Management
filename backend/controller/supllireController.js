@@ -178,7 +178,7 @@ const getAllSupplires=async(req,res)=>{
     }
 
 
-    const notificationMsgUser = ` Confirmed  order #${orderId}`;
+    const notificationMsgUser = `confirmed order${orderId}`;
 
     const notification = new Notification({
       user: order.user,       
@@ -204,6 +204,37 @@ const getAllSupplires=async(req,res)=>{
 
 
 
+const getAssignedOrders = async(req,res)=>{
+  const { supplierId } = req.params; 
 
 
-module.exports = { signUp, signIn ,getAllSupplires,getSupplierTasks,getSupplierTasks,confirmOrder};
+    try {
+      const supplier = await suplireSchema.findById(supplierId);
+      if (!supplier) {
+        return res.status(404).json({ message: "Supplier not found" });
+      }
+      const orders = await userSellProductSchema.find({ assignedSupplier: supplierId });
+      
+      if (orders.length === 0) {
+        return res.status(404).json({ message: "No orders assigned to this supplier." });
+      }
+      res.status(200).json({
+        message: "Orders retrieved successfully",
+        supplier: {
+          id: supplier._id,
+          name: supplier.name,
+          email: supplier.email,
+          phone: supplier.phoneNumber,
+        },
+        orders,
+      });
+    } catch (error) {
+      console.error("Error fetching assigned orders:", error);
+      res.status(500).json({ message: "Internal server error", error });
+      
+    }
+}
+
+
+
+module.exports = { signUp, signIn ,getAllSupplires,getSupplierTasks,getSupplierTasks,confirmOrder,getAssignedOrders};

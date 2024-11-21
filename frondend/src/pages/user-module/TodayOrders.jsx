@@ -65,6 +65,7 @@ const TodayOrders = () => {
               <tr className="bg-gray-200 text-left">
                
                 <th className="py-4 px-6 font-medium">Customer Name</th>
+                <th className="py-4 px-6 font-medium">District</th>
                 <th className="py-4 px-6 font-medium">Product Name</th>
                 <th className="py-4 px-6 font-medium">Phone Number</th>
                 <th className="py-4 px-6 font-medium">Status</th>
@@ -76,12 +77,13 @@ const TodayOrders = () => {
                   <tr key={order._id} className="hover:bg-gray-100 cursor-pointer transition-colors" onClick={() => navigate(`/userOrderDetails/${order._id}`)}>
                     
                     <td className="py-4 px-6">{order?.user?.name || "N/A"}</td>
+                    <td className="py-4 px-6">{order?.distric || "N/A"}</td>
                     <td className="py-4 px-6">{order?.productName || "N/A"}</td>
                     <td className="py-4 px-6">{order?.phoneNumber || "N/A"}</td>
                     <td className="py-4 px-6">
                       <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                        order.status === 'Delivered'
-                          ? 'bg-green-100 text-green-700'
+                        order.status === 'confirm'
+                          ? 'bg-green-300 text-green-700'
                           : order.status === 'Pending'
                           ? 'bg-yellow-100 text-yellow-700'
                           : 'bg-blue-100 text-blue-700'
