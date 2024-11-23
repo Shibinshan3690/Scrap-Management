@@ -15,7 +15,7 @@ const navigate=useNavigate();
     <>
       <div className="flex w-[1684px] rounded-lg ">
         <SuppliyerSidebar />
-        <div className="flex-1 p-10 bg-blue-50 ml-[310px] mt-4 rounded-lg">
+        <div className="flex-1 p-10 bg-blue-50 ml-[305px] mt-4 rounded-lg">
           <h2 className="text-3xl font-bold mb-6 text-center">Welcome, Delivery Team</h2>
 
           {/* Summary Section */}
@@ -44,7 +44,7 @@ const navigate=useNavigate();
           </div>
 
           {/* Task Overview */}
-          <div className="bg-white p-12 shadow-lg rounded-lg mb-6 items-center justify-center">
+          <div className="bg-white p-12 shadow-lg rounded-lg mb-6 items-center justify-center" onClick={()=>navigate("/report")}>
           <button className="ml-[400px] h-14 w-80 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-lg shadow-md hover:from-blue-600 hover:to-blue-800 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition duration-300 ease-in-out">
   Create Report
 </button>

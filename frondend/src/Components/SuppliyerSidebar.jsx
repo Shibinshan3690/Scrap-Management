@@ -20,11 +20,11 @@ const SuppliyerSidebar = () => {
   };
 
   return (
-    <div className="sidebar bg-gradient-to-b p-6 mt-3 from-blue-100 to-blue-50 w-64  rounded-3xl fixed  ml-2 lg:w-72">
+    <div className="sidebar bg-gradient-to-b p-6 mt-1 from-blue-100 to-blue-50 w-64  rounded-3xl fixed  ml-2 lg:w-72">
       {/* Logo Section */}
       <div className="flex items-center space-x-4 mb-10">
        
-        <span className="text-2xl font-extrabold text-blue-700">ScrapPro</span>
+        <span className="text-2xl font-extrabold text-blue-700 m" >ScrapPro</span>
       </div>
 
       {/* Navigation Links */}
