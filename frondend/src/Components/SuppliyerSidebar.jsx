@@ -47,10 +47,10 @@ const SuppliyerSidebar = () => {
 
         <div
           className="sidebar-link"
-          onClick={() => navigate("/analytics")}
+          onClick={() => navigate("/myReport")}
         >
           <MdOutlineAnalytics className="h-6 w-6 mr-3" />
-          <span>Analytics</span>
+          <span>my Report</span>
         </div>
 
         <div
@@ -63,7 +63,7 @@ const SuppliyerSidebar = () => {
 
         <div
           className="sidebar-link"
-          onClick={() => navigate("/profile")}
+          onClick={()=>navigate("/suplierProfail")}
         >
           <RiProfileLine className="h-6 w-6 mr-3" />
           <span>Profile</span>
@@ -84,13 +84,13 @@ const SuppliyerSidebar = () => {
       {/* Help and Support */}
       <div
         className="sidebar-link"
-        onClick={() => navigate("/help")}
+  
       >
         <span className="font-semibold">Help & Support</span>
       </div>
       <div
         className="sidebar-link"
-        onClick={() => navigate("/settings")}
+       
       >
         <span className="font-semibold">Settings</span>
       </div>

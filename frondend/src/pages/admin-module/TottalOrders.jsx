@@ -88,11 +88,13 @@ const TottalOrders = () => {
                     </td>
                     <td className="px-6 py-4">
                       <span
-                        className={`px-3 py-1 inline-block font-semibold text-sm rounded-full ${
-                          order.status === 'Completed'
-                            ? 'bg-green-100 text-green-700'
-                            : 'bg-yellow-100 text-yellow-700'
-                        }`}
+                        className={`px-3 py-1 inline-block font-semibold text-sm rounded-full  ${
+                          order.status === 'compleated'
+              ? 'bg-green-500 text-green-100'
+              : order.status === 'confirm'
+              ? 'bg-blue-100 text-blue-600'
+              : 'bg-red-100 text-red-600'
+          }`}
                       >
                         {order.status}
                       </span>

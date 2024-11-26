@@ -115,13 +115,22 @@ const UserDetailsGetById = () => {
                       <span className="ml-2 text-gray-900">{new Date(order.date).toLocaleDateString()}</span>
                     </p>
                     <p className="flex items-center">
-                      <span className="font-semibold text-gray-700">Status:</span>
-                      <span className={`ml-2 px-2 py-1 rounded-full text-white ${
-                        order.status === 'Delivered' ? 'bg-green-500' : 'bg-yellow-500'
-                      }`}>
-                        {order.status || 'Pending'}
-                      </span>
-                    </p>
+  <span className="font-semibold text-gray-700">Status:</span>
+  <span
+    className={`ml-2 px-2 py-1 rounded-full text-white ${
+      order.status === 'compleated'
+        ? 'bg-green-500' // Green for completed
+        : order.status === 'pending'
+        ? 'bg-yellow-500' // Yellow for pending
+        : order.status === 'confirm'
+        ? 'bg-blue-500' // Blue for confirmed
+        : 'bg-gray-400' // Default for unknown status
+    }`}
+  >
+    {order.status}
+  </span>
+</p>
+
                   </div>
                 </div>
               ))}

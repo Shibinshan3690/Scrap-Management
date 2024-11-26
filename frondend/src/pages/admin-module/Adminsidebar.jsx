@@ -1,7 +1,7 @@
 import React from 'react'
 import "./adminsidebar.css";
 import { MdAccountCircle, MdDashboard, MdOutlinePeopleOutline, MdOutlineShoppingBag } from 'react-icons/md';
-import { FaPeopleCarry } from 'react-icons/fa';
+import { FaFileInvoiceDollar, FaPeopleCarry } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { IoIosNotifications } from 'react-icons/io';
 
@@ -60,6 +60,14 @@ const Adminsidebar = ({ unreadCount }) => {
                 <span className="hidden lg:inline">Orders</span>
               </div>
 
+              <div
+         className="flex flex-col items-center lg:flex-row p-2 hover:bg-yellow-400 rounded-lg cursor-pointer transition duration-300"
+          onClick={() => navigate("/adminReport")}
+        >
+          <FaFileInvoiceDollar className="h-6 w-6 lg:mr-3"/>
+          <span>Reports</span>
+        </div>
+
               <div className="flex flex-col items-center lg:flex-row p-2 hover:bg-yellow-400 rounded-lg cursor-pointer transition duration-300" onClick={()=>navigate("/adminAccount")}>
                 <MdAccountCircle className="h-6 w-6 lg:mr-3" />
                 <span className="hidden lg:inline">Accounts</span>
@@ -78,7 +86,7 @@ const Adminsidebar = ({ unreadCount }) => {
             </div>
           </div>
 
-          <button className="bg-yellow-400 text-white font-bold py-2 px-4 rounded-lg hover:bg-yellow-500 transition ml-9" onClick={handleLogout}  style={{marginTop:"100px"}}>
+          <button className="bg-yellow-400 text-white font-bold py-2 px-4 rounded-lg hover:bg-yellow-500 transition ml-9" onClick={handleLogout}  style={{marginTop:"60px"}}>
             Logout
           </button>
         </div>

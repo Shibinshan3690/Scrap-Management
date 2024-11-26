@@ -7,6 +7,7 @@ const adminScheam=require("../model/admin-schema")
 const { default: mongoose } = require("mongoose");
 const  supplireSchema=require("../model/supplireSchema");
 const supllireSchemaa = require("../model/supplireSchema");
+const SupplierReportSchema = require("../model/SupplierReportSchema");
   
 
 
@@ -559,6 +560,36 @@ const assignSupplier  =async(req,res)=>{
 
 
 
+const getReports = async (req, res) => {
+  try {
+    const reports = await SupplierReportSchema.find()
+      .populate("supplierId", "name email") // Populate supplier details
+      .populate("orderId", "productName totalAmount userId") // Populate order details, including the userId field
+      .populate({
+        path: "orderId.userId", // Populate the user details associated with the order
+        select: "name email phone", // Select the fields for the user to return
+      })
+      .sort({ createdAt: -1 }); // Sort by creation date, newest first
+
+    console.log("Reports with user details:", reports);
+
+    if (!reports || reports.length === 0) {
+      return res.status(404).json({ message: "No reports found" });
+    }
+
+    res.status(200).json({
+      message: "Reports fetched successfully",
+      reports,
+    });
+  } catch (error) {
+    console.error("Error fetching reports:", error.message);
+    res.status(500).json({
+      message: "Error fetching reports",
+      error: error.message,
+    });
+  }
+};
+
 
 
 
@@ -567,5 +598,5 @@ const assignSupplier  =async(req,res)=>{
 
 
 module.exports = { signUpAdmin, signInAdmin,blockUser,unblockedUser,getAdminUserOrderDeatils,getAdminUserDeatils,getAdminUserDetailsUpdate,getUserOrderCurrentDate,getOrderById,
-  getIdUserDetailAndUserOrder,adminDeatilsUpdate,adminDeatilsUpdate,acceptSupplier,unacceptSupplier,blockSupplier,unblockSupplier,assignSupplier
+  getIdUserDetailAndUserOrder,adminDeatilsUpdate,adminDeatilsUpdate,acceptSupplier,unacceptSupplier,blockSupplier,unblockSupplier,assignSupplier,getReports
 };

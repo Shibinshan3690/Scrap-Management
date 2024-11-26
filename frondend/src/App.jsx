@@ -23,14 +23,19 @@ import AdminOrders from './pages/admin-module/AdminOrders';
 import SignUp from './pages/supplire-module/SignUp';
 import Dasboard from "./pages/supplire-module/Dasboard";
 
-import SupplireProfail from './pages/supplire-module/SupplireProfail';
+
 import Totaltask from './pages/supplire-module/Totaltask';
 import Orders from './pages/user-module/Orders';
 import NotificationUser from './pages/user-module/NotificationUser';
 import SuplireOrders from './pages/supplire-module/SuplireOrders';
 import Report from './pages/supplire-module/Report';
 import PendingOrders from './pages/supplire-module/PendingOrders';
-// import AdminOrders from './pages/admin-module/AdminOrders';
+import CompleteOrders from './pages/supplire-module/CompleteOrders';
+import SupleireProfail from './pages/supplire-module/SupleireProfail';
+import MyReport from './pages/admin-module/MyReport';
+import AdminReport from './pages/admin-module/AdminReport';
+
+
 
 
 const App = () => {
@@ -52,6 +57,7 @@ const App = () => {
   <Route path='/userOrderDetails/:id' element={<UserOrderDetails/>}></Route>
 
   <Route path="/userDeatilsGetById/:id" element={<UserDeatilsGetById/>}></Route>
+  <Route path="/adminReport" element={<AdminReport/>}></Route>
   
   
 
@@ -75,11 +81,15 @@ const App = () => {
        {/* Supplire route */}
    <Route path='/signUpSupllire' element={<SignUp/>}></Route>
      <Route path="/dashboard" element={<Dasboard/>}></Route>
-   <Route path="/profile" element={<SupplireProfail/>}></Route>
+
     <Route path="/totaltask" element={<Totaltask/>}></Route>
     <Route path="/suplireOrders" element={<SuplireOrders/>}></Route>
     <Route path="/report" element={<Report/>}></Route>
     <Route path='/pendingOrder'  element={<PendingOrders/>}></Route>
+    <Route path="/compleateOrder" element={<CompleteOrders/>}></Route>
+    <Route path="/suplierProfail" element={<SupleireProfail/>}></Route>
+    <Route path="/myReport" element={<MyReport/>}></Route>
+   
 
 
 

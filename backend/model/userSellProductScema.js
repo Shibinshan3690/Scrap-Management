@@ -52,8 +52,6 @@ const mongoose=require("mongoose");
      },
      assignedSupplier: { type: mongoose.Schema.Types.ObjectId, ref: 'Supplier' },
      
-
-
  },{ timestamps: true })
   const userSellProductSchema=mongoose.model("userSellProducts",userSellProduct);
   module.exports=userSellProductSchema;

@@ -64,7 +64,7 @@ const supllireSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['pending', 'accepted', 'inactive'], // Added 'pending' status for new suppliers
+        enum: ['pending', 'accepted', 'inactive'],
         default: 'pending',
     },
     role: {

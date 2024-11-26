@@ -1,14 +1,48 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import SuppliyerSidebar from '../../Components/SuppliyerSidebar'
 import { FaCheckCircle, FaMapMarkerAlt, FaClipboardList } from 'react-icons/fa'
 import { MdPendingActions } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
 
+import susupplierApi from "../../api/suplyerinterceptor";
+
 const Dasboard = () => {
 const navigate=useNavigate();
 
+const [orders, setOrders] = useState([]);
+
+const [error, setError] = useState("");
+const [supplierId, setSupplierId] = useState(null);
 
 
+
+useEffect(() => {
+  const storedSupplier = localStorage.getItem('supplire');
+  if (storedSupplier) {
+    const supplier = JSON.parse(storedSupplier);
+    setSupplierId(supplier.id);
+    console.log(supplier.id);
+  } else {
+    console.log("Supplier not found in localStorage");
+  }
+}, []);
+
+useEffect(() => {
+  if (supplierId) {
+    const fetchOrders = async () => {
+      try {
+        const response = await susupplierApi.get(`/assigned-orders/${supplierId}`);
+        console.log(response, "response");
+        setOrders(response.data.orders);
+      } catch (err) {
+        console.error("Error fetching orders:", err);
+        setError(err.response?.data?.message || "Failed to fetch orders");
+      }
+    };
+
+    fetchOrders();
+  }
+}, [supplierId]);
 
 
   return (
@@ -24,21 +58,21 @@ const navigate=useNavigate();
               <FaClipboardList className="text-4xl mr-3" />
               <div    >
                 <h3 className="text-xl font-semibold">Total Tasks</h3>
-                <p>15 Tasks</p>
+                <p>{orders.length} Tasks</p>
               </div>
             </div>
-            <div className="bg-green-600 text-white p-4 rounded-lg shadow-lg flex items-center">
+            <div className="bg-green-600 text-white p-4 rounded-lg shadow-lg flex items-center" onClick={()=>navigate("/compleateOrder")}>
               <FaCheckCircle className="text-4xl mr-3" />
-              <div>
+              <div >
                 <h3 className="text-xl font-semibold">Completed</h3>
-                <p>10 Tasks</p>
+                <p>{orders.filter((order) => order.status === "compleated").length} Tasks</p>
               </div>
             </div>
-            <div className="bg-yellow-600 text-white p-4 rounded-lg shadow-lg flex items-center">
+            <div className="bg-yellow-600 text-white p-4 rounded-lg shadow-lg flex items-center" onClick={()=>navigate("/pendingOrder")}>
               <MdPendingActions className="text-4xl mr-3" />
               <div>
-                <h3 className="text-xl font-semibold">Pending</h3>
-                <p>5 Tasks</p>
+                <h3 className="text-xl font-semibold"> Pending</h3>
+                <p>   {orders.filter((order) => order.status === "pending").length}Tasks</p>
               </div>
             </div>
           </div>

@@ -99,7 +99,7 @@ const TaskCard = ({ task, onViewDetails }) => {
         <h3 className="text-xl font-bold text-gray-800">Task Details</h3>
         <span
           className={`px-3 py-1 text-xs font-semibold rounded-full uppercase tracking-wide ${
-            task.status === 'Completed'
+            task.status === 'compleated'
               ? 'bg-green-100 text-green-600'
               : task.status === 'confirm'
               ? 'bg-blue-100 text-blue-600'
@@ -199,9 +199,9 @@ const Totaltask = () => {
             onChange={(e) => setStatusFilter(e.target.value)}
           >
             <option value="All">All Tasks</option>
-            <option value="Pending">Pending</option>
+            <option value="pending">Pending</option>
             <option value="confirm">Confirm</option>
-            <option value="Completed">Completed</option>
+            <option value="compleated">Completed</option>
           </select>
         </header>
         <main className="mt-6">

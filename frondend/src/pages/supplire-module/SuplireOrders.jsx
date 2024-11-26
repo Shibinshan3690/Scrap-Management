@@ -11,7 +11,8 @@ const SupplierOrders = () => {
   const [supplierId, setSupplierId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility state
   const navigate=useNavigate();
-  // Fetch supplierId from localStorage when the component mounts
+
+  
   useEffect(() => {
     const storedSupplier = localStorage.getItem('supplire');
     if (storedSupplier) {
@@ -75,10 +76,10 @@ const SupplierOrders = () => {
                   <h2 className="text-lg font-semibold">Total Orders</h2>
                   <p className="text-2xl font-bold">{orders.length}</p>
                 </div>
-                <div className="bg-green-100 text-green-800 p-4 rounded shadow text-center">
+                <div className="bg-green-100 text-green-800 p-4 rounded shadow text-center" onClick={()=>navigate("/compleateOrder")}>
                   <h2 className="text-lg font-semibold">Completed Orders</h2>
                   <p className="text-2xl font-bold">
-                    {orders.filter((order) => order.status === "Completed").length}
+                    {orders.filter((order) => order.status === "compleated").length}
                   </p>
                 </div>
                 <div className="bg-yellow-100 text-yellow-800 p-4 rounded shadow text-center" onClick={()=>navigate("/pendingOrder")}>
@@ -113,7 +114,7 @@ const SupplierOrders = () => {
                         <td className="px-4 py-2 text-gray-700">{order.distric}</td>
                         <td
                           className={`px-4 py-2 font-semibold ${
-                            order.status === "Completed"
+                            order.status === "compleated"
                               ? "text-green-500"
                               : order.status === "pending"
                               ? "text-yellow-500"
@@ -145,33 +146,41 @@ const SupplierOrders = () => {
       {isModalOpen && selectedOrder && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-lg w-1/3">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Order Details</h2>
+            <h2 className="text-2xl font-bold text-gray-800 mb-4  ">Order Details</h2>
             <div className="mb-4">
-              <strong>Order ID:</strong> {selectedOrder._id}
+              <strong>Order ID:</strong ><span className="font-bold text-1xl text-gray-800">{selectedOrder._id} </span>
             </div>
             <div className="mb-4">
-              <strong>Product:</strong> {selectedOrder.productName}
+              <strong>Product:</strong> <span className="font-bold text-1xl text-gray-800">{selectedOrder.productName}</span> 
             </div>
             <div className="mb-4">
-              <strong>Status:</strong> {selectedOrder.status}
+              <strong>Status:</strong>  <span 
+               className={`px-4 py-2 font-semibold ${
+                selectedOrder?.status === "compleated"
+                  ? "text-green-500"
+                  : selectedOrder?.status === "pending"
+                  ? "text-yellow-500"
+                  : "text-blue-500"
+              }`}
+              >{selectedOrder.status}</span>
             </div>
             <div className="mb-4">
-              <strong>Date:</strong> {selectedOrder.date}
+              <strong>Date:</strong> <span className="font-bold text-1xl text-gray-800">{selectedOrder.date}</span>
             </div>
             <div className="mb-4">
-              <strong>Address:</strong> {selectedOrder.adress}
+              <strong>Address:</strong><span className=" font-bold text-1xl text-gray-800">{selectedOrder.adress}</span> 
             </div>
             <div className="mb-4">
-              <strong>Phone Number:</strong> {selectedOrder.phoneNumber}
+              <strong>Phone Number:</strong> <span className="font-bold text-1xl text-gray-800"> {selectedOrder.phoneNumber}</span>
             </div>
             <div className="mb-4">
-              <strong>Vehicale:</strong> {selectedOrder.vehical}
+              <strong>Vehicale:</strong> <span className="font-bold text-1xl text-gray-800">{selectedOrder.vehical}</span>
             </div>
             <div className="mb-4">
-              <strong>Description:</strong> {selectedOrder.description}
+              <strong>Description:</strong><span className="font-bold text-1xl text-gray-800">{selectedOrder.description}</span> 
             </div>
             <div className="mb-4">
-              <strong>Pincode:</strong> {selectedOrder.pincode}
+              <strong>Pincode:</strong><span className="font-bold text-1xl text-gray-800">{selectedOrder.pincode}</span> 
             </div>
 
             <button
