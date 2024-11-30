@@ -32,8 +32,9 @@ import Report from './pages/supplire-module/Report';
 import PendingOrders from './pages/supplire-module/PendingOrders';
 import CompleteOrders from './pages/supplire-module/CompleteOrders';
 import SupleireProfail from './pages/supplire-module/SupleireProfail';
-import MyReport from './pages/admin-module/MyReport';
+import MyReport from './pages/supplire-module/MyReport';
 import AdminReport from './pages/admin-module/AdminReport';
+import SpecificReport from './pages/supplire-module/SpecificReport';
 
 
 
@@ -89,6 +90,7 @@ const App = () => {
     <Route path="/compleateOrder" element={<CompleteOrders/>}></Route>
     <Route path="/suplierProfail" element={<SupleireProfail/>}></Route>
     <Route path="/myReport" element={<MyReport/>}></Route>
+    <Route path='/specificReport/:id' element={<SpecificReport/>}></Route>
    
 
 

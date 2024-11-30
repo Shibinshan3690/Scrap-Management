@@ -1,12 +1,20 @@
 const mongoose = require("mongoose");
 
 const SupplierReportSchema = new mongoose.Schema({
+  user: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: "User", // Ensure the 'User' model exists in your project
+    
+  },
   supplierId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "supllireSchema",
     required: true,
   },
-  orderId: { type: String, required: true },
+
+  orderId: {  type: mongoose.Schema.Types.ObjectId, 
+     ref:"userSellProducts"
+  },
   items: [
     {
       item: { type: String, required: true },

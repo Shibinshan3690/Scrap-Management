@@ -1,94 +1,123 @@
-const SupplierReportSchema = require("../model/SupplierReportSchema");
-
-const userSellProductSchema = require("../model/userSellProductScema");
+const SupplierReport = require("../model/SupplierReportSchema"); 
+const UserSellProduct = require("../model/userSellProductScema"); 
 
 const createReport = async (req, res) => {
-   
   try {
-  const { supplierId } = req.params; 
-    const { 
+    const { supplierId } = req.params; 
+    const { orderId, items, totalWeight, totalAmount, paymentDetails } = req.body;
+
+   
+    if (!supplierId) {
+      return res.status(400).json({ message: "Supplier ID is required" });
+    }
+
+    if (!orderId) {
+      return res.status(400).json({ message: "Order ID is required" });
+    }
+
+  
+    if (!paymentDetails || !paymentDetails.accountNumber || !paymentDetails.accountHolderName || !paymentDetails.ifscCode) {
+      return res.status(400).json({ message: "Complete payment details are required" });
+    }
+
+    
+    if (!items || !items.length) {
+      return res.status(400).json({ message: "At least one item is required in the report" });
+    }
+
+    
+    const userOrder = await UserSellProduct.findOne({ _id: orderId });
+    if (!userOrder) {
+      return res.status(404).json({ message: "Order ID not found" });
+    }
+
+    
+ 
+
+
+    const newReport = new SupplierReport({
+      supplierId,
       orderId,
       items,
       totalWeight,
       totalAmount,
       paymentDetails,
-    } = req.body;
-
-    const report = new SupplierReportSchema({
-        supplierId,
-        orderId,
-        items,
-        totalWeight,
-        totalAmount,
-        paymentDetails,
-      });
-         
-      await report.save();
-console.log("reports",report)
-
-       const updatedOrder=await userSellProductSchema.findOneAndUpdate(
-        { _id: orderId, assignedSupplier: supplierId }, 
-        { status: "compleated" },
-        { new: true } 
-       );
-       
-       if (!updatedOrder) {
-        return res.status(404).json({
-          message: "Order not found or unauthorized supplier.",
-        });
-      }
-
-
-      const user = await userSellProductSchema.findById(updatedOrder).populate("user"); 
-
-    console.log("userrrrrr",user)
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found.",
-      });
-    }
-
-    // Respond with the report, updated order, and user details
-    res.status(201).json({
-      message: "Report submitted successfully, order status updated to completed.",
-      report,
-      updatedOrder,
-      user, 
+     
+      createdAt: new Date(),
     });
+  
 
+    
+    await newReport.save();
 
+   
+    userOrder.status = "compleated"; 
+    await userOrder.save();
+
+    res.status(201).json({ message: "Report successfully created", report: newReport });
   } catch (error) {
-    res.status(500).json({ message: 'Error creating report', error: error.message });
+    console.error("Error creating report:", error);
+    res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };
 
 
 
 
-const getReportsBySupplierId  =async(req,res)=>{
-    const { supplierId } = req.params; 
+
+const getReport = async (req, res) => {
   try {
-    const reports = await SupplierReportSchema.find({ supplierId });
-      console.log("reports",reports)
-    if (!reports || reports.length === 0) {
-        return res.status(404).json({ message: "No reports found for this supplier." });
+    const { supplierId } = req.params; 
+
+    if (!supplierId) {
+      return res.status(400).json({ message: "Supplier ID is required" });
+    }
+
+    const reports = await SupplierReport.find({ supplierId })
+    .populate("orderId", "user productName vehical description distric adress phoneNumber pincode date status assignedSupplier") 
+    .sort({ createdAt: -1 });
+
+    // Check if reports exist for the given supplierId
+    if (!reports.length) {
+      return res.status(404).json({ message: "No reports found for the given Supplier ID" });
+    }
+
+    // Respond with the retrieved reports
+    res.status(200).json({ message: "Reports retrieved successfully", reports });
+  } catch (error) {
+    console.error("Error fetching reports:", error);
+    res.status(500).json({ message: "Internal server error", error: error.message });
+  }
+};
+
+
+
+const getReportFindById=async(req,res)=>{
+     try {
+      const { supplierId } = req.params; 
+      const {id} = req.params;
+
+      if (!supplierId) {
+        return res.status(400).json({ message: "Supplier ID is required" });
       }
 
+      const reports = await SupplierReport.find({ supplierId },{id})
+    .populate("orderId", "user productName vehical description distric adress phoneNumber pincode date status assignedSupplier") 
+    .sort({ createdAt: -1 });
+
+    if (!reports.length) {
+      return res.status(404).json({ message: "No reports found for the given Supplier ID" });
+    }
+
+    res.status(200).json({ message: "Reports retrieved successfully", reports });
+
+
+
       
-      // Return the reports
-      res.status(200).json({
-        message: "Reports retrieved successfully.",
-        reports,
-      });
-  } catch (error) {
-    res.status(500).json({
-        message: "Error fetching reports.",
-        error: error.message,
-      });
-
-  }
-
-
+     } catch (error) {
+         console.error("Error fetching reports:", error);
+    res.status(500).json({ message: "Internal server error", error: error.message });
+     }
 }
 
 
@@ -100,7 +129,4 @@ const getReportsBySupplierId  =async(req,res)=>{
 
 
 
-
-
-
-module.exports = { createReport ,getReportsBySupplierId};
+module.exports = { createReport,getReport,getReportFindById };

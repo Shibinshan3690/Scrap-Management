@@ -6,7 +6,8 @@ const supplierReportController=require("../controller/suplireReportController");
 
 
 suplierReportRoute.post('/report/:supplierId',supplierReportController.createReport);
-suplierReportRoute.get('/reportes/:supplierId', supplierReportController.getReportsBySupplierId);
+suplierReportRoute.get('/report/:supplierId', supplierReportController.getReport);
+suplierReportRoute.get(`/report/:id/:supplierId`,supplierReportController.createReport)
 
 
 module.exports=suplierReportRoute;

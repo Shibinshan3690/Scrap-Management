@@ -4,6 +4,7 @@ import Adminsidebar from "./Adminsidebar";
 const AdminReport = () => {
   const [notifications, setNotifications] = useState([]);
   const [reports, setReports] = useState([]);
+    console.log("reports",reports);
   const [loading, setLoading] = useState(true);
 
   // Fetch Notifications
