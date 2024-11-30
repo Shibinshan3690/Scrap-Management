@@ -31,6 +31,7 @@ const MyReport = () => {
           `http://localhost:5000/suplierReport/report/${supplierId}`
         );
         setReports(response.data.reports || []);
+        
         console.log("responseee",response)
         setLoading(false);
       } catch (err) {

@@ -4,7 +4,7 @@ const UserSellProduct = require("../model/userSellProductScema");
 const createReport = async (req, res) => {
   try {
     const { supplierId } = req.params; 
-    const { orderId, items, totalWeight, totalAmount, paymentDetails } = req.body;
+    const { orderId, items, totalWeight,remarks, totalAmount, paymentDetails } = req.body;
 
    
     if (!supplierId) {
@@ -39,6 +39,7 @@ const createReport = async (req, res) => {
       supplierId,
       orderId,
       items,
+      remarks,
       totalWeight,
       totalAmount,
       paymentDetails,
@@ -92,33 +93,30 @@ const getReport = async (req, res) => {
 
 
 
-const getReportFindById=async(req,res)=>{
-     try {
-      const { supplierId } = req.params; 
-      const {id} = req.params;
-
-      if (!supplierId) {
-        return res.status(400).json({ message: "Supplier ID is required" });
-      }
-
-      const reports = await SupplierReport.find({ supplierId },{id})
-    .populate("orderId", "user productName vehical description distric adress phoneNumber pincode date status assignedSupplier") 
-    .sort({ createdAt: -1 });
-
-    if (!reports.length) {
-      return res.status(404).json({ message: "No reports found for the given Supplier ID" });
+const getReportFindById = async (req, res) => {
+  try {
+    const { supplierId, id } = req.params; // Destructure supplierId and id from params
+     
+    if (!supplierId || !id) {
+      return res.status(400).json({ message: "Supplier ID and Report ID are required" });
     }
 
-    res.status(200).json({ message: "Reports retrieved successfully", reports });
+    // Find the report by its ID and filter by supplierId
+    const reports = await SupplierReport.findOne({ _id: id, supplierId })
+      .populate("orderId", "user productName vehical description distric adress phoneNumber pincode date status assignedSupplier")
+      .sort({ createdAt: -1 });
 
+    if (!reports) {
+      return res.status(404).json({ message: "No report found for the given Supplier ID and Report ID" });
+    }
 
+    res.status(200).json({ message: "Report retrieved successfully", reports });
 
-      
-     } catch (error) {
-         console.error("Error fetching reports:", error);
+  } catch (error) {
+    console.error("Error fetching report:", error);
     res.status(500).json({ message: "Internal server error", error: error.message });
-     }
-}
+  }
+};
 
 
 
