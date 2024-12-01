@@ -46,8 +46,8 @@ const MyReport = () => {
   return (
     <div className="flex min-h-screen bg-whait-100">
       <SuppliyerSidebar />
-      <main className="flex-1 p-6 ml-[295px]">
-        <h1 className="text-2xl font-bold text-gray-800">My Reports</h1>
+      <main className="flex-1 p-6 ml-[295px] ">
+        <span className="text-2xl font-bold text-gray-800">My Reports</span>
 
         {/* Loading or Error Handling */}
         {loading ? (

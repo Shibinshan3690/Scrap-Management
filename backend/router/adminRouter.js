@@ -23,6 +23,7 @@ adminRouter.put("/unBlockSuplire/:supplierId",adminController.unblockSupplier)
 
 
 adminRouter.post("/assignSupplier/:orderId",adminController.assignSupplier)
+adminRouter.get("/getReportAdmin",adminController.getReportAdmin)
 
 
 

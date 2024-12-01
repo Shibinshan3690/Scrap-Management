@@ -553,7 +553,27 @@ const assignSupplier  =async(req,res)=>{
 }  
 
 
+const getReportAdmin =async(req,res)=>{
+    try {
+       const reports=await SupplierReportSchema.find({})
+       .populate("supplierId", "name email phone") 
+      .populate("orderId", "user productName vehicle description district address phoneNumber pincode date status assignedSupplier") // Populate order details
+      .sort({ createdAt: -1 });
 
+
+      if (!reports.length) {
+        return res.status(404).json({ message: "No reports found" });
+      }
+  
+      // Respond with the retrieved reports
+      res.status(200).json({ message: "Reports retrieved successfully", reports });
+
+      console.error("Error fetching admin reports:", error);
+      res.status(500).json({ message: "Internal server error", error: error.message });
+    } catch (error) {
+      
+    }
+}
 
 
 
@@ -563,5 +583,5 @@ const assignSupplier  =async(req,res)=>{
 
 
 module.exports = { signUpAdmin, signInAdmin,blockUser,unblockedUser,getAdminUserOrderDeatils,getAdminUserDeatils,getAdminUserDetailsUpdate,getUserOrderCurrentDate,getOrderById,
-  getIdUserDetailAndUserOrder,adminDeatilsUpdate,adminDeatilsUpdate,acceptSupplier,unacceptSupplier,blockSupplier,unblockSupplier,assignSupplier
+  getIdUserDetailAndUserOrder,adminDeatilsUpdate,adminDeatilsUpdate,acceptSupplier,unacceptSupplier,blockSupplier,unblockSupplier,assignSupplier,getReportAdmin
 };

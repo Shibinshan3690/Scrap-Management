@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Adminsidebar from "./Adminsidebar";
+import adminApi from "../../api/adminInterceptor";
 
 const AdminReport = () => {
   const [notifications, setNotifications] = useState([]);
   const [reports, setReports] = useState([]);
-    console.log("reports",reports);
   const [loading, setLoading] = useState(true);
 
   // Fetch Notifications
@@ -27,17 +27,11 @@ const AdminReport = () => {
     const fetchReports = async () => {
       try {
         setLoading(true);
-        const response = await fetch("http://localhost:5000/admin/reportes"); 
-     
-        const data = await response.json();
-      
-        if (response.ok) {
-          setReports(data.reports);
-           console.log("report",reports);
-        
-
+        const response = await adminApi.get("/getReportAdmin"); // Fetch data using admin interceptor
+        if (response.status === 200) {
+          setReports(response.data.reports); // Assuming the API response contains `reports`
         } else {
-          console.error(data.message);
+          console.error("Failed to fetch reports:", response.data.message);
         }
       } catch (error) {
         console.error("Error fetching reports:", error);
@@ -54,63 +48,62 @@ const AdminReport = () => {
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Adminsidebar unreadCount={unreadCount} />
-      <main className="flex-1 p-6">
-        <div className="bg-white rounded-lg shadow-md p-6 w-[1409px] ml-[250px]">
-          <h2 className="text-2xl font-semibold text-gray-700 mb-4">Report Summary</h2>
-          <div className="overflow-x-auto">
-            <table className="table-auto w-full border-collapse border border-gray-200">
-              <thead className="bg-gray-100">
-                <tr>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-                    Report ID
-                  </th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-                    Supplier
-                  </th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-                    Order ID
-                  </th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-                    Status
-                  </th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {loading ? (
-                  <tr>
-                    <td colSpan="5" className="text-center text-gray-500 py-4">
-                      Loading reports...
-                    </td>
+      <main className="flex-1 mt-4">
+        <div className="bg-white rounded-lg shadow-md p-6 ml-[270px] h-full">
+          <h1 className="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-blue-500 pb-2">
+            Reports
+          </h1>
+          {loading ? (
+            <p>Loading reports...</p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="min-w-full border-collapse border border-gray-200">
+                <thead>
+                  <tr className="bg-blue-200">
+                    <th className="border border-gray-300 px-4 py-2 text-left font-semibold" colSpan="4">
+                      1. Order Report
+                    </th>
                   </tr>
-                ) : reports.length === 0 ? (
-                  <tr>
-                    <td colSpan="5" className="text-center text-gray-500 py-4">
-                      No reports available at the moment.
-                    </td>
+                  <tr className="bg-white">
+                    <th className="border border-gray-300 px-4 py-2 text-left font-semibold w-[200px] bg-blue-100">
+                      Order ID
+                    </th>
+                    <th className="border border-gray-300 px-4 py-2 text-left">UserId</th>
+                    <th className="border border-gray-300 px-4 py-2 text-left font-semibold w-[200px] bg-blue-100">
+                      Supplier ID
+                    </th>
+                    <th className="border border-gray-300 px-4 py-2 text-left">Date</th>
                   </tr>
-                ) : (
-                  reports.map((report) => (
-                    <tr key={report._id} className="hover:bg-gray-50">
-                      <td className="px-4 py-2 text-gray-700">{report._id}</td>
-                      <td className="px-4 py-2 text-gray-700">
-                        {report.supplierId?.name || "N/A"}
-                      </td>
-                      <td className="px-4 py-2 text-gray-700">{report.orderId || "N/A"}</td>
-                      <td className="px-4 py-2 text-gray-700">
-                        {report.status || "Pending"}
-                      </td>
-                      <td className="px-4 py-2 text-gray-700">
-                        <button className="text-blue-600 hover:underline">View</button>
+                </thead>
+                <tbody>
+                  {reports.length > 0 ? (
+                    reports.map((report, index) => (
+                      <tr key={index} className="bg-white hover:bg-gray-100">
+                        <td className="border border-gray-300 px-4 py-2 text-left">
+                          {/* {report.orderId || "N/A"} */}
+                        </td>
+                        <td className="border border-gray-300 px-4 py-2 text-left">
+                          {/* {report.address || "N/A"} */}
+                        </td>
+                        <td className="border border-gray-300 px-4 py-2 text-left">
+                          {/* {report.supplierId || "N/A"} */}
+                        </td>
+                        <td className="border border-gray-300 px-4 py-2 text-left">
+                          {report.date || "N/A"}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="4" className="border border-gray-300 px-4 py-2 text-center">
+                        No reports available
                       </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </main>
     </div>
