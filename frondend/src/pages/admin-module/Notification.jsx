@@ -6,7 +6,7 @@ import Adminsidebar from './AdminSidebar';
 const Notification = () => {
   const [notifications, setNotifications] = useState([]);
 
-  // Fetch notifications on component mount
+ 
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
@@ -20,11 +20,10 @@ const Notification = () => {
     fetchNotifications();
   }, []);
 
-  // Function to mark a notification as read
   const markAsRead = async (id) => {
     try {
       await axios.patch(`http://localhost:5000/notification/${id}/mark-as-read`);
-      // Update state after marking notification as read
+     
       setNotifications((prevNotifications) =>
         prevNotifications.map((notification) =>
           notification._id === id ? { ...notification, isRead: true } : notification
@@ -35,16 +34,17 @@ const Notification = () => {
     }
   };
 
-  // Total unread notification count
+  
   const unreadCount = notifications.filter(notification => !notification.isRead).length;
 
   return (
-    <div className="flex min-h-screen bg-gray-100 text-gray-800">
+    <div className="flex  min-h-screen bg-yellow-400">
       <Adminsidebar unreadCount={unreadCount} />
+      <main className="flex-1 "style={{marginTop:"14px"}}>
 
-      <div className="bg-[#E6F0EF] rounded-3xl mx-auto p-10 w-[1200px] h-[700px] ml-[280px] mt-3 shadow-lg">
-        <h2 className="text-3xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-          <FaBell className="text-blue-500" />
+         <div className="bg-white h-[715px] w-[1420px] shadow-md p-6 ml-[270px]  rounded-3xl">
+        <h2 className="text-3xl font-bold text-yellow-800 mb-6 flex items-center gap-2">
+          <FaBell className="text-yellow-500" />
           Notifications
         </h2>
 
@@ -54,7 +54,7 @@ const Notification = () => {
               <li
                 key={notification?._id}
                 className={`flex justify-between items-center p-4 border-l-4 rounded-lg shadow-sm transition duration-300 ${
-                  notification.isRead ? 'border-gray-300 bg-white' : 'border-blue-500 bg-blue-50'
+                  notification.isRead ? 'border-gray-300 bg-yellow-100' : 'border-blue-500 bg-yellow-300'
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -83,7 +83,7 @@ const Notification = () => {
                 {/* Action Button */}
                 {!notification.isRead && (
                   <button
-                    className="text-blue-500 text-sm hover:text-blue-700 transition"
+                    className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1"
                     onClick={() => markAsRead(notification._id)}
                   >
                     Mark as Read
@@ -94,6 +94,7 @@ const Notification = () => {
           </ul>
         </div>
       </div>
+      </main>
     </div>
   );
 }

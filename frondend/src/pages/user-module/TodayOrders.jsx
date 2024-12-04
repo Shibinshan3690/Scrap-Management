@@ -44,13 +44,14 @@ const TodayOrders = () => {
 
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex  min-h-screen bg-yellow-400">
       <Adminsidebar unreadCount={unreadCount}/>
-      <div className="flex flex-col bg-white ml-[275px] w-[1400px] h-[710px] mt-[15px] rounded-lg">
-      <div className="flex flex-col p-6 ml-[2px]">
-        <div className="bg-white shadow-lg rounded-lg p-8 mb-8">
-          <h2 className="text-3xl font-semibold text-gray-800 mb-4">Today's Orders</h2>
-          <p className="text-gray-500">View all orders placed today with their details.</p>
+      <main className="flex-1 "style={{marginTop:"14px"}}>
+      <div className="bg-white h-[715px] w-[1420px] shadow-md p-6 ml-[270px] overflow-y-auto rounded-2xl">
+      <div className="flex flex-col  ml-[2px] ">
+        <div className="bg-white  shadow-lg rounded-lg p-8  bg-yellow-100">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4 ">Today's Orders</h2>
+          <p className="text-gray-500 ml-[500px]">View all orders placed today with their details.</p>
         </div>
         
         {error && (
@@ -59,10 +60,10 @@ const TodayOrders = () => {
           </div>
         )}
         
-        <div className="bg-white shadow-lg rounded-lg p-6">
-          <table className="w-full table-auto text-gray-700">
+        <div className="bg-yellow-100 shadow-lg rounded-lg p-6 mt-2">
+          <table className="w-full table-auto border-collapse border-gray-600 text-gray-800 ">
             <thead>
-              <tr className="bg-gray-200 text-left">
+              <tr className="bg-yellow-400   text-left">
                
                 <th className="py-4 px-6 font-medium">Customer Name</th>
                 <th className="py-4 px-6 font-medium">District</th>
@@ -71,7 +72,7 @@ const TodayOrders = () => {
                 <th className="py-4 px-6 font-medium">Status</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className='font-mono'>
               {todayOrders.length > 0 ? (
                 todayOrders.map((order) => (
                   <tr key={order._id} className="hover:bg-gray-100 cursor-pointer transition-colors" onClick={() => navigate(`/userOrderDetails/${order._id}`)}>
@@ -103,6 +104,7 @@ const TodayOrders = () => {
         </div>
       </div>
       </div>
+      </main>
     </div>
   );
 };

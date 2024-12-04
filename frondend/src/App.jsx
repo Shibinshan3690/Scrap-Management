@@ -35,6 +35,8 @@ import SupleireProfail from './pages/supplire-module/SupleireProfail';
 import MyReport from './pages/supplire-module/MyReport';
 import AdminReport from './pages/admin-module/AdminReport';
 import SpecificReport from './pages/supplire-module/SpecificReport';
+import AdminSpecificReport from './pages/admin-module/AdminSpecificReport';
+import VehicalChoose from './pages/user-module/VehicalChoose';
 
 
 
@@ -59,6 +61,7 @@ const App = () => {
 
   <Route path="/userDeatilsGetById/:id" element={<UserDeatilsGetById/>}></Route>
   <Route path="/adminReport" element={<AdminReport/>}></Route>
+  <Route path='/specificReportAdmin/:id' element={<AdminSpecificReport/>}></Route>
   
   
 
@@ -70,9 +73,9 @@ const App = () => {
         <Route path="/ratelist" element={<Ratelist/>}></Route>
         <Route path="/about" element={<About/>}></Route>
         <Route path='/contact' element={<Contact/>}></Route>
-
         <Route path="/myOrders" element={<Orders/>}></Route>
-         <Route path="/notifcation"element={<NotificationUser/>}></Route>
+        <Route path="/notifcation"element={<NotificationUser/>}></Route>
+        <Route path="/vehical" element={<VehicalChoose/>}></Route>
         
 
  

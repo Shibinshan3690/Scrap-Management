@@ -6,9 +6,9 @@ import { MdHeight } from 'react-icons/md';
 const  Content = () => {
     const navigate=useNavigate()
   return (
-    <div className="flex justify-between items-center mt-28 ml-24 ">
+    <div className="flex justify-between  h-[660px] bg-yellow-100 ">
       {/* Left Section */}
-      <div className="left-section space-y-2">
+      <div   className='mt-40 ml-20'>
         <h1 className="text-4xl font-semibold font-revert leading-tight animate-bounce">
           Sell your scrap in
           <br />
@@ -28,12 +28,12 @@ const  Content = () => {
       </div>
 
       {/* Right Section */}
-      <div className="right-section w-1/2" >
+      <div className="right-section w-1/2  ">
     <video 
-    className='bg-white rounded-full animate-pulse'
+    className=' mt-10 rounded-full animate-pulse h-[600px] w-[600px] ml-20'
     loop
           autoPlay
-          muted src={truckhome} style={{height:"600px", width:"600px", marginTop:"-90px"  }}></video>
+          muted src={truckhome} style={{  }}></video>
       </div>
     </div>
   );

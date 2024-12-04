@@ -32,7 +32,6 @@ router.post("/notification/:notificationId/reply", async (req, res) => {
         repliedBy: req.adminId, // Admin replying to the message
       },
     });
-
     // Save the reply message to the database
     await adminMessage.save();
 

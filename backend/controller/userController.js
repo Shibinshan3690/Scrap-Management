@@ -8,7 +8,6 @@ const Notification=require("../model/notificationSchema")
 const userSignUp= async(req,res)=>{
        try {
           const {name,email,password}=req.body;
-
           if (!name || !email || !password) {
             return res.status(400).json({
                 status: "fail",
@@ -22,7 +21,6 @@ const userSignUp= async(req,res)=>{
              message: "Email already registered"})
            }
            const hashpassword = await bcrypt.hash(password, 12);
-
            const newUser= await userSchema.create({
              name,
              email,

@@ -28,7 +28,7 @@ const SpecificReport = () => {
           `http://localhost:5000/suplierReport/report/${id}/${supplierId}`
         );
         setReports(response.data.reports);
-        console.log("response",response);
+      
       } catch (error) {
         setError("Error loading reports.");
         console.error(error);

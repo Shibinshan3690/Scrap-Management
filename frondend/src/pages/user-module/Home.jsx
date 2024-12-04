@@ -5,8 +5,8 @@ import Content from './Content'
 const Home = () => {
   return (
    <>
-     <div  style={{marginTop:"365px"}}>
-      <Nav colours='white'/>
+     <div  >
+      <Nav />
      </div>
    
    <Content/>

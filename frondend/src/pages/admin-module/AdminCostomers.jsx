@@ -90,40 +90,38 @@ const AdminCustomers = () => {
   const unreadCount = notifications.filter(notification => !notification.isRead).length;
 
   return (
-    <div className="flex bg-gray-100 min-h-screen">
+    <div className="flex bg-yellow-400 min-h-screen">
       <AdminSidebar unreadCount={unreadCount} />
       <ToastContainer />
-      
-      <div className="flex-1 p-8 space-y-6">
-        <h1 className="text-1xl font-bold" style={{ float: "right", marginRight: "90px" }}>
-          Customer Details
-        </h1>
+      <main className="flex-1 "style={{marginTop:"14px"}}>
+      <div className="bg-white h-[715px] w-[1420px] shadow-md p-6 ml-[270px] overflow-y-scroll overflow-y-hidden rounded-3xl">
+       
 
-        <div className="flex items-center space-x-4" style={{ marginLeft: "250px", marginTop: "-16px" }}>
-          <div className="relative w-full md:w-1/3">
-            <MdSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+          <div className="flex items-center mb-6 space-x-4">
+    
             <input
               type="text"
               value={searchTerm}
               onChange={handleSearch}
               placeholder="Search by name or email..."
-              className="w-full h-12 pl-10 pr-4 rounded-lg border bg-white focus:ring-2 focus:ring-yellow-500 transition duration-300 ease-in-out transform hover:scale-105"
+                className="h-10 pl-10 pr-4 bg-white rounded-full border-4 border-yellow-400 focus:ring-2 focus:ring-yellow-300 focus:outline-none"
             />
-          </div>
-          <button
+             <button
             onClick={() => {}}
             className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-2 rounded-lg transition duration-300 transform hover:scale-105"
           >
             Search
           </button>
-        </div>
+          </div>
+         
+        
 
-        <div className="bg-white rounded-lg shadow-lg p-4" style={{ width: "1400px", marginLeft: "240px", marginTop: "10px" }}>
+        <div className="bg-white rounded-lg shadow-lg p-4" style={{ width: "1350px", marginTop: "10px" }}>
           {error && <p className="text-red-500 mb-4">{error}</p>}
 
-          <table className="w-full text-left border-collapse">
+          <table className="w-full text-left border-collapse border-yellow-400">
             <thead>
-              <tr>
+              <tr className='border-yellow-400'>
                 <th className="px-6 py-3 border-b-2 font-semibold text-gray-600">Name</th>
                 <th className="px-6 py-3 border-b-2 font-semibold text-gray-600">Email</th>
                 <th className="px-6 py-3 border-b-2 font-semibold text-gray-600">Actions</th>
@@ -132,7 +130,7 @@ const AdminCustomers = () => {
             <tbody>
               {filteredCustomers.length > 0 ? (
                 filteredCustomers.map((customer) => (
-                  <tr key={customer._id} className="hover:bg-gray-50 cursor-pointer transition duration-300 ease-in-out transform hover:scale-105">
+                  <tr key={customer._id} className="hover:bg-yellow-200 hover:rounded-lg cursor-pointer transition duration-300 ease-in-out transform hover:scale-105">
                     <td className="px-6 py-4 border-b text-gray-700" onClick={() => navigate(`/userDeatilsGetById/${customer._id}`)}>{customer.name}</td>
                     <td className="px-6 py-4 border-b text-gray-700" onClick={() => navigate(`/userDeatilsGetById/${customer._id}`)}>{customer.email}</td>
                     <td className="px-6 py-4 border-b text-gray-700 flex space-x-3">
@@ -174,6 +172,7 @@ const AdminCustomers = () => {
           </table>
         </div>
       </div>
+      </main>
     </div>
   );
 };

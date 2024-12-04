@@ -141,19 +141,22 @@ const AdminDashboard = () => {
   const unreadCount = notifications.filter(notification => !notification.isRead).length;
 
   return (
-    <div className="flex min-h-screen bg-gray-100 text-gray-800">
+    <div className="flex  min-h-screen bg-yellow-400">
       <ToastContainer/>
       <AdminSidebar unreadCount={unreadCount}  />
-      <main className="flex-1 p-6 space-y-6" style={{marginLeft:"250px",marginTop:"-30px"}}>
+      <main className="flex-1 "style={{marginTop:"14px"}}>
+      <div className="bg-white h-[715px] w-[1420px] shadow-md p-6 ml-[270px] overflow-y-scroll overflow-x-hidden rounded-3xl">
       <h1 className="text-1xl font-bold text-gray-800 text-right mr-8 mt-6 tracking-tight" style={{float:"right",marginTop:"20px",marginRight:"90px"}}>Dashboard</h1>
         {/* Search Bar */}
         <div className="flex items-center mb-6 space-x-4">
-          <div className="relative w-full lg:w-1/2">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="w-full h-10 pl-10 pr-4 bg-white rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-            />
+          <div className="relative  lg:w-1/2  border-yellow-400  ">
+          <input
+  type="text"
+  placeholder="Search..."
+  className="h-10 pl-10 pr-4 bg-white rounded-full border-4 border-yellow-400 focus:ring-2 focus:ring-yellow-300 focus:outline-none"
+/>
+
+
             <MdSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
           </div>
           <button className="bg-yellow-400 text-white px-4 py-2 rounded-md hover:bg-yellow-500 transition duration-300">
@@ -221,6 +224,7 @@ const AdminDashboard = () => {
             <h2 className="text-2xl font-semibold mb-4">Order Distribution</h2>
             <Pie data={pieData} options={{ ...chartOptions, title: { text: 'Order Types' } }} />
           </div>
+        </div>
         </div>
       </main>
     </div>

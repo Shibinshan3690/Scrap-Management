@@ -575,6 +575,49 @@ const getReportAdmin =async(req,res)=>{
     }
 }
 
+const getReportSpecifycAdmin = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    console.log("req.params", req.params);
+
+    
+    if (!orderId) {
+      return res.status(400).json({ message: "Order ID is required" });
+    }
+
+  
+    const reports = await SupplierReportSchema.findOne({ orderId }) 
+      .populate(
+        "orderId",
+        "user productName vehical description distric adress phoneNumber pincode date status assignedSupplier"
+      )
+      .sort({ createdAt: -1 });
+      // console.log("reports",reports)
+
+   
+    if (!reports) {
+      return res.status(404).json({
+        message: "No report found for the given Order ID",
+      });
+    }
+
+   
+    res.status(200).json({
+      message: "Report retrieved successfully",
+      reports,
+    });
+  } catch (error) {
+    
+    console.error("Error fetching report:", error);
+    res.status(500).json({
+      message: "An error occurred while retrieving the report",
+      error: error.message,
+    });
+  }
+};
+
+
+
 
 
 
@@ -583,5 +626,5 @@ const getReportAdmin =async(req,res)=>{
 
 
 module.exports = { signUpAdmin, signInAdmin,blockUser,unblockedUser,getAdminUserOrderDeatils,getAdminUserDeatils,getAdminUserDetailsUpdate,getUserOrderCurrentDate,getOrderById,
-  getIdUserDetailAndUserOrder,adminDeatilsUpdate,adminDeatilsUpdate,acceptSupplier,unacceptSupplier,blockSupplier,unblockSupplier,assignSupplier,getReportAdmin
+  getIdUserDetailAndUserOrder,adminDeatilsUpdate,adminDeatilsUpdate,acceptSupplier,unacceptSupplier,blockSupplier,unblockSupplier,assignSupplier,getReportAdmin,getReportSpecifycAdmin
 };

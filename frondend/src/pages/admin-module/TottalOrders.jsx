@@ -17,7 +17,7 @@ const TottalOrders = () => {
       try {
         const response = await adminApi.get(`/getAdminUserSellDeatils`);
         console.log(response,'res')
-        setTotalOrders(response.data.data);
+        setTotalOrders(response.data.data.reverse());
       } catch (error) {
         console.error(error);
         setError("Failed to fetch customers");
@@ -48,36 +48,35 @@ const TottalOrders = () => {
 
   return (
     <>
-    <div className="flex min-h-screen bg-gray-100 text-gray-800" >
-   <div>
+    <div  className="flex  min-h-screen bg-yellow-400" >
      <Adminsidebar unreadCount={unreadCount}/>
-   </div>
+     <main className="flex-1 "style={{marginTop:"14px"}}>
 
-      <div className="flex flex-col  ml-[275px] mt-[10px]">
+      <div className="bg-white h-[715px] w-[1420px] shadow-md p-6 ml-[270px] overflow-y-scroll rounded-3xl">
     
 
-        {/* Error Message */}
+    
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
         {/* Table Container */}
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden   w-[1400px]">
+        <div className="bg-white shadow-lg rounded-lg overflow-hidden   w-[1350px]">
           <table className="min-w-full leading-normal">
-            <thead>
-              <tr className="bg-gray-100 text-gray-600 uppercase text-sm font-semibold">
+            <thead >
+              <tr className="bg-yellow-300 text-gray-600 uppercase text-sm font-semibold">
                 
-                <th className="px-6 py-3">Customer Name</th>
-                <th className="px-6 py-3">Product Name</th>
-                <th className="px-6 py-3">Phone Number</th>
-                <th className="px-6 py-3">Pincode</th>
-                <th className="px-6 py-3">Order Date</th>
-                <th className="px-6 py-3">Status</th>
-                <th className="px-6 py-3 text-right">Actions</th>
+                <th >Customer Name</th>
+                <th >Product Name</th>
+                <th >Phone Number</th>
+                <th>Pincode</th>
+                <th >PicUp Date</th>
+                <th >Status</th>
+                <th className=" py-4 ">Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody  >
               {totalOrders.length > 0 ? (
                 totalOrders.map((order) => (
-                  <tr key={order._id} className="hover:bg-gray-50">
+                  <tr key={order._id} className="hover:bg-gray-50 text-gray-600 uppercase text-sm font-semibold">
                   
                     <td className="px-6 py-4 text-gray-700">{order?.user?.name}</td>
                     <td className="px-6 py-4 text-gray-700">{order?.productName}</td>
@@ -86,7 +85,7 @@ const TottalOrders = () => {
                     <td className="px-6 py-4 text-gray-700">
                       {format(new Date(order.date), 'dd/MM/yyyy')}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="">
                       <span
                         className={`px-3 py-1 inline-block font-semibold text-sm rounded-full  ${
                           order.status === 'compleated'
@@ -99,10 +98,10 @@ const TottalOrders = () => {
                         {order.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-right">
+                    <td >
                       <button
                         onClick={() => navigate(`/userOrderDetails/${order._id}`)}
-                        className="text-indigo-600 hover:text-indigo-900"
+                       className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1"
                       >
                         View Details
                       </button>
@@ -120,6 +119,7 @@ const TottalOrders = () => {
           </table>
         </div>
       </div>
+      </main>
       </div>
     </>
   );

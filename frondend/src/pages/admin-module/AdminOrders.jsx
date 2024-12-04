@@ -68,13 +68,12 @@ const AdminOrders = () => {
       try {
         const response = await axios.get('http://localhost:5000/notification/notifications');
         setNotifications(response.data);
-        console.log("response", response.data);
+      
       } catch (error) {
         console.error('Error fetching notifications:', error);
       }
     };
-
-    fetchNotifications();
+  fetchNotifications();
   }, []);
 
   // total unread notification count
@@ -85,8 +84,10 @@ const AdminOrders = () => {
   const pendingOrders = 15;
   return (
     <>
-         <div className="flex min-h-screen bg-gray-100 text-gray-800">
+
+         <div className="flex  min-h-screen bg-yellow-400"> 
          <Adminsidebar unreadCount={unreadCount}/> 
+         <main className="flex-1 "style={{marginTop:"14px"}}>
          <div className="  bg-white p-6 rounded-lg shadow-lg ml-[275px] mt-3 w-[1420px]" >
          <div className="orderStatus flex  gap-12 m"    >
           {[
@@ -103,11 +104,10 @@ const AdminOrders = () => {
               <p className="text-4xl font-bold">{stat.count}</p>
             </div>
           ))}
-         </div>
-         </div>
-    
+        
+       
 
-         <div className="bg-white p-6 rounded-lg shadow-lg" style={{marginLeft:"-800px",marginTop:"20px",height:"400px"}}>         
+         <div className="bg-white p-6 rounded-lg shadow-lg" >         
             <div className="flex justify-between w-[750px]">
               <h3 className="text-xl font-semibold text-gray-900">Recent Order Details</h3>
               <button
@@ -146,7 +146,10 @@ const AdminOrders = () => {
               </table>
             </div>
           </div>
-
+           
+          </div>
+          </div>
+          </main>
          </div>
 
       

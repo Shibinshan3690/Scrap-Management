@@ -40,18 +40,18 @@ const Ratelist = () => {
     });
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-yellow-100">
       {/* Navbar */}
-         <div  className="mt-[365px]">
-      <Nav colours="white " />
-       </div>
+    
+      <Nav />
+    
 
       {/* Search and Sort Section */}
       <div className="flex justify-center items-center mt-8 space-x-4">
         <div className="relative w-[400px]">
           <IoSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={24} />
           <input
-            className="w-full pl-12 py-3 border border-gray-300 rounded-lg shadow focus:outline-none focus:ring focus:ring-indigo-200"
+            className="w-full pl-12 py-3 border bg-white border-gray-300 rounded-lg shadow focus:outline-none focus:ring focus:ring-indigo-200"
             type="text"
             placeholder="Search items..."
             value={searchTerm}

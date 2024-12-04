@@ -23,8 +23,11 @@ const Adminsidebar = ({ unreadCount }) => {
   <div className="sidebar bg-white w-64 p-10 rounded-3xl shadow-lg lg:fixed " id='side'>
           <div >
             <div className=" mb-10">
-              <img src="" alt="logo" className="h-12 w-12 rounded-full lg:h-16 lg:w-16" />
-              <span className="ml-4 text-xl font-bold text-gray-800 hidden lg:block">Scrap</span>
+              {/* <img src="" alt="logo" className="h-12 w-12 rounded-full lg:h-16 lg:w-16" /> */}
+              <span className="ml-2 text-balance font-bold text-yellow-500 lg:block tracking-wide hei uppercase " style={{fontSize:"17px"}}>
+  Scrap Pro
+</span>
+
             </div>
 
             <div className="space-y-6">
@@ -86,7 +89,11 @@ const Adminsidebar = ({ unreadCount }) => {
             </div>
           </div>
 
-          <button className="bg-yellow-400 text-white font-bold py-2 px-4 rounded-lg hover:bg-yellow-500 transition ml-9" onClick={handleLogout}  style={{marginTop:"60px"}}>
+          <button className="bg-yellow-400 text-white font-bold px-4 rounded-lg hover:bg-yellow-500 transition 
+          w-22 h-8  mb-4  font-light bg-yellow-400 hover:bg-yellow-500 text-white font-semibold rounded-lg shadow-md transition-transform transform hover:scale-105
+          "
+          
+           onClick={handleLogout}  style={{marginTop:"60px"}}>
             Logout
           </button>
         </div>

@@ -6,32 +6,21 @@ import suplireApi from "../../api/suplyerinterceptor";
 import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
 
-const OrderTimeline = ({ status }) => {
-  const stages = ["Placed", "Processed", "Shipped", "Delivered"];
-  return (
-    <div className="timeline flex justify-between items-center gap-4 mb-6">
-      {stages.map((stage, index) => (
-        <div
-          key={index}
-          className={`flex-1 text-center ${
-            status === stage ? 'font-semibold text-blue-600' : 'text-gray-400'
-          }`}
-        >
-          <span>{stage}</span>
-        </div>
-      ))}
-    </div>
-  );
-};
+
 
 const SupplierAssignment = ({ suppliers, onAssign }) => {
   const [selectedSupplier, setSelectedSupplier] = useState("");
+  const [filterDistrict, setFilterDistrict] = useState("");
+
+  const filteredSuppliers = suppliers.filter((supplier) =>
+    supplier.district?.toLowerCase().includes(filterDistrict.toLowerCase())
+  );
 
   const handleAssign = () => {
     if (selectedSupplier) {
-      onAssign(selectedSupplier); // Pass supplier ID to the parent
+      onAssign(selectedSupplier); 
     } else {
-      alert('Please select a supplier');
+      alert("Please select a supplier");
     }
   };
 
@@ -41,11 +30,24 @@ const SupplierAssignment = ({ suppliers, onAssign }) => {
         Assign Supplier
       </h2>
       <div className="mb-4">
-        <label htmlFor="supplier-select" className="block text-gray-600 font-medium mb-2">
+        <label htmlFor="filter-district" className="block text-gray-600 font-medium mb-2">
+          Filter by District
+        </label>
+        <input
+          id="filter-district"
+          type="text"
+          placeholder="Enter district name"
+          className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
+          value={filterDistrict}
+          onChange={(e) => setFilterDistrict(e.target.value)}
+        />
+      </div>
+      <div className="mb-4">
+        <label htmlFor="supplier-list" className="block text-gray-600 font-medium mb-2">
           Select a Supplier
         </label>
         <select
-          id="supplier-select"
+          id="supplier-list"
           className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
           value={selectedSupplier}
           onChange={(e) => setSelectedSupplier(e.target.value)}
@@ -53,9 +55,9 @@ const SupplierAssignment = ({ suppliers, onAssign }) => {
           <option value="" disabled>
             Select Supplier
           </option>
-          {suppliers.map((supplier) => (
+          {filteredSuppliers.map((supplier) => (
             <option key={supplier._id} value={supplier._id}>
-              {supplier.name} - {supplier.district || 'No district info'}
+              {supplier.name} - {supplier.district || "No district info"}
             </option>
           ))}
         </select>
@@ -63,7 +65,7 @@ const SupplierAssignment = ({ suppliers, onAssign }) => {
       <div className="flex justify-end">
         <button
           onClick={handleAssign}
-          className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-500 transition duration-200"
+          className="bg-yellow-500 text-white px-6 py-2 rounded-md font-bold hover:bg-yello-600 transition duration-200"
         >
           Assign Supplier
         </button>
@@ -71,6 +73,7 @@ const SupplierAssignment = ({ suppliers, onAssign }) => {
     </div>
   );
 };
+
 
 const UserOrderDetails = () => {
   const { id } = useParams();
@@ -145,10 +148,11 @@ const UserOrderDetails = () => {
   
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex  min-h-screen bg-yellow-400">
       <Adminsidebar unreadCount={unreadCount}/>
       <ToastContainer/>
-      <div className="flex flex-col bg-white ml-[275px] w-[1400px] h-[710px] mt-[15px] rounded-lg">
+      <main className="flex-1 ">
+      <div className="flex flex-col bg-white ml-[270px] w-[1400px] h-[710px] mt-[15px] rounded-lg">
         <div className="flex flex-col h-[710px]">
           <div className="bg-white shadow-lg rounded-lg p-8 w-full h-full flex flex-col space-y-6">
             {error && (
@@ -158,33 +162,38 @@ const UserOrderDetails = () => {
             )}
             {userOrder ? (
               <>
-                <OrderTimeline status={userOrder.status} />
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="flex flex-col">
-                    <span className="text-gray-600">Customer Name</span>
-                    <span className="text-gray-900 font-medium">{userOrder?.user?.name || 'N/A'}</span>
+                <div className="border  bg-yellow-300 p-4 flex items-center rounded-lg justify-center">
+                <span className="font-bold text-2xl">
+                Order To Supplier
+                </span>
+                </div>
+
+                <div className="grid  sm:grid-cols-3 gap-2 border p-3 ">
+                  <div className="flex ">
+                    <span className="text-gray-600  font-bold">Customer Name :</span>
+                    <span className="text-gray-900 font-medium ml-5">{userOrder?.user?.name || 'N/A'}</span>
                   </div>
-                  <div className="flex flex-col">
-                    <span className="text-gray-600">Phone Number</span>
-                    <span className="text-gray-900 font-medium">{userOrder.phoneNumber}</span>
+                  <div className="flex ">
+                    <span className="text-gray-600 font-bold">Phone Number :</span>
+                    <span className="text-gray-900 font-medium  ml-5">{userOrder.phoneNumber}</span>
                   </div>
-                  <div className="flex flex-col">
-                    <span className="text-gray-600">Address</span>
-                    <span className="text-gray-900 font-medium">{userOrder.adress}</span>
+                  <div className="flex ">
+                    <span className="text-gray-600 font-bold">Address :</span>
+                    <span className="text-gray-900 font-medium ml-5">{userOrder.adress}</span>
                   </div>
-                  <div className="flex flex-col">
-                    <span className="text-gray-600">District</span>
-                    <span className="text-gray-900 font-medium">{userOrder.distric}</span>
+                  <div className="flex ">
+                    <span className="text-gray-600 font-bold  ">District :</span>
+                    <span className="text-gray-900 font-medium ml-4">{userOrder.distric}</span>
 
                   </div>
-                  <div className="flex flex-col">
-                    <span className="text-gray-600">picUp date</span>
-                    <span className="text-gray-900 font-medium">{userOrder.date}</span>
+                  <div className="flex ">
+                    <span className="text-gray-600 font-bold">picUp date</span>
+                    <span className="text-gray-900 font-medium ml-5">{userOrder.date}</span>
 
                   </div>
-                  <div className="flex flex-col">
-                    <span className="text-gray-600">picUp date</span>
-                    <span className="text-gray-900 font-medium">{userOrder.status}</span>
+                  <div className="flex ">
+                    <span className="text-gray-600 font-bold">picUp date</span>
+                    <span className="text-gray-900 font-medium ml-5">{userOrder.status}</span>
 
                   </div>
                 </div>
@@ -196,6 +205,7 @@ const UserOrderDetails = () => {
           </div>
         </div>
       </div>
+      </main>
     </div>
   );
 };

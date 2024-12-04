@@ -160,18 +160,20 @@ const AdminSupplier = () => {
   const inactiveSuppliers = suppliers.filter((s) => s.status !== "accepted").length;
 
   const StatBox = ({ title, count, color = "text-gray-700" }) => (
-    <div className="bg-white rounded-lg shadow p-4">
-      <h3 className="text-lg font-semibold text-gray-600">{title}</h3>
-      <p className={`text-2xl font-bold ${color}`}>{count}</p>
+    <div className="bg-yellow-200 rounded-lg shadow p-4">
+      <h3 className="text-lg font-semibold text-gray-600 ml-28">{title}</h3>
+      <p className={`text-2xl font-bold ml-40 ${color}`}>{count}</p>
     </div>
   );
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex  min-h-screen bg-yellow-400">
       <AdminSidebar unreadCount={unreadCount}/>
       <ToastContainer position="top-right" autoClose={3000} />
-      <div className="flex flex-col p-4 w-[1300px] ml-[258px]">
-        <h1 className="text-3xl font-semibold text-gray-700 mb-6">Suppliers Management</h1>
+      <main className="flex-1 "style={{marginTop:"14px"}}>
+
+      <div className="bg-white h-[715px] w-[1420px] shadow-md p-6 ml-[270px] overflow-y-scroll rounded-3xl">
+        <h1 className="text-1xl font-semibold text-gray-700 mb-6">Suppliers Management</h1>
 
         {/* Statistics */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
@@ -182,11 +184,11 @@ const AdminSupplier = () => {
 
         {/* Supplier List */}
         <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-2xl font-semibold text-gray-700 mb-4">Supplier Details</h2>
+          <h2 className="text-1xl font-semibold text-gray-700 mb-4">Supplier Details</h2>
           <div className="overflow-x-auto">
             <table className="table-auto w-full border-collapse border border-gray-200">
               <thead>
-                <tr className="bg-gray-100">
+                <tr className="bg-yellow-400 ">
                   <th className="border border-gray-300 px-4 py-2 text-left">Name</th>
                   <th className="border border-gray-300 px-4 py-2 text-left">Email</th>
                   <th className="border border-gray-300 px-4 py-2 text-left">Phone</th>
@@ -251,6 +253,7 @@ const AdminSupplier = () => {
           </div>
         </div>
       </div>
+      </main>
     </div>
   );
 };

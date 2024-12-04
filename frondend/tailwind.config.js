@@ -29,11 +29,15 @@ export default {
         },
       },
       animation: {
+        fadeIn: "fadeIn 1.5s ease-out",
         fadeInUp: 'fadeInUp 1s ease-out forwards',
         zoomIn: 'zoomIn 0.5s ease-out forwards',
         rotateIn: 'rotateIn 0.7s ease-out forwards',
         bounce: 'bounce 1s ease-in-out infinite',
         pulse: 'pulse 1.5s ease-in-out infinite',
+        fadeInDown: "fadeInDown 1s ease-out",
+        
+        gradientText: "gradientText 3s ease infinite",
       },
     },
   },

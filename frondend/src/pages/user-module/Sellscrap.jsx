@@ -1,183 +1,253 @@
-import React, { useState } from 'react'
-import Nav from './Nav'
-import choosevideo from "../../pics/Choose.mp4";
-import shedulePickup from "../../pics/Schedule.mp4";
-import recieve from "../../pics/Give Payment.mp4";
-import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
-import userApi from '../../api/userInterceptor';
-// import arrow from "../../pics/WhatsApp Video 2024-10-26 at 15.24.31_534f09f8.mp4";
+import React, { useState } from "react";
+import Nav from "./Nav";
 
-
-
+import { toast, ToastContainer } from "react-toastify";
+import userApi from "../../api/userInterceptor";
+import MiniPickup from "../../images/miniPicUp.avif";
+import MaxPickup from "../../images/maxPicUp.avif";
+import HighmaxPicUp from "../../images/highMaxPicUp.avif";
 
 
 const Sellscrap = () => {
-  const [productName,setProductName]=useState("");
-  const [vehical,setVehical]=useState("");
-  const [description,setDescription]=useState("");
-  const [adress,setAdress]=useState("");
-  const  [phoneNumber,setPhoneNumber]=useState("");
-  const [pincode,setPincode]=useState("");
-  const  [date,setDate]=useState("");
-  const [distric,setDistric]=useState("");
-const token=localStorage.getItem('userToken');
+  const [productName, setProductName] = useState("");
+  const [vehical, setVehical] = useState("");
+  const [description, setDescription] = useState("");
+  const [adress, setAdress] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [pincode, setPincode] = useState("");
+  const [date, setDate] = useState("");
+  const [distric, setDistric] = useState("");
+  const token = localStorage.getItem("userToken");
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const sellProductList = {
+      productName,
+      vehical,
+      description,
+      adress,
+      phoneNumber,
+      pincode,
+      date,
+      distric,
+    };
 
-    const handleSubmit =async(e)=>{
-      e.preventDefault();
-      const sellProductList={
-        productName,vehical,description,adress,phoneNumber,pincode,date,distric
-
-      }
-      try {
-        const response = await userApi.post(
-          "/sellproduct",
-          sellProductList,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`, // Send token in the header
-            },
-          }
-        );
-        
-        
-        toast.success(response.data.message);
-       
-       
-        
-      } catch (error) {
-        toast.error(error.response?.data?.message || "erorrrr");
-        
-      }
-
+    try {
+      const response = await userApi.post("/sellproduct", sellProductList, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      toast.success(response.data.message);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Something went wrong!");
     }
-    
+  };
+
   return (
-<>
+    <>
+      <ToastContainer />
+      <Nav />
+      <div className="bg-gradient-to-br bg-yellow-100 py-12">
+        {/* Header Section */}
+        <div className="text-center mb-12">
+          <h1 className="text-3xl font-bold text-gray-800 mb-4">
+          Choose Your Preferred Vehicle
+          </h1>
+          <p className="text-lg text-gray-600">
+          Select the type of vehicle you’d like to sell for scrap!
+          </p>
+        </div>
 
-   <div >
-   <ToastContainer /> 
-<div   style={{marginTop:"365px"}}>
-      <Nav colours='white'/>
-     </div>
+        {/* vehical Section */}
+      
+               <div className=" flex container mx-auto px-6 lg:px-20 gap-20  bg-black shadow-lg  p-8">
 
-             <div  style={{display:"flex"}} >
+               <div className="group w-[400px] h-[400px] bg-yellow-100 shadow-lg rounded-lg overflow-hidden relative hover:scale-105 transition-transform duration-300 ease-in-out">
+  {/* Image Section minPicup */}
+  <div className="w-full h-[70%] bg-yellow-200 flex items-center justify-center overflow-hidden">
+    <img
+      src={MiniPickup}
+      alt="Mini Pickup"
+      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-in-out"
+    />
+  </div>
 
-              <div  style={{marginTop:"100px",marginLeft:"100px"}}>
-              <h1 style={{fontWeight:"600"}}>Step 1</h1>
-              <video  loop autoPlay muted src={choosevideo} style={{width:"200px",height:"200px"}}></video>
-              <h1 style={{marginTop:"20px", fontWeight:"600"}}>Choose material</h1>
-              </div>
+  {/* Text Section */}
+  <div className="h-[30%] bg-yellow-200 flex flex-col justify-center items-center space-y-2 p-4">
+    <h3 className="text-xl font-bold text-gray-800 group-hover:text-yellow-700 transition-colors duration-300 ease-in-out">
+      Mini Pickup
+    </h3>
+    <p className="text-gray-600 text-center group-hover:text-gray-800 transition-colors duration-300 ease-in-out">
+      Perfect for small to medium loads. Click to select this vehicle!
+    </p>
+  </div>
 
-              <div  style={{marginTop:"100px",marginLeft:"100px"}} >
-              <h1 style={{fontWeight:"600"}}>Step 2</h1>
-              <video  loop autoPlay muted src={shedulePickup} style={{width:"200px",height:"200px"}}></video>
-              <h1 style={{marginTop:"20px", fontWeight:"600"}}>Shedule Pickup</h1>
-              </div>      
-              <div  style={{marginTop:"100px",marginLeft:"100px"}}>
-              <h1 style={{fontWeight:"600"}}>Step 3</h1>
-              <video  loop autoPlay muted src={recieve} style={{width:"200px",height:"200px"}}></video>
-              <h1 style={{marginTop:"20px", fontWeight:"600"}}>Recieve payment</h1>
-              </div>
-         </div>  
-           <h1 style={{marginLeft:"400px" ,marginTop:"100px",fontSize:"30px",fontWeight:"600"}}>Esey to three steps</h1> 
-          
-           <div className="right-section bg-gradient-to-br from-white to-gray-400 border border-black h-[500px] w-[700px] ml-[950px] -mt-[500px] p-6 rounded-lg shadow-lg">
-  <h2 className="text-xl font-semibold mb-4">Sell Products</h2>
+</div>
 
-  <select 
-    className="mb-4 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-    value={productName}
-     onChange={(e)=>setProductName(e.target.value)}
-  >
-    <option disabled selected>Select your product</option>
-    <option>New papper</option>
-    <option>Books</option>
-    <option >Carboard</option>
-    <option>Softplastic</option>
-    <option >Hard plastic</option>
-    <option >Iron</option>
-    <option >Steel</option>
-    <option >copper</option>
-    <option >E-Wasts</option>
-    <option >Cotton-Wasts</option>
-  </select>
+              
+            {/* miniMaxPicuP    */}
 
-  <select 
-    className="mb-4 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-     value={vehical}
-     onChange={(e)=>setVehical(e.target.value)}
 
-  >
-    <option disabled selected>Choose vehicle</option>
-    <option >Mini-pickUp</option>
-    <option >Max-pickUp</option>
-    <option >highMax-pickUp 3</option>
-  </select>
+<div className="group w-[400px] h-[400px] bg-yellow-100 shadow-lg rounded-lg overflow-hidden relative hover:scale-105 transition-transform duration-300 ease-in-out">
 
-  <input 
-    type="text" 
-    placeholder="Product Description" 
-    className="mb-4 p-2 w-full border bg-white border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-     value={description}
-    onChange={(e)=>setDescription(e.target.value)}
-/>
+  <div className="w-full h-[70%] bg-yellow-200 flex items-center justify-center overflow-hidden">
+    <img
+      src={MaxPickup}
+      alt="MaxMinPicUp"
+      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-in-out"
+    />
+  </div>
 
-<input 
-    type="text" 
-    placeholder="Distric" 
-    className="mb-4 p-2 w-full border bg-white border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-    value={distric}
-    onChange={(e)=>setDistric(e.target.value)}
-/>
+  {/* Text Section */}
+  <div className="h-[30%] bg-yellow-200 flex flex-col justify-center items-center space-y-2 p-4">
+    <h3 className="text-xl font-bold text-gray-800 group-hover:text-yellow-700 transition-colors duration-300 ease-in-out">
+      Mini Pickup
+    </h3>
+    <p className="text-gray-600 text-center group-hover:text-gray-800 transition-colors duration-300 ease-in-out">
+      Perfect for small to medium loads. Click to select this vehicle!
+    </p>
+  </div>
 
-  <input 
-    type="text" 
-    placeholder="Address" 
-    className="mb-4 p-2 w-full border bg-white border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-    value={adress}
-    onChange={(e)=>setAdress(e.target.value)}
-/>
-
-  <input 
-    type="number" 
-    placeholder="Phone Number" 
-    className="mb-4 p-2 w-full border bg-white border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-    value={phoneNumber}
-    onChange={(e)=>setPhoneNumber(e.target.value)}
-
-/>
-
-  <input 
-    type="number" 
-    placeholder="Pincode" 
-    className="mb-4 p-2 w-full border bg-white border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-    value={pincode}
-    onChange={(e)=>setPincode(e.target.value)}
-/>
-
-  <input 
-    type="date" 
-    placeholder='picUp date'
-    className="mb-4 p-2 w-full border bg-white border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-    value={date}
-    onChange={(e)=>setDate(e.target.value)}
-/>
-
-  <button  
-    className="w-60 mt-16 ml-60 p-2 bg-gray-500 border-none text-white font-semibold rounded-md hover:bg-slate-600 gray-300transition-colors duration-200"
-     onClick={handleSubmit}
-  >
-    Deal 👍
-  </button>
 </div>
 
 
 
-          </div>
-</>
-  )
-}
 
-export default Sellscrap
+
+  {/* higMaxImage section */}
+
+
+
+
+
+              
+<div className="group w-[400px] h-[400px] bg-yellow-100 shadow-lg rounded-lg overflow-hidden relative hover:scale-105 transition-transform duration-300 ease-in-out">
+  {/* Image Section minPicup */}
+  <div className="w-full h-[70%] bg-yellow-200 flex items-center justify-center overflow-hidden">
+    <img
+      src={HighmaxPicUp}
+      alt="higMaxPicUp"
+      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-in-out"
+    />
+  </div>
+
+  {/* Text Section */}
+  <div className="h-[30%] bg-yellow-200 flex flex-col justify-center items-center space-y-2 p-4">
+    <h3 className="text-xl font-bold text-gray-800 group-hover:text-yellow-700 transition-colors duration-300 ease-in-out">
+      Mini Pickup
+    </h3>
+    <p className="text-gray-600 text-center group-hover:text-gray-800 transition-colors duration-300 ease-in-out">
+      Perfect for small to medium loads. Click to select this vehicle!
+    </p>
+  </div>
+
+</div>
+               
+               </div>
+
+        {/* Form Section */}
+        <div className="container mx-auto px-6 lg:px-20 bg-white shadow-lg rounded-lg p-8">
+          <h2 className="text-3xl font-bold text-gray-800 mb-6">
+            Sell Your Scrap
+          </h2>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <select
+                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={productName}
+                onChange={(e) => setProductName(e.target.value)}
+                required
+              >
+                <option disabled selected>
+                  Select your product
+                </option>
+                <option>New Paper</option>
+                <option>Books</option>
+                <option>Cardboard</option>
+                <option>Soft Plastic</option>
+                <option>Hard Plastic</option>
+                <option>Iron</option>
+                <option>Steel</option>
+                <option>Copper</option>
+                <option>E-Waste</option>
+                <option>Cotton Waste</option>
+              </select>
+
+              <select
+                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={vehical}
+                onChange={(e) => setVehical(e.target.value)}
+                required
+              >
+                <option disabled selected>
+                  Choose Vehicle
+                </option>
+                <option>Mini Pickup</option>
+                <option>Max Pickup</option>
+                <option>High Max Pickup</option>
+              </select>
+            </div>
+
+            <input
+              type="text"
+              placeholder="Product Description"
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              required
+            />
+            <input
+              type="text"
+              placeholder="District"
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={distric}
+              onChange={(e) => setDistric(e.target.value)}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Address"
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={adress}
+              onChange={(e) => setAdress(e.target.value)}
+              required
+            />
+            <input
+              type="number"
+              placeholder="Phone Number"
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              required
+            />
+            <input
+              type="number"
+              placeholder="Pincode"
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={pincode}
+              onChange={(e) => setPincode(e.target.value)}
+              required
+            />
+            <input
+              type="date"
+              placeholder="pic up date"
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              required
+            />
+            <button
+              type="submit"
+              className="w-full bg-gradient-to-r from-blue-500 to-green-500 text-white py-3 rounded-md hover:opacity-90 transition duration-200"
+            >
+              Submit Deal
+            </button>
+          </form>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Sellscrap;

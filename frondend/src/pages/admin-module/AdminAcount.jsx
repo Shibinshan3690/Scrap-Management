@@ -57,12 +57,13 @@ const AdminAccount = () => {
 
 
     return (
-        <div className="flex bg-gray-100 h-screen">
+        <div className="flex  min-h-screen bg-yellow-400">
             <Adminsidebar unreadCount={unreadCount}/>
+            <main className="flex-1 "style={{marginTop:"14px"}}>
 
-            <div className="p-8 flex-1" style={{ marginLeft: "-560px", marginTop: "10px" }}>
-                <div className="bg-white p-8 rounded-lg shadow-md max-w-lg mx-auto h-auto">
-                    <div className="flex flex-col items-center">
+             <div className="bg-white h-[715px] w-[1420px] shadow-md p-6 ml-[270px]  rounded-3xl">
+                <div className="bg-yellow-100 p-8 rounded-lg shadow-md max-w mx-auto h-auto">
+                    <div className="flex-col ">
                         <MdAccountCircle className="text-blue-500" size={80} />
                         {isEditing ? (
                             <input
@@ -76,8 +77,8 @@ const AdminAccount = () => {
                         )}
                     </div>
 
-                    <div className="mt-6 space-y-4">
-                        <div className="flex items-center text-gray-700">
+                    <div className="mt-6 space-y-4" >
+                        <div className="flex  text-gray-700">
                             <MdEmail className="text-blue-500 mr-2" />
                             {isEditing ? (
                                 <input
@@ -105,6 +106,7 @@ const AdminAccount = () => {
                     </button>
                 </div>
             </div>
+                   </main>
         </div>
     );
 };

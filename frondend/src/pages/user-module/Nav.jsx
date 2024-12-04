@@ -11,12 +11,11 @@ const ProfileModal = ({ isOpen, onClose }) => {
   const [email, setEmail] = useState("johndoe@example.com");
   const [phone, setPhone] = useState("+1234567890");
 
-  const handleEditToggle = () => {
+  const handleEditToggle = () => {  
     setIsEditing(!isEditing);
   };
 
   const handleSave = () => {
-    // Here you could send updated data to your server or database if needed
     setIsEditing(false);
   };
 
@@ -26,7 +25,6 @@ const ProfileModal = ({ isOpen, onClose }) => {
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
       <div className="bg-white p-6 rounded-md w-80">
         <h2 className="text-2xl font-bold mb-4 text-center">Profile Information</h2>
-        
         {/* Profile Section */}
         <div className="space-y-4 text-gray-700">
           <div>
@@ -109,7 +107,6 @@ const Sidebar = ({ isOpen, onClose }) => {
       className="overflow-hidden"
       style={{
         width: isOpen ? "250px" : "0",
-        height: "600px",
         position: "fixed",
         top: 100,
         borderRadius: "0px 0px 0px 20px",
@@ -169,13 +166,13 @@ const Nav = ({ colours }) => {
 
   return (
     <>
-      <div className={`bg-${colours}`} style={{  marginTop: "-377px", height: "100px", display: "flex" }}>
-        <img
-          src={logo}
-          alt=""
-          style={{ width: "140px", height: "70px", marginTop: "20px", marginLeft: "20px" }}
-          onClick={() => navigate("/home")}
-        />
+      <div className='bg-yellow-100 flex h-24'>
+      <span className="flex items-center justify-start ml-6 ">
+  <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-black via-green-500 to-yellow-500">
+    Scrap<span className="text-gray-900">Pro</span>
+  </h1>
+</span>
+
         <div style={{ display: "flex", justifyContent: "space-around" }}>
           <span style={{ marginLeft: "200px", fontSize: "20px", fontWeight: "500", marginTop: "40px", display: "flex" }} onClick={() => navigate("/home")}>
             Home<IoMdArrowDropdown style={{ marginLeft: "10px", marginTop: "5px" }} />

@@ -90,15 +90,13 @@ const Orders = () => {
 
   return (
     <>
-      <div style={{ marginTop: "365px" }}>
+      <div >
         <Nav />
       </div>
-      <div className="min-h-screen bg-gray-100 pt-10">
+      <div className="min-h-screen bg-yellow-100 pt-10">
          <ToastContainer/>
         <div className="p-4 mx-auto">
-          <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-            My Orders
-          </h1>
+          
           {loading ? (
             <p className="text-center text-gray-600">Loading orders...</p>
           ) : error ? (
