@@ -39,6 +39,14 @@ const Sellscrap = () => {
         },
       });
       toast.success(response.data.message);
+      setProductName("");
+      setVehical("");
+      setDescription("");
+      setAdress("");
+      setPhoneNumber("");
+      setPincode(""); // Reset the pincode field
+      setDate("");
+      setDistric("");
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong!");
     }
@@ -61,7 +69,7 @@ const Sellscrap = () => {
 
         {/* vehical Section */}
       
-               <div className=" flex container mx-auto px-6 lg:px-20 gap-20  bg-black shadow-lg  p-8">
+               <div className=" flex container mx-auto px-6 lg:px-20 gap-20  bg-gray shadow-lg  p-8">
 
                <div className="group w-[400px] h-[400px] bg-yellow-100 shadow-lg rounded-lg overflow-hidden relative hover:scale-105 transition-transform duration-300 ease-in-out">
   {/* Image Section minPicup */}
@@ -78,6 +86,10 @@ const Sellscrap = () => {
     <h3 className="text-xl font-bold text-gray-800 group-hover:text-yellow-700 transition-colors duration-300 ease-in-out">
       Mini Pickup
     </h3>
+      <span className="flex">
+         <p className=" ml-4 font-bold text-[15px] text-yellow-800">maximum</p>
+          <p className="px-4 font-bold text-[15px] text-yellow-800">1000 Kg</p>
+      </span>
     <p className="text-gray-600 text-center group-hover:text-gray-800 transition-colors duration-300 ease-in-out">
       Perfect for small to medium loads. Click to select this vehicle!
     </p>
@@ -102,8 +114,12 @@ const Sellscrap = () => {
   {/* Text Section */}
   <div className="h-[30%] bg-yellow-200 flex flex-col justify-center items-center space-y-2 p-4">
     <h3 className="text-xl font-bold text-gray-800 group-hover:text-yellow-700 transition-colors duration-300 ease-in-out">
-      Mini Pickup
+      Max Pickup
     </h3>
+    <span className="flex">
+         <p className=" ml-4 font-bold text-[15px] text-yellow-800">maximum</p>
+          <p className="px-4 font-bold text-[15px] text-yellow-800">2000 Kg</p>
+      </span>
     <p className="text-gray-600 text-center group-hover:text-gray-800 transition-colors duration-300 ease-in-out">
       Perfect for small to medium loads. Click to select this vehicle!
     </p>
@@ -135,8 +151,12 @@ const Sellscrap = () => {
   {/* Text Section */}
   <div className="h-[30%] bg-yellow-200 flex flex-col justify-center items-center space-y-2 p-4">
     <h3 className="text-xl font-bold text-gray-800 group-hover:text-yellow-700 transition-colors duration-300 ease-in-out">
-      Mini Pickup
+   High max PicUp
     </h3>
+    <span className="flex">
+         <p className=" ml-4 font-bold text-[15px] text-yellow-800">maximum</p>
+          <p className="px-4 font-bold text-[15px] text-yellow-800">10000 Kg</p>
+      </span>
     <p className="text-gray-600 text-center group-hover:text-gray-800 transition-colors duration-300 ease-in-out">
       Perfect for small to medium loads. Click to select this vehicle!
     </p>
@@ -147,8 +167,8 @@ const Sellscrap = () => {
                </div>
 
         {/* Form Section */}
-        <div className="container mx-auto px-6 lg:px-20 bg-white shadow-lg rounded-lg p-8">
-          <h2 className="text-3xl font-bold text-gray-800 mb-6">
+        <div className="container mx-auto px-6 lg:px-20 mt-7 bg-white shadow-lg rounded-lg p-8">
+          <h2 className="text-3xl font-bold text-gray-800 mb-6 text-yellow-800">
             Sell Your Scrap
           </h2>
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -227,6 +247,7 @@ const Sellscrap = () => {
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={pincode}
               onChange={(e) => setPincode(e.target.value)}
+             
               required
             />
             <input
@@ -235,6 +256,7 @@ const Sellscrap = () => {
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={date}
               onChange={(e) => setDate(e.target.value)}
+              
               required
             />
             <button

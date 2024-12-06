@@ -2,12 +2,16 @@ import React, { useEffect, useState } from "react";
 import Adminsidebar from "./Adminsidebar";
 import adminApi from "../../api/adminInterceptor";
 import { useParams } from "react-router-dom";
+import {loadStripe}  from "@stripe/stripe-js";
 
 const AdminSpecificReport = () => {
   const { id } = useParams();
   const [notifications, setNotifications] = useState([]);
   const [reports, setReports] = useState(null);
   const [error, setError] = useState("");
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+
+  const [paymentDetails, setPaymentDetails] = useState({});
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -42,6 +46,41 @@ const AdminSpecificReport = () => {
     fetchReportAdmin();
   }, [id]);
 
+
+  const handlePayment = () => {
+    setPaymentDetails(reports?.paymentDetails || {});
+    setIsPaymentModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsPaymentModalOpen(false);
+  };
+
+
+  const handleConfirmPayment = async () => {
+    console.log("Processing payment with details:", paymentDetails);
+    setIsPaymentModalOpen(false);
+  
+    try {
+      const stripe = await loadStripe("pk_test_51OV6f7SEIbhFRslyOxy8GDuyaH1LAFqqS3lqKIKypdCymcUoQ2XkwmIVKDwsE6XrwxjJceHy35e54KrkTbugUYbN00G2SoxSWZ");
+      
+      const response = await adminApi.post("/makePayment", {
+        accountHolderName: paymentDetails.accountHolderName,
+        totalAmount: reports?.totalAmount,
+      });
+        console.log("response",response);
+  
+      if (response.data?.url) {
+     
+        window.location.href = response.data.url;
+      } else {
+        console.error("Error: Payment URL not returned.");
+      }
+    } catch (error) {
+      console.error("Payment failed:", error.message);
+    }
+  };
+  
   return (
     <>
       <div className="flex  min-h-screen bg-yellow-400">
@@ -267,11 +306,55 @@ const AdminSpecificReport = () => {
                   {reports?.paymentDetails?.accountNumber || "N/A"}
                 </td>
                 
+                    <td colSpan="2">
+                  <button
+                    onClick={handlePayment}
+                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+                  >
+                    Pay Now
+                  </button>
+                </td>
               </tr>
+              
             </table>
           </div>
         </main>
       </div>
+
+
+ {/* Payment Modal */}
+
+
+ {isPaymentModalOpen && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-[500px] shadow-lg">
+            <h2 className="text-xl font-bold mb-4">Confirm Payment</h2>
+            <p className="mb-4">
+              Please confirm the payment for the account holder:{" "}
+              <strong>{paymentDetails.accountHolderName || "N/A"}</strong>
+            </p>
+            <p className="mb-4">Amount: ₹{reports?.totalAmount || "N/A"}</p>
+            <div className="flex justify-end space-x-4">
+              <button
+                onClick={closeModal}
+                className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmPayment}
+                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700"
+              >
+                Confirm Payment
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+
+
+
     </>
   );
 };

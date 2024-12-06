@@ -96,7 +96,6 @@ const Orders = () => {
       <div className="min-h-screen bg-yellow-100 pt-10">
          <ToastContainer/>
         <div className="p-4 mx-auto">
-          
           {loading ? (
             <p className="text-center text-gray-600">Loading orders...</p>
           ) : error ? (
@@ -128,7 +127,7 @@ const Orders = () => {
                   </p>
                   <p
                     className={`mt-4 text-sm font-medium px-4 py-2 rounded-full ${
-                      order.status === "completed"
+                      order.status === "compleated"
                         ? "bg-green-100 text-green-600"
                         : order.status === "pending"
                         ? "bg-yellow-100 text-yellow-600"

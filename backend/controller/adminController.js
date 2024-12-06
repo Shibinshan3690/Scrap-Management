@@ -8,6 +8,9 @@ const { default: mongoose } = require("mongoose");
 const  supplireSchema=require("../model/supplireSchema");
 const supllireSchemaa = require("../model/supplireSchema");
 const SupplierReportSchema = require("../model/SupplierReportSchema");
+const Stripe = require("stripe");
+const stripe = new Stripe("sk_test_51OV6f7SEIbhFRslyyoqxk8PxHT3YSNKOhxN3JFw63MQNiMxMYbCroFOB9DrGlANweBY3xTNZBHAhkiFyKKT7x6Yc00tp0lXHy9");
+
   
 
 
@@ -618,13 +621,57 @@ const getReportSpecifycAdmin = async (req, res) => {
 
 
 
+const makePayment = async (req, res) => {
+  try {
+    const { accountHolderName, totalAmount } = req.body;
 
+    if (!accountHolderName || !totalAmount) {
+      return res.status(400).json({
+        message: "'accountHolderName' and 'totalAmount' are required.",
+        status: "error",
+      });
+    }
 
+    // Create a payment session with totalAmount
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: [
+        {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: `Payment for ${accountHolderName}`,
+            },
+            unit_amount: totalAmount * 100, // Stripe expects the amount in cents
+          },
+          quantity: 1,
+        },
+      ],
+      mode: "payment",
+      success_url: "http://localhost:5173/makePayment/success",
+      cancel_url: "http://localhost:5173/makePayment/cancel",
+    });
+
+    res.status(200).json({
+      message: "Payment session created successfully.",
+      status: "success",
+      sessionId: session.id,
+      url: session.url,
+    });
+  } catch (error) {
+    console.error("Error creating payment session:", error.message);
+    res.status(500).json({
+      message: "Failed to create payment session.",
+      status: "error",
+      error: error.message,
+    });
+  }
+};
 
 
    
 
 
 module.exports = { signUpAdmin, signInAdmin,blockUser,unblockedUser,getAdminUserOrderDeatils,getAdminUserDeatils,getAdminUserDetailsUpdate,getUserOrderCurrentDate,getOrderById,
-  getIdUserDetailAndUserOrder,adminDeatilsUpdate,adminDeatilsUpdate,acceptSupplier,unacceptSupplier,blockSupplier,unblockSupplier,assignSupplier,getReportAdmin,getReportSpecifycAdmin
+  getIdUserDetailAndUserOrder,adminDeatilsUpdate,adminDeatilsUpdate,acceptSupplier,unacceptSupplier,blockSupplier,unblockSupplier,assignSupplier,getReportAdmin,getReportSpecifycAdmin,makePayment
 };

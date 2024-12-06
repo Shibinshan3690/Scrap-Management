@@ -67,7 +67,7 @@ const NotificationUser = () => {
 
   return (
     <>
-      <div style={{ marginTop: "360px" }}>
+      <div className="">
         <Nav unreadCount={unreadCount} />
       </div>
 
